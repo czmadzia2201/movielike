@@ -24,7 +24,7 @@
 		<p>No results found.</p>
 	</c:when>
 	<c:otherwise>
-		<table>
+		<table  class="movielist">
 		<tr><th class="title">Title</th><th class="director">Director</th><th class="genre">Genre</th>
 		<th class="leadActors">Lead actors</th><th class="country">Country</th><th class="year">Year</th></tr>
 		  <c:forEach items="${movieList}" var="movie">

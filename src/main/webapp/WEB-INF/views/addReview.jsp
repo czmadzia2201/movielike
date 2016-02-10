@@ -32,9 +32,11 @@ response.setHeader("Pragma", "no-cache");
 <h2>Write review</h2>
 
 	<form:form name="addReview" commandName="review" method="POST" onsubmit="return validateReview(emptyValue)" action="submitaddreview">
+		<div style="position: relative; height: 100px">
 		<form:hidden path="author" value="${username}" />
 		<form:hidden path="movieId" value="${movieId}" />
-		<form:textarea path="content" rows="5" cols="30" />
+		<form:textarea path="content" />
+		</div>
 		<span id="errorMsg" class="error"></span><br /> 
 		<input type="submit" value="Submit review" />
 	</form:form>
