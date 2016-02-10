@@ -1,0 +1,99 @@
+body {
+    margin: 0; padding: 0;
+}
+
+h1, h2, p, a, li, td, th {
+ 	font-family: Arial;
+ 	color: #444;
+}
+
+p, a, li, td, th {
+ 	font-size: 14px; 
+}
+
+h2 {
+ 	font-variant: small-caps;
+	font-size: 18px; 
+}
+
+h4 {
+ 	font-variant: small-caps;
+	font-size: 16px; 
+}
+
+a {
+ 	text-decoration: none;
+ 	font-family: Arial;
+ 	font-size: 14px; 
+ 	color: #999;
+ }
+ 
+a:hover {
+  	color: #111;
+}
+
+/* ---------------- */
+
+#wrapper {
+  	margin-right: auto; margin-left: auto; 
+	width: 100%;
+}
+
+#content {
+  	position: absolute;
+	width: 100%;
+  	min-height:100%;
+}
+
+#header {
+	position: relative;
+	width: 100%;
+  	height: 100px;
+    background-image: url(blue-reel.png);
+    background-position: right top;
+    background-repeat: no-repeat;
+  	background-color: #b3d6ec;
+}
+
+#footer {
+	background-image: url(blue-reel-bottom.png);
+    background-position: left bottom;
+    background-repeat: repeat-x;
+	position: absolute;
+	height: 50px;
+	width: 100%;
+  	bottom: 0px;
+}
+
+#content-inside {
+  	position: relative;
+  	margin-right: auto; margin-left: auto; 
+	width: 80%;
+	min-height: 80px;
+}
+
+#header-inside {
+	position: relative;
+  	margin-right: auto; margin-left: auto; 
+	width: 80%;
+}
+
+#footer-inside {
+	position: relative;
+  	margin-right: auto; margin-left: auto; 
+	width: 80%;
+}
+
+/* ---------------- */
+
+.error {
+	color: #ff0000;
+}
+
+.errorblock{
+	color: #000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding:8px;
+	margin:16px;
+}

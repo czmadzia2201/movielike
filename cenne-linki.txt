@@ -1,0 +1,6 @@
+Kodowanie:
+http://stackoverflow.com/questions/33197766/hibernate-doesnt-encode-utf-8-when-persisting-objects-to-mysql-database
+http://stackoverflow.com/questions/138948/how-to-get-utf-8-working-in-java-webapps
+
+Error handling:
+https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc
