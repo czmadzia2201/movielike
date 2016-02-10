@@ -98,11 +98,6 @@ public class MovielikeController {
 		return "404";
 	}
 
-//	@ExceptionHandler(ResourceNotFoundException.class)
-//	public String error404(){
-//		return "404";
-//	}
-//	
 	// ---------- MOVIE -------------
 	
 	@RequestMapping(value = "/searchmovies")

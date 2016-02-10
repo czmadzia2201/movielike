@@ -36,7 +36,7 @@
 		<option value="year">Year</option>
 	</select>
 	<input type="text" name="criteriaValue" />
-	<span id="errorMsg" class="error"></span><br />
+	<span id="errorMsg" class="error"></span>
 	<input type="submit" value="Find movies" />
 	</form:form>
 	

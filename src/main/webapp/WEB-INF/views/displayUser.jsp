@@ -50,17 +50,18 @@ response.setHeader("Pragma", "no-cache");
 		<p>User doesn't have favourite movies yet.</p>
 	</c:when>
 	<c:otherwise>
-		<table border=1>
-		<tr><th>Title</th><th>Director</th><th>Genre</th><th>Lead actors</th><th>Country</th><th>Year</th></tr>
+		<table>
+		<tr><th class="title">Title</th><th class="director">Director</th><th class="genre">Genre</th>
+		<th class="leadActors">Lead actors</th><th class="country">Country</th><th class="year">Year</th></tr>
 		  <c:forEach items="${favedMovielist}" var="movie">
 		    <tr>
-		      <td><c:out value="${movie.title}" /></td>
-		      <td><c:out value="${movie.director}" /></td>
-		      <td><c:out value="${movie.genre}" /></td>
-		      <td><c:out value="${movie.leadActors}" /></td>
-		      <td><c:out value="${movie.country}" /></td>
-		      <td><c:out value="${movie.year}" /></td>
- 		      <td><a href="displaymovie?id=${movie.id}">See movie details</a></td>
+		      <td>${movie.title}</td>
+		      <td>${movie.director}</td>
+		      <td>${movie.genre}</td>
+		      <td>${movie.leadActors}</td>
+		      <td>${movie.country}</td>
+		      <td>${movie.year}</td>
+ 		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
 		    </tr>
 		  </c:forEach>
 		</table>
@@ -74,17 +75,18 @@ response.setHeader("Pragma", "no-cache");
 		<p>User doesn't have most disliked movies yet.</p>
 	</c:when>
 	<c:otherwise>
-		<table border=1>
-		<tr><th>Title</th><th>Director</th><th>Genre</th><th>Lead actors</th><th>Country</th><th>Year</th></tr>
+		<table>
+		<tr><th class="title">Title</th><th class="director">Director</th><th class="genre">Genre</th>
+		<th class="leadActors">Lead actors</th><th class="country">Country</th><th class="year">Year</th></tr>
 		  <c:forEach items="${disfavedMovielist}" var="movie">
 		    <tr>
-		      <td><c:out value="${movie.title}" /></td>
-		      <td><c:out value="${movie.director}" /></td>
-		      <td><c:out value="${movie.genre}" /></td>
-		      <td><c:out value="${movie.leadActors}" /></td>
-		      <td><c:out value="${movie.country}" /></td>
-		      <td><c:out value="${movie.year}" /></td>
-  		      <td><a href="displaymovie?id=${movie.id}">See movie details</a></td>
+		      <td>${movie.title}</td>
+		      <td>${movie.director}</td>
+		      <td>${movie.genre}</td>
+		      <td>${movie.leadActors}</td>
+		      <td>${movie.country}</td>
+		      <td>${movie.year}</td>
+ 		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
 		    </tr>
 		  </c:forEach>
 		</table>
@@ -98,17 +100,18 @@ response.setHeader("Pragma", "no-cache");
 		<p>User didn't add any movies.</p>
 	</c:when>
 	<c:otherwise>
-		<table border=1>
-		<tr><th>Title</th><th>Director</th><th>Genre</th><th>Lead actors</th><th>Country</th><th>Year</th></tr>
+		<table>
+		<tr><th class="title">Title</th><th class="director">Director</th><th class="genre">Genre</th>
+		<th class="leadActors">Lead actors</th><th class="country">Country</th><th class="year">Year</th></tr>
 		  <c:forEach items="${addedMovies}" var="movie">
 		    <tr>
-		      <td><c:out value="${movie.title}" /></td>
-		      <td><c:out value="${movie.director}" /></td>
-		      <td><c:out value="${movie.genre}" /></td>
-		      <td><c:out value="${movie.leadActors}" /></td>
-		      <td><c:out value="${movie.country}" /></td>
-		      <td><c:out value="${movie.year}" /></td>
-  		      <td><a href="displaymovie?id=${movie.id}">See movie details</a></td>
+		      <td>${movie.title}</td>
+		      <td>${movie.director}</td>
+		      <td>${movie.genre}</td>
+		      <td>${movie.leadActors}</td>
+		      <td>${movie.country}</td>
+		      <td>${movie.year}</td>
+ 		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
 		    </tr>
 		  </c:forEach>
 		</table>

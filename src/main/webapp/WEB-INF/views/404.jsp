@@ -19,7 +19,6 @@
 
 <h2>Page not found</h2>
 
-<p>Username: ${username}</p>
 <p>This page was not found in the movielike domain.</p>
 			
 </div>

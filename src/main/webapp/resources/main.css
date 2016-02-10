@@ -32,6 +32,33 @@ a:hover {
   	color: #111;
 }
 
+table, tr, td, th {
+	border: 0;
+	text-align: left;
+	line-height: 25px;
+	vertical-align: top;
+}
+
+table {
+	width: 100%;
+}
+
+th.title, th.director, th.genre {
+	width: 15%;
+}
+
+th.country {
+	width: 10%;
+}
+
+th.year {
+	width: 7%;
+}
+
+th.leadActors {
+	width: 30%;
+}
+
 /* ---------------- */
 
 #wrapper {
@@ -90,7 +117,7 @@ a:hover {
 	color: #ff0000;
 }
 
-.errorblock{
+.errorblock {
 	color: #000;
 	background-color: #ffEEEE;
 	border: 3px solid #ff0000;
