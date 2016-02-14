@@ -36,8 +36,8 @@
 		<option value="year">Year</option>
 	</select>
 	<input type="text" name="criteriaValue" />
-	<span id="errorMsg" class="error"></span>
 	<input type="submit" value="Find movies" />
+	<span id="errorMsg" class="error"></span>
 	</form:form>
 	
 	<c:if test="${pageContext.request.userPrincipal.name != null}">

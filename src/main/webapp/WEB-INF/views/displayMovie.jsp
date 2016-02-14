@@ -62,7 +62,7 @@
 	</c:when>
 	<c:otherwise>
 		  <c:forEach items="${reviewList}" var="review">
-		      	<div class="reviewHeader"><p>author: <a href="displayuser?username=${review.author}">${review.author}</a></p></div>
+		      	<div class="reviewHeader"><p>by <a href="displayuser?username=${review.author}">${review.author}</a></p></div>
 		      	<div class="reviewContent">${review.content}
 			  	<c:if test="${pageContext.request.userPrincipal.name == review.author || isAdmin == true}">
 		      	<div>
@@ -83,11 +83,13 @@
 	</c:otherwise>
 </c:choose> 
 
-<p style="text-align:right">Movie added by <a href="displayuser?username=${movie.addedBy}">${movie.addedBy}</a>.</p>
-
 </div>
 <div id="content-inside"></div>
 
+<div id="footer-inside" style="position: absolute; bottom: 50px; margin-right: auto; margin-left: auto; left:0;
+right:0;">
+<p style="text-align:right">Movie added by <a href="displayuser?username=${movie.addedBy}">${movie.addedBy}</a>.</p>
+</div>
 <jsp:include page="footer.jsp" />
 
 </div>

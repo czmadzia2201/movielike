@@ -31,15 +31,15 @@ response.setHeader("Pragma", "no-cache");
 
 <h2>Edit review</h2>
 
-	<form:form name="editReview" commandName="review" method="POST" action="reviewedited" onsubmit="return validateReview(emptyValue)">
+	<form:form name="addEditReview" commandName="review" method="POST" action="reviewedited" onsubmit="return validateReview(emptyValue)">
 		<div style="position: relative; height: 100px">
 		<form:hidden path="id" value="${review.id}" />
 		<form:hidden path="author" value="${review.author}" />
 		<form:hidden path="movieId" value="${review.movieId}" />
 		<form:textarea path="content" rows="5" cols="30" value="${review.content}"/>
 		</div>
-		<span id="errorMsg" class="error"></span><br />
-		<input type="submit" value="Submit review" />
+		<input class="buttonForm" type="submit" value="Submit review" />
+		<span id="errorMsg" class="error"></span>
 	</form:form>
 
 </div>
