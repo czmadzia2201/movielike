@@ -41,7 +41,7 @@
 	</form:form>
 	
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
-	<input type="button" value="Add movie" onclick="location.href='addmovie'" />
+	<input class="buttonForm" type="button" value="Add movie" onclick="location.href='addmovie'" />
 	</c:if>
 	
 </div>

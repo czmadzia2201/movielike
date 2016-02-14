@@ -59,9 +59,19 @@ th.leadActors {
 	width: 30%;
 }
 
-form textarea {
-	display: block;
+div.reviewHeader {
+	margin-bottom: 10px;
 }
+
+div.reviewContent {
+	margin-bottom: 25px;
+}
+
+.buttonForm {
+	display: inline-block;
+	margin-top: 10px;
+}
+
 
 /* ---------------- */
 

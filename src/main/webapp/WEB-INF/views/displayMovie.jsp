@@ -42,14 +42,14 @@
 	</c:otherwise>
 	</c:choose>
 	</form:form>
-	<form:form method="POST" action="addreview">
+	<form:form method="POST" action="addreview" class="buttonForm">
 		<input type="hidden" name="username" value="${user.username}" />
 		<input type="hidden" name="movieId" value="${movie.id}" />
-		<input type="submit" value="Review" />
+		<input type="submit" value="Review movie" />
 	</form:form>
 </c:if>
 <c:if test="${pageContext.request.userPrincipal.name == movie.addedBy || isAdmin == true}">
-	<form:form method="GET" action="editmovie" >
+	<form:form method="GET" action="editmovie" class="buttonForm">
 	<input type="submit" value="Edit movie" />
 	</form:form>
 </c:if>
@@ -61,31 +61,25 @@
 		<p>No one has reviewed this movie yet.</p>
 	</c:when>
 	<c:otherwise>
-		<table border=0>
 		  <c:forEach items="${reviewList}" var="review">
-		    <tr>
-		      <th colspan=2><a href="displayuser?username=${review.author}">${review.author}</a></th>
-		    </tr>
-		    <tr>
-		      <td colspan=2>${review.content}</td>
-		    </tr>
-		    <c:if test="${pageContext.request.userPrincipal.name == review.author || isAdmin == true}">
-		    <tr><td>
+		      	<div class="reviewHeader"><p>author: <a href="displayuser?username=${review.author}">${review.author}</a></p></div>
+		      	<div class="reviewContent">${review.content}
+			  	<c:if test="${pageContext.request.userPrincipal.name == review.author || isAdmin == true}">
+		      	<div>
 		    	<c:if test="${pageContext.request.userPrincipal.name == review.author}">
-		    	<form:form method="POST" action="editreview">
+		    	<form:form method="POST" action="editreview" class="buttonForm">
 		    	<input type="hidden" name="reviewId" value="${review.id}" />
 		    	<input type="submit" value="Edit review" />
 		    	</form:form>
 		    	</c:if>
-		    	</td><td>
-		    	<form:form method="POST" action="submitdeletereview">
+		    	<form:form method="POST" action="submitdeletereview" class="buttonForm">
 		    	<input type="hidden" name="reviewId" value="${review.id}" />
 		    	<input type="submit" value="Delete review" />
 		    	</form:form>
-		    </td></tr>
-		    </c:if>
+		    	</div>
+		    	</c:if>
+				</div>	
 		  </c:forEach>
-		</table>
 	</c:otherwise>
 </c:choose> 
 
