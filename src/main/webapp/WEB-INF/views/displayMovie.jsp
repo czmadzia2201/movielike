@@ -27,18 +27,18 @@
 		<input type="hidden" name="remove" />
 	<c:choose>
 	<c:when test="${isMovieFaved == false}">
-		<input type="submit" value="Add to favourites" onclick="form.add.value = 1" />
+		<input type="submit" class="favButton" id="fav-inactive" value="" onclick="form.add.value = 1" />
 	</c:when>
 	<c:otherwise>
-		<input type="submit" value="Remove from favourites" onclick="form.remove.value = 1" />		
+		<input type="submit" class="favButton" id="fav-active" value="" onclick="form.remove.value = 1" />		
 	</c:otherwise>
 	</c:choose>
 	<c:choose>
 	<c:when test="${isMovieDisfaved == false}">
-		<input type="submit" value="Add to most disliked" onclick="form.add.value = -1" />
+		<input type="submit" class="favButton" id="disfav-inactive" value="" onclick="form.add.value = -1" />
 	</c:when>
 	<c:otherwise>
-		<input type="submit" value="Remove from most disliked" onclick="form.remove.value = -1" />		
+		<input type="submit" class="favButton" id="disfav-active" value="" onclick="form.remove.value = -1" />		
 	</c:otherwise>
 	</c:choose>
 	</form:form>
@@ -86,8 +86,7 @@
 </div>
 <div id="content-inside"></div>
 
-<div id="footer-inside" style="position: absolute; bottom: 50px; margin-right: auto; margin-left: auto; left:0;
-right:0;">
+<div id="footer-content">
 <p style="text-align:right">Movie added by <a href="displayuser?username=${movie.addedBy}">${movie.addedBy}</a>.</p>
 </div>
 <jsp:include page="footer.jsp" />
