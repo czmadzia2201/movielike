@@ -18,13 +18,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 
 import edu.spring.movielike.dao.DaoFactory;
 import edu.spring.movielike.dao.MovieDao;
@@ -93,7 +91,7 @@ public class MovielikeController {
 	}
 
 	@RequestMapping(value = "/404")
-	public String error404(ModelMap modelMap){
+	public String error404(){
 		return "404";
 	}
 
