@@ -2,12 +2,12 @@ body {
     margin: 0; padding: 0;
 }
 
-h1, h2, p, a, li, td, th {
+h1, h2, p, a, li, td, th, span {
  	font-family: Arial;
  	color: #444;
 }
 
-p, a, li, td, th {
+p, a, li, td, th, span {
  	font-size: 14px; 
 }
 

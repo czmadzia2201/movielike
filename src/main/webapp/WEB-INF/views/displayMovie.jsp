@@ -63,7 +63,7 @@
 	<c:otherwise>
 		  <c:forEach items="${reviewList}" var="review">
 		      	<div class="reviewHeader"><p>by <a href="displayuser?username=${review.author}">${review.author}</a></p></div>
-		      	<div class="reviewContent">${review.content}
+		      	<div class="reviewContent"><span>${review.content}</span>
 			  	<c:if test="${pageContext.request.userPrincipal.name == review.author || isAdmin == true}">
 		      	<div>
 		    	<c:if test="${pageContext.request.userPrincipal.name == review.author}">
