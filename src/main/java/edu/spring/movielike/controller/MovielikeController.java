@@ -37,7 +37,6 @@ import edu.spring.movielike.model.Review;
 import edu.spring.movielike.model.User;
 import edu.spring.movielike.utils.MovieValidator;
 import edu.spring.movielike.utils.UserValidator;
-import edu.spring.movielike.utils.ResourceNotFoundException;;
 
 @Controller
 public class MovielikeController {
@@ -94,7 +93,7 @@ public class MovielikeController {
 	}
 
 	@RequestMapping(value = "/404")
-	public String error404(){
+	public String error404(ModelMap modelMap){
 		return "404";
 	}
 
