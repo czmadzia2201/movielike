@@ -19,8 +19,24 @@
 
 <h2>Movie details</h2>
 
+<div style="display: inline-block;">
 <p> ${movie}</p> 
 
+<c:if test="${pageContext.request.userPrincipal.name != null}">
+	<form:form method="POST" action="addreview" class="buttonForm">
+		<input type="hidden" name="username" value="${user.username}" />
+		<input type="hidden" name="movieId" value="${movie.id}" />
+		<input type="submit" value="Review movie" />
+	</form:form>
+</c:if>
+<c:if test="${pageContext.request.userPrincipal.name == movie.addedBy || isAdmin == true}">
+	<form:form method="GET" action="editmovie" class="buttonForm">
+	<input type="submit" value="Edit movie" />
+	</form:form>
+</c:if>
+</div>
+
+<div id="moviemeter-box">
 <c:if test="${pageContext.request.userPrincipal.name != null}">
 	<form:form method="POST">
 		<input type="hidden" name="add" />
@@ -42,17 +58,8 @@
 	</c:otherwise>
 	</c:choose>
 	</form:form>
-	<form:form method="POST" action="addreview" class="buttonForm">
-		<input type="hidden" name="username" value="${user.username}" />
-		<input type="hidden" name="movieId" value="${movie.id}" />
-		<input type="submit" value="Review movie" />
-	</form:form>
 </c:if>
-<c:if test="${pageContext.request.userPrincipal.name == movie.addedBy || isAdmin == true}">
-	<form:form method="GET" action="editmovie" class="buttonForm">
-	<input type="submit" value="Edit movie" />
-	</form:form>
-</c:if>
+</div>
 
 <h4>Movie reviews</h4>
 
