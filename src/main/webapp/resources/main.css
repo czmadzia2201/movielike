@@ -3,9 +3,15 @@ body {
 	padding: 0;
 }
 
-h1, h2, p, a, li, td, th, span {
+p, li, td, span {
 	font-family: Arial;
 	color: #444;
+}
+
+h1, h2, h4, th {
+	font-family: Arial;
+	color: #a68a3d;
+	font-weight: bold;
 }
 
 p, a, li, td, th, span {
@@ -26,11 +32,19 @@ a {
 	text-decoration: none;
 	font-family: Arial;
 	font-size: 14px;
-	color: #999;
+	color: #3a7699;
 }
 
 a:hover {
-	color: #111;
+	color: #b2d6ec;
+}
+
+a.headerLink {
+	color: #a6563d;
+}
+
+a.headerLink:hover {
+	color: #bfa39a;
 }
 
 table, td, th {
@@ -93,15 +107,17 @@ div.reviewContent {
 	background-image: url(blue-reel.png);
 	background-position: right top;
 	background-repeat: no-repeat;
-	background-color: #b3d6ec;
+	background-color: #b3d6ec; /* #c3b2ec; #7c8df8; */
 }
 
 #footer {
-	background-image: url(blue-reel-bottom.png);
+	/* background-image: url(blue-reel-bottom.png);
 	background-position: left bottom;
-	background-repeat: repeat-x;
+	background-repeat: repeat-x; */ 
+	background: #fff5da;
 	position: absolute;
-	height: 50px;
+	padding-bottom: 10px;
+	padding-top: 10px;
 	width: 100%;
 	bottom: 0px;
 }
@@ -128,6 +144,15 @@ div.reviewContent {
 	width: 80%;
 }
 
+#menu-bar {
+	position: relative;
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-top: 5px;
+	background: #fff5da;
+}
+
 #footer-content {
 	position: absolute;
 	bottom: 50px;
@@ -139,9 +164,10 @@ div.reviewContent {
 }
 
 #moviemeter-box {
-	display: inline-block; 
+	display: table-cell; 
 	vertical-align: top; 
 	float: right;
+	width: 80px;
 }
 
 /* ---------------- */

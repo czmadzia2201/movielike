@@ -19,7 +19,8 @@
 
 <h2>Movie details</h2>
 
-<div style="display: inline-block;">
+<div style="display: table;">
+<div style="display: table-cell;"> 
 <p> ${movie}</p> 
 
 <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -61,6 +62,8 @@
 </c:if>
 </div>
 
+</div>
+
 <h4>Movie reviews</h4>
 
 <c:choose>
@@ -69,7 +72,7 @@
 	</c:when>
 	<c:otherwise>
 		  <c:forEach items="${reviewList}" var="review">
-		      	<div class="reviewHeader"><p>by <a href="displayuser?username=${review.author}">${review.author}</a></p></div>
+		      	<div class="reviewHeader"><p>by <a href="displayuser?username=${review.author}"><b>${review.author}</b></a></p></div>
 		      	<div class="reviewContent"><span>${review.content}</span>
 			  	<c:if test="${pageContext.request.userPrincipal.name == review.author || isAdmin == true}">
 		      	<div>

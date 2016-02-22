@@ -3,6 +3,6 @@
 <div id="footer">
 <div id="footer-inside">
 
-<p><a href="movieindex">Movie index</a> | <a href="userindex">User index</a></p>
+<a class="headerLink" href="movieindex">Movie index</a> | <a class="headerLink" href="userindex">User index</a>
 
 </div></div>

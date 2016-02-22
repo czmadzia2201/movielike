@@ -6,12 +6,12 @@
 <p class="error">${loginFailed}</p>
 <c:choose>
 <c:when test="${pageContext.request.userPrincipal.name != null}">
-	<p style="line-height: 20px">Welcome ${pageContext.request.userPrincipal.name} | <a href="j_spring_security_logout">Logout</a> | <a href="displayuser?username=${pageContext.request.userPrincipal.name}">My profile</a></p>
+	<p style="line-height: 20px">Welcome ${pageContext.request.userPrincipal.name} | <a class="headerLink" href="j_spring_security_logout">Logout</a> | <a class="headerLink" href="displayuser?username=${pageContext.request.userPrincipal.name}">My profile</a></p>
 </c:when>
 <c:otherwise>
 	<form method="POST" action="j_spring_security_check">
 	<p>Login: <input type="text" name="username" /> Password: <input type="password" name="password" /> <input type="submit" value="Login" /> 
-	| <a href="adduser">Register</a></p>  		
+	| <a class="headerLink" href="adduser">Register</a></p>  		
 	</form> 
 </c:otherwise>
 </c:choose>
@@ -20,6 +20,7 @@
 </div>
 </div>
 
+<div id="menu-bar">
 <div id="header-inside">
 
 <c:set var="goBack" value="javascript:history.go(-1)" />
@@ -34,6 +35,6 @@
 	<c:set var="goBack" value="${referrerUrl}" />
 </c:if>
 	
-<p><a href="/movielike/">Main</a> | <a href=<c:out value="${goBack}"/>>&#171; Back</a>
+<a class="headerLink" href="/movielike/">Main</a> | <a class="headerLink" href=<c:out value="${goBack}"/>>&#171; Back</a>
 
-</div>
+</div></div>

@@ -130,7 +130,7 @@ response.setHeader("Pragma", "no-cache");
 	</c:when>
 	<c:otherwise>
 		  <c:forEach items="${reviewList}" var="review">
-		    	<div class="reviewHeader"><a href="displaymovie?id=${review.movieId}">${review.movieTitle}</a></div>
+		    	<div class="reviewHeader"><a href="displaymovie?id=${review.movieId}"><b>${review.movieTitle}</b></a></div>
 		      	<div class="reviewContent"><span>${review.content}</span>
 		    	<c:if test="${pageContext.request.userPrincipal.name == review.author || isAdmin == true}">
 		      	<div>
