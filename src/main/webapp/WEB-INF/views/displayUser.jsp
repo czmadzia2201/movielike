@@ -33,7 +33,7 @@ response.setHeader("Pragma", "no-cache");
 <c:if test="${pageContext.request.userPrincipal.name == user.username || isAdmin == true}">
 	<form:form method="POST" action="userdeleted" class="buttonForm">
 		<input type="hidden" name="username" value="${user.username}" />
-		<input type="submit" value="Delete profile" />
+		<input type="submit" value="Delete profile" onclick="return confirm('Are you sure you want to delete user profile?')" />
 	</form:form>
 </c:if>
 <c:if test="${pageContext.request.userPrincipal.name == user.username}">
@@ -142,7 +142,7 @@ response.setHeader("Pragma", "no-cache");
 		    	</c:if>
 		    	<form:form method="POST" action="submitdeletereview" class="buttonForm">
 		    	<input type="hidden" name="reviewId" value="${review.id}" />
-		    	<input type="submit" value="Delete review" />
+		    	<input type="submit" value="Delete review" onclick="return confirm('Are you sure you want to delete this review?')" />
 		    	</form:form>
 		    	</div>
 		    	</c:if>

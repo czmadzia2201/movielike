@@ -20,7 +20,6 @@
 <h2>Edit movie</h2>
 
 <form:form method="POST" commandName="movie">
-<form:errors path="*" class="errorblock" element="div"/>
 <table>
 <tr>
 <td>Title: </td>

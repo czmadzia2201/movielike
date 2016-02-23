@@ -20,7 +20,6 @@
 <h2>Add movie</h2>
 
 <form:form method="POST" commandName="movie">
-<form:errors path="*" class="errorblock" element="div"/>
 <p class="error">${movieExists}</p>
 <table>
 <tr>

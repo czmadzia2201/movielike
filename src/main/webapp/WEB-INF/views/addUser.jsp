@@ -25,7 +25,6 @@
 </c:when>
 <c:otherwise>
 	<form:form method="POST" commandName="user">
-	<form:errors path="*" class="errorblock" element="div"/>
 	<table>
 	<tr>
 	<td>Username: </td>

@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import edu.spring.movielike.model.User;
 
-public class UserValidator implements Validator{
+public class UserValidator implements Validator {
 
 	@Override
 	public boolean supports(Class clazz) {

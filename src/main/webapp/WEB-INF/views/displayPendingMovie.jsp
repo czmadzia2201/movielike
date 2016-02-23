@@ -29,16 +29,13 @@ response.setHeader("Pragma", "no-cache");
 <p> ${movie}</p> 
 
 <c:if test="${(pageContext.request.userPrincipal.name == movie.addedBy || isAdmin == true) && movie.status != -1}">
-	<table><tr><td>
-	<form:form method="GET" action="editmovie" >
+	<form:form method="GET" action="editmovie" class="buttonForm">
 	<input type="submit" value="Edit movie" />
 	</form:form>
-	</td><td>
-	<form:form method="POST" action="submitdeletemovie" >
+	<form:form method="POST" action="submitdeletemovie" class="buttonForm">
 	<input type="hidden" name="movieId" value="${movie.id}" />
-	<input type="submit" value="Delete movie" />
+	<input type="submit" value="Delete movie" onclick="return confirm('Are you sure you want to delete this movie?')" />
 	</form:form>
-	</td></tr></table>
 </c:if>
 
 </div>

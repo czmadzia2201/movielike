@@ -19,7 +19,7 @@
 
 <h2>Movie details</h2>
 
-<div style="display: table;">
+<div style="display: table; width: 100%;">
 <div style="display: table-cell;"> 
 <p> ${movie}</p> 
 
@@ -84,7 +84,7 @@
 		    	</c:if>
 		    	<form:form method="POST" action="submitdeletereview" class="buttonForm">
 		    	<input type="hidden" name="reviewId" value="${review.id}" />
-		    	<input type="submit" value="Delete review" />
+		    	<input type="submit" value="Delete review" onclick="return confirm('Are you sure you want to delete this review?')" />
 		    	</form:form>
 		    	</div>
 		    	</c:if>
