@@ -39,6 +39,7 @@ import edu.spring.movielike.utils.UserValidator;
 @Controller
 public class MovielikeController {
 	
+	MovieGenres movieGenres = new MovieGenres();
 	DaoFactory daoFactory = new DaoFactory();
 	MovieDao<Movie, MovieRejected> jdbcMovieObject = daoFactory.getMovieDao();
 	UserDao<User> jdbcUserObject = daoFactory.getUserDao();
@@ -220,6 +221,7 @@ public class MovielikeController {
 	public String addMovie(ModelMap modelMap, HttpServletRequest request, HttpSession session) {
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = new Movie();
+		modelMap.addAttribute("genreList", movieGenres.getGenreList());		
 		modelMap.addAttribute("movie", movie);
 		return "addMovie"; 
 	}
@@ -232,6 +234,7 @@ public class MovielikeController {
 			return "addMovie";
 		} 
 		try {
+			System.out.println(movie);
 			Movie movieAdded = jdbcMovieObject.persistMovie(movie);
 			session.setAttribute("movieId", movieAdded.getId());
 			return "redirect:/movieadded";

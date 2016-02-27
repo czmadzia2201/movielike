@@ -1,8 +1,13 @@
 package edu.spring.movielike.model;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -14,7 +19,9 @@ import javax.persistence.Transient;
 public class Movie {
 	String title, director, leadActors, genre, country, description, addedBy, statusValue;
 	int id, year, status;
-
+//	String[] genreList;
+	Set<String> genreList;
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
@@ -51,6 +58,17 @@ public class Movie {
 
 	public void setLeadActors(String leadActors) {
 		this.leadActors = leadActors;
+	}
+
+	@ElementCollection
+	@CollectionTable(name="movie_genre", joinColumns=@JoinColumn(name="movie_id"))
+	@Column(name="genre")
+	public Set<String> getGenreList() {
+		return genreList;
+	}
+
+	public void setGenreList(Set<String> genreList) {
+		this.genreList = genreList;
 	}
 
 	@Column(name = "genre")
@@ -118,7 +136,7 @@ public class Movie {
 
 	public String toString() {
 		return "title: " + title + "<br>director: " + director + "<br>genre: "
-				+ genre + "<br>lead actors: " + leadActors + "<br>year: "
+				+ genre + ", " + genreList.toString() + "<br>lead actors: " + leadActors + "<br>year: "
 				+ year + "<br>country: " + country + "<br>description: "
 				+ description;
 	}
