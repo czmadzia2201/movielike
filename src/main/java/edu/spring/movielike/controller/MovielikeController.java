@@ -258,6 +258,7 @@ public class MovielikeController {
 		Integer movieId = (Integer) session.getAttribute("movieId");
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = jdbcMovieObject.findMovieById(movieId);
+		modelMap.addAttribute("genreList", movieGenres.getGenreList());	
 		modelMap.addAttribute("movie", movie);
 		return "editMovie";
 	}
