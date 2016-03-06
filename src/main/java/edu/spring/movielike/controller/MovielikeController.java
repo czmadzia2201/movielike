@@ -234,7 +234,6 @@ public class MovielikeController {
 			return "addMovie";
 		} 
 		try {
-			System.out.println(movie);
 			Movie movieAdded = jdbcMovieObject.persistMovie(movie);
 			session.setAttribute("movieId", movieAdded.getId());
 			return "redirect:/movieadded";

@@ -89,7 +89,8 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 
 	public void deleteRejectedMoviesUser(String addedBy) {
 		Session session = connectionHandler.openCurrentSessionwithTransaction();
-		String sql = String.format("DELETE FROM movie_rejected WHERE added_by = '%s'", addedBy);
+		String sql = String.format("DELETE movie_rejected, movie_genre FROM movie_rejected "
+				+ "LEFT JOIN movie_genre ON id = movie_id WHERE added_by = '%s'", addedBy);
 		session.createSQLQuery(sql).executeUpdate();
 		connectionHandler.closeCurrentSessionwithTransaction();
 	}

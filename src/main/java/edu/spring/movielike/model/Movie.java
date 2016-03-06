@@ -19,7 +19,6 @@ import javax.persistence.Transient;
 public class Movie {
 	String title, director, leadActors, genre, country, description, addedBy, statusValue;
 	int id, year, status;
-//	String[] genreList;
 	Set<String> genreList;
 	
 	@Id

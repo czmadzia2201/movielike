@@ -1,8 +1,13 @@
 package edu.spring.movielike.model;
 
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -10,6 +15,7 @@ import javax.persistence.Table;
 public class MovieRejected {
 	String title, director, leadActors, genre, country, description, addedBy, reason;
 	int id, year, status;
+	Set<String> genreList;
 
 	@Id
 	@Column(name = "id")
@@ -46,6 +52,17 @@ public class MovieRejected {
 
 	public void setLeadActors(String leadActors) {
 		this.leadActors = leadActors;
+	}
+
+	@ElementCollection
+	@CollectionTable(name="movie_genre", joinColumns=@JoinColumn(name="movie_id"))
+	@Column(name="genre_list")
+	public Set<String> getGenreList() {
+		return genreList;
+	}
+
+	public void setGenreList(Set<String> genreList) {
+		this.genreList = genreList;
 	}
 
 	@Column(name = "genre")
@@ -113,7 +130,7 @@ public class MovieRejected {
 
 	public String toString() {
 		return "title: " + title + "<br>director: " + director + "<br>genre: "
-				+ genre + "<br>lead actors: " + leadActors + "<br>year: "
+				+ genre + ", " + genreList.toString() + "<br>lead actors: " + leadActors + "<br>year: "
 				+ year + "<br>country: " + country + "<br>description: "
 				+ description;
 	}
