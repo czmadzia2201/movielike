@@ -1,10 +1,14 @@
 package edu.spring.movielike.dao;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import edu.spring.movielike.dao.extractor.MovieExtractor;
+import edu.spring.movielike.dao.extractor.MovieListExtractor;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 
@@ -30,35 +34,29 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 			movie.getGenre(), movie.getYear(), movie.getCountry(), movie.getDescription(), movie.getId()});				
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList<Movie> findAllMoviesByProperty(String searchCriteria, Object criteriaValue){
-		String sql = "SELECT * FROM movie WHERE " + searchCriteria + " = ? AND status = 1";
+		String sql = "SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE " + searchCriteria + " = ? AND status = 1";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, 
-			new Object[] {criteriaValue}, new BeanPropertyRowMapper(Movie.class));
+			new Object[] {criteriaValue}, new MovieListExtractor());
 		return movieList;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList<Movie> findAllMovies(int status){
-		String sql = "SELECT * FROM movie WHERE status = ?";
+		String sql = "SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE status = ?";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, 
-			new Object[] {status}, new BeanPropertyRowMapper(Movie.class));
+			new Object[] {status}, new MovieListExtractor());
 		return movieList;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Movie findMovieById(int id){
-		String sql = "SELECT * FROM movie WHERE id = ?";
-		Movie movie = (Movie) getJdbcTemplate().queryForObject(sql, new Object[] {id},
-			new BeanPropertyRowMapper(Movie.class));
+		String sql = "SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE id = ?"; 
+		Movie movie = (Movie) getJdbcTemplate().query(sql, new Object[] {id}, new MovieExtractor());
 		return movie;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Movie findMovieByIdWithStatus(int id, int status){
-		String sql = "SELECT * FROM movie WHERE id = ? AND status = ?";
-		Movie movie = (Movie) getJdbcTemplate().queryForObject(sql, new Object[] {id, status},
-			new BeanPropertyRowMapper(Movie.class));
+		String sql = "SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE id = ? AND status = ?";
+		Movie movie = (Movie) getJdbcTemplate().query(sql, new Object[] {id, status}, new MovieExtractor());
 		return movie;
 	}
 
@@ -70,11 +68,10 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 		return movie;
 	}
  
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList<Movie> findMoviesAddedBy(String addedBy, int status){
-		String sql = "SELECT * FROM movie WHERE added_by = ? AND status = ?";
+		String sql = "SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE added_by = ? AND status = ?";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, 
-			new Object[] {addedBy, status}, new BeanPropertyRowMapper(Movie.class));
+			new Object[] {addedBy, status}, new MovieListExtractor());
 		return movieList;
 	}
 	

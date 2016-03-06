@@ -62,7 +62,7 @@ public class Movie {
 
 	@ElementCollection
 	@CollectionTable(name="movie_genre", joinColumns=@JoinColumn(name="movie_id"))
-	@Column(name="genre")
+	@Column(name="genre_list")
 	public Set<String> getGenreList() {
 		return genreList;
 	}

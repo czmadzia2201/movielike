@@ -26,8 +26,8 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-	Movie movie = jdbcMovieObject.findMovieByIdWithStatus(50, 1);
-//	Movie movie = jdbcMovieObject.findMovieById(47);
+	ArrayList<Movie> movie = jdbcMovieObject.findAllMovies(0);
+//	Movie movie = jdbcMovieObject.findMovieById(2);
 	System.out.println(movie);
 	}
 
