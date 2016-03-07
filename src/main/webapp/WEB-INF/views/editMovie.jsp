@@ -23,30 +23,35 @@
 <table>
 <tr>
 <td>Title: </td>
-<td><form:input path="title" value="${movie.title}" /></td>
+<td><form:input path="title" /></td>
 <td><form:errors path="title" class="error" /></td>
 </tr><tr>
 <td>Director: </td>
-<td><form:input path="director" value="${movie.director}" /></td>
+<td><form:input path="director" /></td>
 </tr><tr>
 <td>Lead actors: </td>
-<td><form:input path="leadActors" value="${movie.leadActors}" /></td>
+<td><form:input path="leadActors" /></td>
 </tr><tr>
 <td>Genre: </td>
-<td><form:input path="genre" value="${movie.genre}" /></td>
+<td><form:input path="genre" /></td>
+</tr><tr>
+<td>Genre List: </td>
+<td><form:checkboxes items="${genreList}" path="genreList" /></td>
 </tr><tr>
 <td>Year: </td>
-<td><form:input path="year" value="${movie.year}" /></td>
+<td><form:input path="year" /></td>
 <td><form:errors path="year" class="error" /></td>
 </tr><tr>
 <td>Country: </td>
-<td><form:input path="country" value="${movie.country}" /></td>
+<td><form:input path="country" /></td>
 </tr><tr>
 <td>Description: </td>
-<td><form:textarea path="description" rows="5" cols="30" value="${movie.description}" /></td>
+<td><form:textarea path="description" rows="5" cols="30" /></td>
 </tr>
 </table>
-<form:hidden path="id" value="${movie.id}" />
+<form:hidden path="id" />
+<form:hidden path="addedBy" />
+<form:hidden path="status" />
 <input type="submit" value="Edit movie" />
 </form:form>
 

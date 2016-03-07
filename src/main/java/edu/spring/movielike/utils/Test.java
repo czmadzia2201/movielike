@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -26,9 +27,14 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-	ArrayList<Movie> movie = jdbcMovieObject.findAllMovies(0);
-//	Movie movie = jdbcMovieObject.findMovieById(2);
+//	ArrayList<Movie> movie = jdbcMovieObject.findAllMovies(0);
+	Movie movie = jdbcMovieObject.findMovieById(10);
 	System.out.println(movie);
+	Set<String> genreList = movie.getGenreList();
+	genreList.remove("Action");
+	movie.setGenreList(genreList);
+	System.out.println(movie);
+	jdbcMovieObject.updateMovie(movie);
 	}
 
 }
