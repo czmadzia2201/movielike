@@ -36,7 +36,7 @@
 <td><form:input path="genre" /></td>
 </tr><tr>
 <td>Genre List: </td>
-<td><form:checkboxes items="${genreList}" path="genreList" /></td>
+<td><form:checkboxes items="${genreList}" path="genreList" element="span class='checkboxes'" /></td>
 </tr><tr>
 <td>Year: </td>
 <td><form:input path="year" /></td>

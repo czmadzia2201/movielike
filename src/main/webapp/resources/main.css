@@ -87,6 +87,11 @@ div.reviewContent {
 	margin-top: 10px;
 }
 
+span.checkboxes {
+	float: left;
+	width: 150px;
+}
+
 /* ---------------- */
 #wrapper {
 	margin-right: auto;

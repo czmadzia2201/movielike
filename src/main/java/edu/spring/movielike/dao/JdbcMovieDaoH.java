@@ -1,6 +1,7 @@
 package edu.spring.movielike.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -30,14 +31,30 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Movie> findAllMoviesByProperty(String searchCriteria, Object criteriaValue) {
 		connectionHandler.openCurrentSession();
+		List<Object> criteriaValueList = new ArrayList<Object>();
+		criteriaValueList.add(criteriaValue);
 		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
 		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria
-			.add(Restrictions.eq(searchCriteria, criteriaValue))
+			.add(Restrictions.in(searchCriteria, criteriaValueList))
 			.add(Restrictions.eq("status", 1)).list();
 		connectionHandler.closeCurrentSession();
 		return movieList; 
 	}
-
+	
+//	@SuppressWarnings("unchecked")
+//	public ArrayList<Movie> findAllMoviesByProperty(String searchCriteria, Object criteriaValue) {
+//		connectionHandler.openCurrentSession();
+//		List<Object> criteriaValueList = new ArrayList<Object>();
+//		criteriaValueList.add(criteriaValue);
+//		String sql = String.format("SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE "
+//				+ searchCriteria + " = '%s'", criteriaValue);
+//		System.out.println(sql);
+//		Session session = connectionHandler.openCurrentSession();
+//		ArrayList<Movie> movieList = (ArrayList<Movie>) session.createSQLQuery(sql).list();
+//		connectionHandler.closeCurrentSession();		
+//		return movieList; 
+//	}
+//
 	@SuppressWarnings("unchecked")
 	public ArrayList<Movie> findAllMovies(int status) {
 		connectionHandler.openCurrentSession();
