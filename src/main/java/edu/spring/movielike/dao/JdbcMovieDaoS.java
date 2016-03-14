@@ -1,10 +1,8 @@
 package edu.spring.movielike.dao;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import edu.spring.movielike.dao.extractor.MovieExtractor;

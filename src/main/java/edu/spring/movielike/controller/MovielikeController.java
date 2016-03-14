@@ -99,9 +99,16 @@ public class MovielikeController {
 	// ---------- MOVIE -------------
 	
 	@RequestMapping(value = "/searchmovies")
-	public String searchMovies(ModelMap modelMap, HttpServletRequest request) {
+	public String searchMovies(@ModelAttribute("movie") Movie movie, ModelMap modelMap, 
+			HttpServletRequest request,@RequestParam(required = false) String searchCriteria) {
 		modelMap.addAttribute("emptyValue", messageSource.getMessage("emptyvalue.criteriaValue", null, null));	
 		modelMap.addAttribute("formatError", messageSource.getMessage("formaterror.criteriaValue", null, null));	
+		modelMap.addAttribute("movie", movie);
+		modelMap.addAttribute("genreList", movieGenres.getGenreList());
+		if (searchCriteria!=null) {
+			modelMap.addAttribute("searchCriteria", searchCriteria);
+//			response.sendRedirect(request.getHeader("referer"));
+		}
 		return "searchMovies";
 	}
 	

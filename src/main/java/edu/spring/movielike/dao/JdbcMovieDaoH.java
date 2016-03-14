@@ -33,28 +33,14 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.openCurrentSession();
 		List<Object> criteriaValueList = new ArrayList<Object>();
 		criteriaValueList.add(criteriaValue);
-		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
-		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria
-			.add(Restrictions.in(searchCriteria, criteriaValueList))
-			.add(Restrictions.eq("status", 1)).list();
-		connectionHandler.closeCurrentSession();
+		String sql = String.format("SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE "
+				+ searchCriteria + " = '%s' AND status = 1", criteriaValue);
+		Session session = connectionHandler.openCurrentSession();
+		ArrayList<Movie> movieList = (ArrayList<Movie>) session.createSQLQuery(sql).addEntity(Movie.class).list();
+		connectionHandler.closeCurrentSession();		
 		return movieList; 
 	}
-	
-//	@SuppressWarnings("unchecked")
-//	public ArrayList<Movie> findAllMoviesByProperty(String searchCriteria, Object criteriaValue) {
-//		connectionHandler.openCurrentSession();
-//		List<Object> criteriaValueList = new ArrayList<Object>();
-//		criteriaValueList.add(criteriaValue);
-//		String sql = String.format("SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE "
-//				+ searchCriteria + " = '%s'", criteriaValue);
-//		System.out.println(sql);
-//		Session session = connectionHandler.openCurrentSession();
-//		ArrayList<Movie> movieList = (ArrayList<Movie>) session.createSQLQuery(sql).list();
-//		connectionHandler.closeCurrentSession();		
-//		return movieList; 
-//	}
-//
+
 	@SuppressWarnings("unchecked")
 	public ArrayList<Movie> findAllMovies(int status) {
 		connectionHandler.openCurrentSession();

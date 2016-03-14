@@ -31,7 +31,7 @@ public class MovieListExtractor implements ResultSetExtractor<List<Movie>> {
 				movie = movieRowMapper.mapRow(rs, rs.getRow());
 				movieList.add(movie);
 			}
-			genreList.add(rs.getString("genre_list"));
+			genreList.add(rs.getString("genrelist"));
 			movie.setGenreList(genreList);
 		}
 		return movieList;

@@ -56,7 +56,7 @@ public class MovieRejected {
 
 	@ElementCollection
 	@CollectionTable(name="movie_genre", joinColumns=@JoinColumn(name="movie_id"))
-	@Column(name="genre_list")
+	@Column(name="genrelist")
 	public Set<String> getGenreList() {
 		return genreList;
 	}

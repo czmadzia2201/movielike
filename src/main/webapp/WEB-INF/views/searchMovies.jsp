@@ -10,7 +10,7 @@
 	<script src="resources/validate.js"></script>
 	<script type="text/javascript">
 		var emptyValue = "${emptyValue}";
-		var formatError = "${formatError}";
+		var formatError = "${formatError}";	
 	</script>
 			
 </head>
@@ -26,19 +26,45 @@
 <h2>Search movies</h2>
 
 <p>Search criteria:<p>
-	<form:form name="searchMovies" method="GET" onsubmit="return validateSearchMovies(emptyValue, formatError)" 
-		action="findmovies?searchCriteria=${searchCriteria}&criteriaValue=${criteriaValue}">
-	<select name="searchCriteria">
-		<option value="title">Title</option>
-		<option value="genre">Genre</option>
-		<option value="director">Director</option>
-		<option value="country">Country</option>
-		<option value="year">Year</option>
+	
+	<div style="display: inline-block">
+	<form name="chooseCriteria">
+	<select name="searchCriteria" id="sCrit" onchange="this.form.submit()">
+		<option disabled selected></option>
+		<option value="title" ${searchCriteria == "title" ? "selected":""}>Title</option>
+		<option value="genre" ${searchCriteria == "genre" ? "selected":""}>Genre</option>
+		<option value="genreList" ${searchCriteria == "genreList" ? "selected":""}>Genre List</option>
+		<option value="director" ${searchCriteria == "director" ? "selected":""}>Director</option>
+		<option value="country" ${searchCriteria == "country" ? "selected":""}>Country</option>
+		<option value="year" ${searchCriteria == "year" ? "selected":""}>Year</option>
 	</select>
-	<input type="text" name="criteriaValue" />
+	</form>
+	</div>
+	
+	<div style="display: inline-block" >	
+	<form:form name="searchMovies" method="GET" commandName="movie" onsubmit="return validateSearchMovies(emptyValue, formatError)" 
+		action="findmovies?searchcriteria=${searchCriteria}&criteriavalue=${criteriaValue}">
+	
+	<div style="display: inline-block; width:200px"> 
+	<c:choose>
+	<c:when test="${searchCriteria == 'genreList'}">
+	<select name="criteriaValue" style="width:97%">
+		<option selected></option>
+		<c:forEach items="${genreList}" var="genre">
+		<option value="${genre}">${genre}</option>
+		</c:forEach>
+	</select>
+	</c:when>
+	<c:otherwise>
+		<input type="text" name="criteriaValue" style="width:95%" />	
+	</c:otherwise>
+	</c:choose>
+	</div>
+	<input type="hidden" name="searchCriteria" value="${searchCriteria}" />
 	<input type="submit" value="Find movies" />
 	<span id="errorMsg" class="error"></span>
 	</form:form>
+	</div>
 	
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
 	<input class="buttonForm" type="button" value="Add movie" onclick="location.href='addmovie'" />

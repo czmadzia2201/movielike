@@ -35,6 +35,6 @@
 	<c:set var="goBack" value="${referrerUrl}" />
 </c:if>
 	
-<a class="headerLink" href="/movielike/">Main</a> | <a class="headerLink" href=<c:out value="${goBack}"/>>&#171; Back</a>
+<a class="headerLink" href="/movielike/">Main</a> | <a class="headerLink" href="<c:out value="${goBack}"/>">&#171; Back</a>
 
 </div></div>
