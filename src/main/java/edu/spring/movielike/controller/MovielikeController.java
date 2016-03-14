@@ -107,7 +107,6 @@ public class MovielikeController {
 		modelMap.addAttribute("genreList", movieGenres.getGenreList());
 		if (searchCriteria!=null) {
 			modelMap.addAttribute("searchCriteria", searchCriteria);
-//			response.sendRedirect(request.getHeader("referer"));
 		}
 		return "searchMovies";
 	}

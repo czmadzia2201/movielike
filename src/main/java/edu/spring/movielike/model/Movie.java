@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "movie")
 public class Movie {
-	String title, director, leadActors, genre, country, description, addedBy, statusValue;
+	String title, director, leadActors, genre, country, description, addedBy, statusValue, genreString;
 	int id, year, status;
 	Set<String> genreList;
 	
@@ -132,10 +132,15 @@ public class Movie {
 		statusValues.put(-1, "rejected");
 		return statusValues.get(getStatus());
 	}
+	
+	@Transient
+	public String getGenreString() {
+		return genreList.toString().replace("[", "").replace("]", "");
+	}
 
 	public String toString() {
 		return "title: " + title + "<br>director: " + director + "<br>genre: "
-				+ genre + ", " + genreList.toString() + "<br>lead actors: " + leadActors + "<br>year: "
+				+ getGenreString() + "<br>lead actors: " + leadActors + "<br>year: "
 				+ year + "<br>country: " + country + "<br>description: "
 				+ description;
 	}

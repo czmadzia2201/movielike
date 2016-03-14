@@ -31,7 +31,7 @@
 		    <tr>
 		      <td>${movie.title}</td>
 		      <td>${movie.director}</td>
-		      <td>${movie.genre}</td>
+		      <td>${movie.genreString}</td>
 		      <td>${movie.leadActors}</td>
 		      <td>${movie.country}</td>
 		      <td>${movie.year}</td>

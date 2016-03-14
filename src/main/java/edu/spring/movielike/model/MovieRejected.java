@@ -9,11 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "movie_rejected")
 public class MovieRejected {
-	String title, director, leadActors, genre, country, description, addedBy, reason;
+	String title, director, leadActors, genre, country, description, addedBy, reason, genreString;
 	int id, year, status;
 	Set<String> genreList;
 
@@ -128,9 +129,14 @@ public class MovieRejected {
 		this.reason = reason;
 	}
 
+	@Transient
+	public String getGenreString() {
+		return genreList.toString().replace("[", "").replace("]", "");
+	}
+	
 	public String toString() {
 		return "title: " + title + "<br>director: " + director + "<br>genre: "
-				+ genre + ", " + genreList.toString() + "<br>lead actors: " + leadActors + "<br>year: "
+				+ getGenreString() + "<br>lead actors: " + leadActors + "<br>year: "
 				+ year + "<br>country: " + country + "<br>description: "
 				+ description;
 	}

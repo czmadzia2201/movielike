@@ -14,7 +14,7 @@ public class DaoFactory {
 		HIBERNATE, JDBCTEMPLATE
 	}
 	
-	private DaoType chooseDao = DaoType.HIBERNATE;
+	private DaoType chooseDao = DaoType.JDBCTEMPLATE;
 	ApplicationContext context = new ClassPathXmlApplicationContext("spring-database.xml");
 	
 	public MovieDao<Movie, MovieRejected> getMovieDao() {

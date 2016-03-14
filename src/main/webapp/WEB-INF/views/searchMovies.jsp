@@ -32,8 +32,7 @@
 	<select name="searchCriteria" id="sCrit" onchange="this.form.submit()">
 		<option disabled selected></option>
 		<option value="title" ${searchCriteria == "title" ? "selected":""}>Title</option>
-		<option value="genre" ${searchCriteria == "genre" ? "selected":""}>Genre</option>
-		<option value="genreList" ${searchCriteria == "genreList" ? "selected":""}>Genre List</option>
+		<option value="genreList" ${searchCriteria == "genreList" ? "selected":""}>Genre</option>
 		<option value="director" ${searchCriteria == "director" ? "selected":""}>Director</option>
 		<option value="country" ${searchCriteria == "country" ? "selected":""}>Country</option>
 		<option value="year" ${searchCriteria == "year" ? "selected":""}>Year</option>
