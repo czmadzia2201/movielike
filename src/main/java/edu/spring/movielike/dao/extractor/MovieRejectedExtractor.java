@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
@@ -25,8 +26,11 @@ public class MovieRejectedExtractor implements ResultSetExtractor<MovieRejected>
 				movieRejected = movieRowMapper.mapRow(rs, rs.getRow());
 			}
 			genreList.add(rs.getString("genrelist"));
+			movieRejected.setGenreList(genreList);
 		}
-		movieRejected.setGenreList(genreList);
+		if (movieRejected==null) {
+			throw new EmptyResultDataAccessException(1);
+		}
 		return movieRejected;
 	}
 

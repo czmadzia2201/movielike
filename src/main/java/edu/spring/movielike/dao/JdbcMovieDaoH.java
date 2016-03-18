@@ -65,6 +65,9 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.openCurrentSession();
 		Movie movie = (Movie) connectionHandler.getCurrentSession().get(Movie.class, id);
 		connectionHandler.closeCurrentSession();
+		if (movie==null) {
+			throw new EmptyResultDataAccessException(1);
+		}
 		return movie; 
 	}
 
