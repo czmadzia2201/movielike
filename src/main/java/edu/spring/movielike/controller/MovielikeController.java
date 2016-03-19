@@ -2,6 +2,7 @@ package edu.spring.movielike.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,12 +40,12 @@ import edu.spring.movielike.utils.UserValidator;
 @Controller
 public class MovielikeController {
 	
-	MovieDataProvider movieDataProvider = new MovieDataProvider();
 	DaoFactory daoFactory = new DaoFactory();
 	MovieDao<Movie, MovieRejected> jdbcMovieObject = daoFactory.getMovieDao();
 	UserDao<User> jdbcUserObject = daoFactory.getUserDao();
 	UserMovieDao<User, Movie> jdbcUserMovieLink = daoFactory.getUserMovieDao();
 	ReviewDao<Review, Movie, User> jdbcReviewObject = daoFactory.getReviewDao();
+	MovieDataProvider movieDataProvider = new MovieDataProvider();
 	
 	@Autowired
 	MessageSource messageSource;
@@ -236,6 +237,7 @@ public class MovielikeController {
 	@RequestMapping(value = "/addmovie", method = RequestMethod.POST)
 	public String submitAddMovie(@ModelAttribute("movie") Movie movie, 
 			BindingResult result, ModelMap modelMap, HttpSession session) {
+		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
 		movieValidator.validate(movie, result);
 		if (result.hasErrors()) {
 			return "addMovie";
@@ -272,6 +274,7 @@ public class MovielikeController {
 	@RequestMapping(value = "/editmovie", method = RequestMethod.POST)
 	public String submitEditMovie(@ModelAttribute("movie") Movie movie, 
 			BindingResult result, ModelMap modelMap, HttpSession session) {
+		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
 		movieValidator.validate(movie, result);
 		if (result.hasErrors()) {
 			return "editMovie";

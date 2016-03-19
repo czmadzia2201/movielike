@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MovieDataProvider {
 	
-	String[] genreArray = {
+	private String[] genreArray = {
 		"Action",
 		"Adventure",
 		"Animation",
@@ -30,7 +30,7 @@ public class MovieDataProvider {
 		"Western"
 	};
 	
-	String[] countryArray = {
+	private String[] countryArray = {
 			"Afghanistan",
 			"Albania",
 			"Algeria",

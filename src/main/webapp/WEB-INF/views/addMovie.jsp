@@ -24,8 +24,7 @@
 <table>
 <tr>
 <td>Title: </td>
-<td><form:input path="title" /></td>
-<td><form:errors path="title" class="error" /></td>
+<td><form:input path="title" /><form:errors path="title" class="error" /></td>
 </tr><tr>
 <td>Director: </td>
 <td><form:input path="director" /></td>
@@ -35,10 +34,11 @@
 </tr><tr>
 <td>Genre: </td>
 <td><form:checkboxes items="${genreList}" path="genreList" element="span class='checkboxes'" /></td>
+</tr><tr><td></td>
+<td>Other: <form:input path="genreList" /></td>
 </tr><tr>
 <td>Year: </td>
-<td><form:input path="year" /></td>
-<td><form:errors path="year" class="error" /></td>
+<td><form:input path="year" /><form:errors path="year" class="error" /></td>
 </tr><tr>
 <td>Country: </td>
 <td><form:input path="country" /></td>
