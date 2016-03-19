@@ -39,8 +39,9 @@ public class JdbcUserMovieDaoH implements UserMovieDao<User, Movie> {
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Movie> getUserLinkedMovies(User user, int fav) {
-		String sql = String.format("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM user_movie_link "
-			+ "WHERE username = '%s' AND liked = %s)", user.getUsername(), fav);
+		String sql = String.format("SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE id IN "
+				+ "(SELECT movie_id FROM user_movie_link WHERE username = '%s' AND liked = %s) GROUP BY id", 
+				user.getUsername(), fav);
 		Session session = connectionHandler.openCurrentSession();
 		List<Movie> movieListRaw = session.createSQLQuery(sql).addEntity(Movie.class).list();
 		ArrayList<Movie> movieList = new ArrayList<Movie>(movieListRaw);

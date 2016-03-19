@@ -15,11 +15,11 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 
 	private ConnectionHandler connectionHandler = ConnectionHandler.getInstance();
 	
-	public Movie persistMovie(Movie movie) {
+	public Integer persistMovie(Movie movie) {
 		connectionHandler.openCurrentSessionwithTransaction();
 		connectionHandler.getCurrentSession().save(movie);		
 		connectionHandler.closeCurrentSessionwithTransaction();
-		return movie;
+		return movie.getId();
 	}
 
 	public void updateMovie(Movie movie) {

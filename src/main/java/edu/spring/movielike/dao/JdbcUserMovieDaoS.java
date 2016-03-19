@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import edu.spring.movielike.dao.extractor.MovieListExtractor;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.User;
 
@@ -28,11 +29,11 @@ public class JdbcUserMovieDaoS extends JdbcDaoSupport implements UserMovieDao<Us
 		return movieList.size()!=0;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList<Movie> getUserLinkedMovies(User user, int fav) {
-		String sql = "SELECT * FROM movie WHERE id IN (SELECT movie_id FROM user_movie_link WHERE username = ? AND liked = ?)";
+		String sql = "SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE id IN "
+				+ "(SELECT movie_id FROM user_movie_link WHERE username = ? AND liked = ?)";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, new Object[] 
-				{user.getUsername(), fav}, new BeanPropertyRowMapper(Movie.class));
+				{user.getUsername(), fav}, new MovieListExtractor());
 		return movieList;
 	}
 

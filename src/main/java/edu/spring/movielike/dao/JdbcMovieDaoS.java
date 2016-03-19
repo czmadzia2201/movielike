@@ -2,7 +2,6 @@ package edu.spring.movielike.dao;
 
 import java.util.ArrayList;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import edu.spring.movielike.dao.extractor.MovieExtractor;
@@ -14,24 +13,33 @@ import edu.spring.movielike.model.MovieRejected;
 
 public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, MovieRejected> {
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Movie persistMovie(Movie movie) { 
+	public Integer persistMovie(Movie movie) { 
 		String sql1 = "INSERT INTO movie (title, director, lead_actors, genre, "
 				+ "year, country, description, added_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirector(), 
 			movie.getLeadActors(), movie.getGenre(), movie.getYear(), movie.getCountry(), 
 			movie.getDescription(), movie.getAddedBy()});
-		String sql2 = "SELECT * FROM movie WHERE title = ? AND year = ? AND added_by = ?";
-		Movie movieAdded = getJdbcTemplate().queryForObject(sql2, new Object[] {movie.getTitle(), 
-				movie.getYear(), movie.getAddedBy()}, new BeanPropertyRowMapper(Movie.class));
-		return movieAdded;
+		String sql2 = "SELECT id FROM movie WHERE title = ? AND year = ? AND added_by = ?";
+		Integer movieId = getJdbcTemplate().queryForObject(sql2, new Object[] {movie.getTitle(), 
+		movie.getYear(), movie.getAddedBy()}, Integer.class);
+		String sql3 = "INSERT INTO movie_genre (movie_id, genrelist) VALUES (?, ?)";
+		for (String genre : movie.getGenreList()) {
+			getJdbcTemplate().update(sql3, new Object[] {movieId, genre});
+		}
+		return movieId;
 	}
  
 	public void updateMovie(Movie movie) {
-		String sql = "UPDATE movie SET title = ?, director = ?, lead_actors = ?, "
+		String sql1 = "UPDATE movie SET title = ?, director = ?, lead_actors = ?, "
 				+ "genre = ?, year = ?, country = ?, description = ? WHERE id = ?";
-		getJdbcTemplate().update(sql, new Object[] {movie.getTitle(), movie.getDirector(), movie.getLeadActors(), 
-			movie.getGenre(), movie.getYear(), movie.getCountry(), movie.getDescription(), movie.getId()});				
+		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirector(), movie.getLeadActors(), 
+			movie.getGenre(), movie.getYear(), movie.getCountry(), movie.getDescription(), movie.getId()});
+		String sql2 = "DELETE FROM movie_genre WHERE movie_id = ?";
+		getJdbcTemplate().update(sql2, new Object[] {movie.getId()});
+		String sql3 = "INSERT INTO movie_genre (movie_id, genrelist) VALUES (?, ?)";
+		for (String genre : movie.getGenreList()) {
+			getJdbcTemplate().update(sql3, new Object[] {movie.getId(), genre});
+		}
 	}
 
 	public ArrayList<Movie> findAllMoviesByProperty(String searchCriteria, Object criteriaValue) {
@@ -61,9 +69,8 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 		return movie;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MovieRejected findRejectedMovieById(int id) {
-		String sql = "SELECT * FROM movie_rejected WHERE id = ?";
+		String sql = "SELECT * FROM movie_rejected LEFT JOIN movie_genre ON id = movie_id WHERE id = ?";
 		MovieRejected movie = (MovieRejected) getJdbcTemplate().query(sql, new Object[] {id},
 				new MovieRejectedExtractor());
 		return movie;
@@ -77,7 +84,7 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	}
 	
 	public ArrayList<MovieRejected> findRejectedMoviesAddedBy(String addedBy){
-		String sql = "SELECT * FROM movie_rejected WHERE added_by = ?";
+		String sql = "SELECT * FROM movie_rejected LEFT JOIN movie_genre ON id = movie_id WHERE added_by = ?";
 		ArrayList<MovieRejected> movieList = (ArrayList<MovieRejected>) getJdbcTemplate().query(sql, 
 			new Object[] {addedBy}, new MovieRejectedListExtractor());
 		return movieList;
@@ -98,12 +105,13 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	}
 
 	public void deleteRejectedMoviesUser(String addedBy) {
-		String sql = "DELETE FROM movie_rejected WHERE added_by = ?";
+		String sql = "DELETE movie_rejected, movie_genre FROM movie_rejected "
+				+ "LEFT JOIN movie_genre ON id = movie_id WHERE added_by = ?";
 		getJdbcTemplate().update(sql, new Object[] {addedBy});		
 	}
 
 	public void deleteMovie(Movie movie){
-		String sql = "DELETE FROM movie WHERE id = ?";
+		String sql = "DELETE movie, movie_genre FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE id = ?";
 		getJdbcTemplate().update(sql, new Object[] {movie.getId()});		
 	}
 

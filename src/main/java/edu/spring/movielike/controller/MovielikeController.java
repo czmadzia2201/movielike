@@ -240,8 +240,7 @@ public class MovielikeController {
 			return "addMovie";
 		} 
 		try {
-			Movie movieAdded = jdbcMovieObject.persistMovie(movie);
-			session.setAttribute("movieId", movieAdded.getId());
+			session.setAttribute("movieId", jdbcMovieObject.persistMovie(movie));
 			return "redirect:/movieadded";
 		} catch (DuplicateKeyException e) {
 			modelMap.addAttribute("movieExists", messageSource.getMessage("duplicateentry.movie", null, null));

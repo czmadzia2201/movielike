@@ -27,10 +27,11 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-	ArrayList<String> genreList = new ArrayList<String>();
-	genreList.add("SF");
-	ArrayList<Movie> movie = jdbcMovieObject.findAllMoviesByProperty("genreList", genreList);
-//	Movie movie = jdbcMovieObject.findMovieById(10);
+//	ArrayList<String> genreList = new ArrayList<String>();
+//	genreList.add("SF");
+//	ArrayList<Movie> movie = jdbcMovieObject.findMoviesAddedBy("czmadzidda", 0);
+	Movie movie = jdbcMovieObject.findMovieById(1);
+	jdbcMovieObject.updateMovieStatus(movie, 1, "");
 //	System.out.println(movie);
 //	Set<String> genreList = movie.getGenreList();
 //	genreList.remove("Action");
