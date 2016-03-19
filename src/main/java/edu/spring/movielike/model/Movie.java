@@ -1,6 +1,5 @@
 package edu.spring.movielike.model;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -17,7 +16,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "movie")
 public class Movie {
-	String title, director, leadActors, genre, country, description, addedBy, statusValue, genreString;
+	String title, director, leadActors, country, description, addedBy, statusValue, genreString;
 	int id, year, status;
 	Set<String> genreList;
 	
@@ -68,15 +67,6 @@ public class Movie {
 
 	public void setGenreList(Set<String> genreList) {
 		this.genreList = genreList;
-	}
-
-	@Column(name = "genre")
-	public String getGenre() {
-		return genre;
-	}
-
-	public void setGenre(String genre) {
-		this.genre = genre;
 	}
 
 	@Column(name = "year")

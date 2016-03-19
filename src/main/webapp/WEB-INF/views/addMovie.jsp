@@ -34,9 +34,6 @@
 <td><form:input path="leadActors" /></td>
 </tr><tr>
 <td>Genre: </td>
-<td><form:input path="genre" /></td>
-</tr><tr>
-<td>Genre List: </td>
 <td><form:checkboxes items="${genreList}" path="genreList" element="span class='checkboxes'" /></td>
 </tr><tr>
 <td>Year: </td>

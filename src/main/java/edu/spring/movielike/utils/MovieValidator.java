@@ -7,7 +7,6 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import edu.spring.movielike.model.Movie;
-import edu.spring.movielike.model.User;
 
 public class MovieValidator implements Validator {
 

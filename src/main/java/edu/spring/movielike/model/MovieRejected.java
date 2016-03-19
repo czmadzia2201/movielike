@@ -14,7 +14,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "movie_rejected")
 public class MovieRejected {
-	String title, director, leadActors, genre, country, description, addedBy, reason, genreString;
+	String title, director, leadActors, country, description, addedBy, reason, genreString;
 	int id, year, status;
 	Set<String> genreList;
 
@@ -64,15 +64,6 @@ public class MovieRejected {
 
 	public void setGenreList(Set<String> genreList) {
 		this.genreList = genreList;
-	}
-
-	@Column(name = "genre")
-	public String getGenre() {
-		return genre;
-	}
-
-	public void setGenre(String genre) {
-		this.genre = genre;
 	}
 
 	@Column(name = "year")

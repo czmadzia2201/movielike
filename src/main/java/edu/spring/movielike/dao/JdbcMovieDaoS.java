@@ -14,10 +14,10 @@ import edu.spring.movielike.model.MovieRejected;
 public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, MovieRejected> {
 	
 	public Integer persistMovie(Movie movie) { 
-		String sql1 = "INSERT INTO movie (title, director, lead_actors, genre, "
-				+ "year, country, description, added_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql1 = "INSERT INTO movie (title, director, lead_actors, "
+				+ "year, country, description, added_by) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirector(), 
-			movie.getLeadActors(), movie.getGenre(), movie.getYear(), movie.getCountry(), 
+			movie.getLeadActors(), movie.getYear(), movie.getCountry(), 
 			movie.getDescription(), movie.getAddedBy()});
 		String sql2 = "SELECT id FROM movie WHERE title = ? AND year = ? AND added_by = ?";
 		Integer movieId = getJdbcTemplate().queryForObject(sql2, new Object[] {movie.getTitle(), 
@@ -31,9 +31,9 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
  
 	public void updateMovie(Movie movie) {
 		String sql1 = "UPDATE movie SET title = ?, director = ?, lead_actors = ?, "
-				+ "genre = ?, year = ?, country = ?, description = ? WHERE id = ?";
-		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirector(), movie.getLeadActors(), 
-			movie.getGenre(), movie.getYear(), movie.getCountry(), movie.getDescription(), movie.getId()});
+				+ "year = ?, country = ?, description = ? WHERE id = ?";
+		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirector(), 
+			movie.getLeadActors(), movie.getYear(), movie.getCountry(), movie.getDescription(), movie.getId()});
 		String sql2 = "DELETE FROM movie_genre WHERE movie_id = ?";
 		getJdbcTemplate().update(sql2, new Object[] {movie.getId()});
 		String sql3 = "INSERT INTO movie_genre (movie_id, genrelist) VALUES (?, ?)";

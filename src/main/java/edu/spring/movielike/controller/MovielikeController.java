@@ -39,7 +39,7 @@ import edu.spring.movielike.utils.UserValidator;
 @Controller
 public class MovielikeController {
 	
-	MovieGenres movieGenres = new MovieGenres();
+	MovieDataProvider movieDataProvider = new MovieDataProvider();
 	DaoFactory daoFactory = new DaoFactory();
 	MovieDao<Movie, MovieRejected> jdbcMovieObject = daoFactory.getMovieDao();
 	UserDao<User> jdbcUserObject = daoFactory.getUserDao();
@@ -104,7 +104,8 @@ public class MovielikeController {
 		modelMap.addAttribute("emptyValue", messageSource.getMessage("emptyvalue.criteriaValue", null, null));	
 		modelMap.addAttribute("formatError", messageSource.getMessage("formaterror.criteriaValue", null, null));	
 		modelMap.addAttribute("movie", movie);
-		modelMap.addAttribute("genreList", movieGenres.getGenreList());
+		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());
+		modelMap.addAttribute("countryList", movieDataProvider.getCountryList());
 		if (searchCriteria!=null) {
 			modelMap.addAttribute("searchCriteria", searchCriteria);
 		}
@@ -227,7 +228,7 @@ public class MovielikeController {
 	public String addMovie(ModelMap modelMap, HttpServletRequest request, HttpSession session) {
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = new Movie();
-		modelMap.addAttribute("genreList", movieGenres.getGenreList());		
+		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
 		modelMap.addAttribute("movie", movie);
 		return "addMovie"; 
 	}
@@ -263,7 +264,7 @@ public class MovielikeController {
 		Integer movieId = (Integer) session.getAttribute("movieId");
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = jdbcMovieObject.findMovieById(movieId);
-		modelMap.addAttribute("genreList", movieGenres.getGenreList());	
+		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());	
 		modelMap.addAttribute("movie", movie);
 		return "editMovie";
 	}
