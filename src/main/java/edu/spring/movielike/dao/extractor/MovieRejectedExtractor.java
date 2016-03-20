@@ -25,7 +25,9 @@ public class MovieRejectedExtractor implements ResultSetExtractor<MovieRejected>
 			if (movieRejected == null) {
 				movieRejected = movieRowMapper.mapRow(rs, rs.getRow());
 			}
-			genreList.add(rs.getString("genrelist"));
+			if (rs.getString("genrelist")!=null) {
+				genreList.add(rs.getString("genrelist"));
+			}
 			movieRejected.setGenreList(genreList);
 		}
 		if (movieRejected==null) {

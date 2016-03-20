@@ -16,7 +16,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "movie")
 public class Movie {
-	String title, director, leadActors, country, description, addedBy, statusValue, genreString;
+	String title, director, leadActors, country, description, addedBy, statusValue, genreString, genreOther;
 	int id, year, status;
 	Set<String> genreList;
 	
@@ -67,6 +67,15 @@ public class Movie {
 
 	public void setGenreList(Set<String> genreList) {
 		this.genreList = genreList;
+	}
+
+	@Column(name = "genre_other")
+	public String getGenreOther() {
+		return genreOther;
+	}
+
+	public void setGenreOther(String genreOther) {
+		this.genreOther = genreOther;
 	}
 
 	@Column(name = "year")
@@ -125,14 +134,15 @@ public class Movie {
 	
 	@Transient
 	public String getGenreString() {
-		return genreList.toString().replace("[", "").replace("]", "");
+		String genreString = genreList.toString().replace("[", "").replace("]", "");
+		if (!genreString.equals("") && genreOther != null && !genreOther.equals("")) genreString = genreString + ", " + genreOther;
+		if (genreString.equals("")) genreString = genreOther;
+		return genreString;
 	}
 
 	public String toString() {
-		return "title: " + title + "<br>director: " + director + "<br>genre: "
-				+ getGenreString() + "<br>lead actors: " + leadActors + "<br>year: "
-				+ year + "<br>country: " + country + "<br>description: "
-				+ description;
+		return "title: " + title + "<br>director: " + director + "<br>genre: " + getGenreString() + "<br>lead actors: " 
+				+ leadActors + "<br>year: " + year + "<br>country: " + country + "<br>description: " + description;
 	}
 
 }
