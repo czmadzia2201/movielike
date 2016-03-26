@@ -34,7 +34,7 @@
 		<option value="title" ${searchCriteria == "title" ? "selected":""}>Title</option>
 		<option value="genreList" ${searchCriteria == "genreList" ? "selected":""}>Genre</option>
 		<option value="director" ${searchCriteria == "director" ? "selected":""}>Director</option>
-		<option value="country" ${searchCriteria == "country" ? "selected":""}>Country</option>
+		<option value="countryList" ${searchCriteria == "countryList" ? "selected":""}>Country</option>
 		<option value="year" ${searchCriteria == "year" ? "selected":""}>Year</option>
 	</select>
 	</form>
@@ -51,6 +51,14 @@
 		<option selected></option>
 		<c:forEach items="${genreList}" var="genre">
 		<option value="${genre}">${genre}</option>
+		</c:forEach>
+	</select>
+	</c:when>
+	<c:when test="${searchCriteria == 'countryList'}">
+	<select name="criteriaValue" style="width:97%">
+		<option selected></option>
+		<c:forEach items="${countryList}" var="country">
+		<option value="${country}">${country}</option>
 		</c:forEach>
 	</select>
 	</c:when>
