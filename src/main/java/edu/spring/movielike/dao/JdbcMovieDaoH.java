@@ -33,8 +33,9 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.openCurrentSession();
 		List<Object> criteriaValueList = new ArrayList<Object>();
 		criteriaValueList.add(criteriaValue);
-		String sql = String.format("SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE "
-				+ searchCriteria + " = '%s' AND status = 1", criteriaValue);
+		String sql = String.format("SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
+				+ "LEFT JOIN movie_country mc ON m.id = mc.movie_id "
+				+ "WHERE " + searchCriteria + " = '%s' AND status = 1 GROUP BY m.id", criteriaValue);
 		Session session = connectionHandler.openCurrentSession();
 		ArrayList<Movie> movieList = (ArrayList<Movie>) session.createSQLQuery(sql).addEntity(Movie.class).list();
 		connectionHandler.closeCurrentSession();		
@@ -95,9 +96,12 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 
 	public void deleteRejectedMoviesUser(String addedBy) {
 		Session session = connectionHandler.openCurrentSessionwithTransaction();
-		String sql = String.format("DELETE movie_rejected, movie_genre FROM movie_rejected "
-				+ "LEFT JOIN movie_genre ON id = movie_id WHERE added_by = '%s'", addedBy);
-		session.createSQLQuery(sql).executeUpdate();
+		String sql1 = String.format("DELETE FROM movie_genre WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = '%s')", addedBy);
+		String sql2 = String.format("DELETE FROM movie_country WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = '%s')", addedBy);
+		String sql3 = String.format("DELETE FROM movie_rejected WHERE added_by = '%s'", addedBy);
+		session.createSQLQuery(sql1).executeUpdate();
+		session.createSQLQuery(sql2).executeUpdate();
+		session.createSQLQuery(sql3).executeUpdate();
 		connectionHandler.closeCurrentSessionwithTransaction();
 	}
 

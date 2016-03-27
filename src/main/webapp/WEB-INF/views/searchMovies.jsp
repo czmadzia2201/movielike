@@ -7,7 +7,7 @@
 	<title>Search movies</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="resources/main.css" rel="stylesheet" />
-	<script src="resources/validate.js"></script>
+	<script src="resources/functions.js"></script>
 	<script type="text/javascript">
 		var emptyValue = "${emptyValue}";
 		var formatError = "${formatError}";	

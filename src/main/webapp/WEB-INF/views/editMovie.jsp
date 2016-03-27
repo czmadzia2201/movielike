@@ -7,6 +7,7 @@
 	<title>Edit movie</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="resources/main.css" rel="stylesheet" />
+	<script src="resources/functions.js"></script>
 </head>
 <body>
 
@@ -32,15 +33,19 @@
 <td><form:input path="leadActors" /></td>
 </tr><tr>
 <td>Genre: </td>
-<td><form:checkboxes items="${genreList}" path="genreList" element="span class='checkboxes'" /></td>
-</tr><tr><td></td>
-<td>Other: <form:input path="genreOther" /></td>
+<td><div><form:checkboxes items="${genreList}" path="genreList" element="span class='checkboxes'" />
+<span style="float: left; width: 100%;">Other: <form:input path="genreOther" /></span></div></td>
 </tr><tr>
 <td>Year: </td>
 <td><form:input path="year" /><form:errors path="year" class="error" /></td>
 </tr><tr>
 <td>Country: </td>
-<td><form:input path="country" /></td>
+<td><a href="#" onclick="return show('showCountries')">Show list of countries</a>
+| <a href="#" onclick="return hide('showCountries')">Hide list of countries</a>
+<div id="showCountries" style="display:none;">
+<form:checkboxes items="${countryList}" path="countryList" element="span class='checkboxes'" />
+<span style="float: left; width: 100%;">Other: <form:input path="country" /></span></div>
+</td>
 </tr><tr>
 <td>Description: </td>
 <td><form:textarea path="description" rows="5" cols="30" /></td>

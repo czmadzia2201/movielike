@@ -14,7 +14,7 @@ response.setHeader("Pragma", "no-cache");
 	<title>Add review</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="resources/main.css" rel="stylesheet" />
-	<script src="resources/validate.js"></script>
+	<script src="resources/functions.js"></script>
 	<script type="text/javascript">
 		var emptyValue = "${emptyValue}";
 	</script>	

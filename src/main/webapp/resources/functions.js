@@ -22,3 +22,14 @@ function validateReview(emptyValue) {
 function clearForm() {
 	document.forms.reset();
 }
+
+function show(target) {
+	document.getElementById(target).style.display='block';
+	return false;
+}
+
+function hide(target) {
+	document.getElementById(target).style.display='none';
+	return false;
+}
+

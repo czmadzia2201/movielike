@@ -14,9 +14,10 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "movie_rejected")
 public class MovieRejected {
-	String title, director, leadActors, country, description, addedBy, reason, genreString, genreOther;
+	String title, director, leadActors, country, description, addedBy, reason, genreString, genreOther, countryString;
 	int id, year, status;
-	Set<String> genreList;
+	Set<String> genreList; 
+	Set<String> countryList;
 
 	@Id
 	@Column(name = "id")
@@ -93,6 +94,17 @@ public class MovieRejected {
 		this.country = country;
 	}
 
+	@ElementCollection
+	@CollectionTable(name="movie_country", joinColumns=@JoinColumn(name="movie_id"))
+	@Column(name="countrylist")
+	public Set<String> getCountryList() {
+		return countryList;
+	}
+
+	public void setCountryList(Set<String> countryList) {
+		this.countryList = countryList;
+	}
+
 	@Column(name = "description")
 	public String getDescription() {
 		return description;
@@ -137,9 +149,17 @@ public class MovieRejected {
 		return genreString;
 	}
 	
+	@Transient
+	public String getCountryString() {
+		String countryString = countryList.toString().replace("[", "").replace("]", "");
+		if (!countryString.equals("") && country != null && !country.equals("")) countryString = countryString + ", " + country;
+		if (countryString.equals("")) countryString = country;
+		return countryString;
+	}
+	
 	public String toString() {
 		return "title: " + title + "<br>director: " + director + "<br>genre: " + getGenreString() + "<br>lead actors: " 
-				+ leadActors + "<br>year: " + year + "<br>country: " + country + "<br>description: " + description;
+				+ leadActors + "<br>year: " + year + "<br>country: " + getCountryString() + "<br>description: " + description;
 	}
 
 }

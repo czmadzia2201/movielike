@@ -59,7 +59,7 @@ response.setHeader("Pragma", "no-cache");
 		      <td>${movie.director}</td>
 		      <td>${movie.genreString}</td>
 		      <td>${movie.leadActors}</td>
-		      <td>${movie.country}</td>
+		      <td>${movie.countryString}</td>
 		      <td>${movie.year}</td>
  		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
 		    </tr>
@@ -84,7 +84,7 @@ response.setHeader("Pragma", "no-cache");
 		      <td>${movie.director}</td>
 		      <td>${movie.genreString}</td>
 		      <td>${movie.leadActors}</td>
-		      <td>${movie.country}</td>
+		      <td>${movie.countryString}</td>
 		      <td>${movie.year}</td>
  		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
 		    </tr>
@@ -109,7 +109,7 @@ response.setHeader("Pragma", "no-cache");
 		      <td>${movie.director}</td>
 		      <td>${movie.genreString}</td>
 		      <td>${movie.leadActors}</td>
-		      <td>${movie.country}</td>
+		      <td>${movie.countryString}</td>
 		      <td>${movie.year}</td>
  		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
 		    </tr>

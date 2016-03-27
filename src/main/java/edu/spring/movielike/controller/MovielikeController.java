@@ -230,6 +230,7 @@ public class MovielikeController {
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = new Movie();
 		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
+		modelMap.addAttribute("countryList", movieDataProvider.getCountryList());		
 		modelMap.addAttribute("movie", movie);
 		return "addMovie"; 
 	}
@@ -238,6 +239,7 @@ public class MovielikeController {
 	public String submitAddMovie(@ModelAttribute("movie") Movie movie, 
 			BindingResult result, ModelMap modelMap, HttpSession session) {
 		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
+		modelMap.addAttribute("countryList", movieDataProvider.getCountryList());		
 		movieValidator.validate(movie, result);
 		if (result.hasErrors()) {
 			return "addMovie";
@@ -267,6 +269,7 @@ public class MovielikeController {
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = jdbcMovieObject.findMovieById(movieId);
 		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());	
+		modelMap.addAttribute("countryList", movieDataProvider.getCountryList());		
 		modelMap.addAttribute("movie", movie);
 		return "editMovie";
 	}
@@ -275,6 +278,7 @@ public class MovielikeController {
 	public String submitEditMovie(@ModelAttribute("movie") Movie movie, 
 			BindingResult result, ModelMap modelMap, HttpSession session) {
 		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
+		modelMap.addAttribute("countryList", movieDataProvider.getCountryList());		
 		movieValidator.validate(movie, result);
 		if (result.hasErrors()) {
 			return "editMovie";
