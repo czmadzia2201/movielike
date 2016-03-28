@@ -16,7 +16,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "movie")
 public class Movie {
-	String title, director, leadActors, country, description, addedBy, statusValue, genreString, genreOther, countryString;
+	String title, director, leadActors, description, addedBy, statusValue, genreString, genreOther, countryString, countryOther;
 	int id, year, status;
 	Set<String> genreList;
 	Set<String> countryList;
@@ -88,15 +88,6 @@ public class Movie {
 		this.year = year;
 	}
 
-	@Column(name = "country")
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	@ElementCollection
 	@CollectionTable(name="movie_country", joinColumns=@JoinColumn(name="movie_id"))
 	@Column(name="countrylist")
@@ -106,6 +97,15 @@ public class Movie {
 
 	public void setCountryList(Set<String> countryList) {
 		this.countryList = countryList;
+	}
+
+	@Column(name = "country_other")
+	public String getCountryOther() {
+		return countryOther;
+	}
+
+	public void setCountryOther(String countryOther) {
+		this.countryOther = countryOther;
 	}
 
 	@Column(name = "description")
@@ -155,8 +155,8 @@ public class Movie {
 	@Transient
 	public String getCountryString() {
 		String countryString = countryList.toString().replace("[", "").replace("]", "");
-		if (!countryString.equals("") && country != null && !country.equals("")) countryString = countryString + ", " + country;
-		if (countryString.equals("")) countryString = country;
+		if (!countryString.equals("") && countryOther != null && !countryOther.equals("")) countryString = countryString + ", " + countryOther;
+		if (countryString.equals("")) countryString = countryOther;
 		return countryString;
 	}
 

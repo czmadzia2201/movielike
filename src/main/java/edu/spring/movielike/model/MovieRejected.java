@@ -14,7 +14,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "movie_rejected")
 public class MovieRejected {
-	String title, director, leadActors, country, description, addedBy, reason, genreString, genreOther, countryString;
+	String title, director, leadActors, description, addedBy, reason, genreString, genreOther, countryString, countryOther;
 	int id, year, status;
 	Set<String> genreList; 
 	Set<String> countryList;
@@ -85,15 +85,6 @@ public class MovieRejected {
 		this.year = year;
 	}
 
-	@Column(name = "country")
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	@ElementCollection
 	@CollectionTable(name="movie_country", joinColumns=@JoinColumn(name="movie_id"))
 	@Column(name="countrylist")
@@ -103,6 +94,15 @@ public class MovieRejected {
 
 	public void setCountryList(Set<String> countryList) {
 		this.countryList = countryList;
+	}
+
+	@Column(name = "country_other")
+	public String getCountry() {
+		return countryOther;
+	}
+
+	public void setCountry(String countryOther) {
+		this.countryOther = countryOther;
 	}
 
 	@Column(name = "description")
@@ -152,14 +152,14 @@ public class MovieRejected {
 	@Transient
 	public String getCountryString() {
 		String countryString = countryList.toString().replace("[", "").replace("]", "");
-		if (!countryString.equals("") && country != null && !country.equals("")) countryString = countryString + ", " + country;
-		if (countryString.equals("")) countryString = country;
+		if (!countryString.equals("") && countryOther != null && !countryOther.equals("")) countryString = countryString + ", " + countryOther;
+		if (countryString.equals("")) countryString = countryOther;
 		return countryString;
 	}
 	
 	public String toString() {
 		return "title: " + title + "<br>director: " + director + "<br>genre: " + getGenreString() + "<br>lead actors: " 
-				+ leadActors + "<br>year: " + year + "<br>country: " + getCountryString() + "<br>description: " + description;
+				+ leadActors + "<br>year: " + year + "<br>countryOther: " + getCountryString() + "<br>description: " + description;
 	}
 
 }

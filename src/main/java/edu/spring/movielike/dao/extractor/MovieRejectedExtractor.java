@@ -2,6 +2,7 @@ package edu.spring.movielike.dao.extractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ public class MovieRejectedExtractor implements ResultSetExtractor<MovieRejected>
 	@Override
 	public MovieRejected extractData(ResultSet rs) throws SQLException, DataAccessException {
 		Set<String> genreList = new HashSet<String>();
+		Set<String> countryList = new HashSet<String>(new ArrayList<String>());
 		MovieRejected movieRejected = null;
 		while (rs.next()) {
 			if (movieRejected == null) {
@@ -28,7 +30,11 @@ public class MovieRejectedExtractor implements ResultSetExtractor<MovieRejected>
 			if (rs.getString("genrelist")!=null) {
 				genreList.add(rs.getString("genrelist"));
 			}
+			if (rs.getString("countrylist")!=null) {
+				countryList.add(rs.getString("countrylist"));
+			}
 			movieRejected.setGenreList(genreList);
+			movieRejected.setCountryList(countryList);		
 		}
 		if (movieRejected==null) {
 			throw new EmptyResultDataAccessException(1);

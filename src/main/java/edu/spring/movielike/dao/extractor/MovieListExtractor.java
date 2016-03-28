@@ -22,17 +22,21 @@ public class MovieListExtractor implements ResultSetExtractor<List<Movie>> {
 	public List<Movie> extractData(ResultSet rs) throws SQLException, DataAccessException {
 		List<Movie> movieList = new ArrayList<Movie>();
 		Set<String> genreList = null;
+		Set<String> countryList = null;
 		Movie movie = null;
 		Integer movieId = null;
 		while (rs.next()) {
 			if (movie == null || movieId!=rs.getInt("id")) {
 				genreList = new HashSet<String>();
+				countryList = new HashSet<String>();
 				movieId = rs.getInt("id");
 				movie = movieRowMapper.mapRow(rs, rs.getRow());
 				movieList.add(movie);
 			}
 			genreList.add(rs.getString("genrelist"));
+			countryList.add(rs.getString("countrylist"));
 			movie.setGenreList(genreList);
+			movie.setCountryList(countryList);
 		}
 		return movieList;
 	}

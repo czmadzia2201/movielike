@@ -21,6 +21,7 @@ public class MovieExtractor implements ResultSetExtractor<Movie> {
 	@Override
 	public Movie extractData(ResultSet rs) throws SQLException, DataAccessException {
 		Set<String> genreList = new HashSet<String>(new ArrayList<String>());
+		Set<String> countryList = new HashSet<String>(new ArrayList<String>());
 		Movie movie = null;
 		while (rs.next()) {
 			if (movie == null) {
@@ -29,7 +30,11 @@ public class MovieExtractor implements ResultSetExtractor<Movie> {
 			if (rs.getString("genrelist")!=null) {
 				genreList.add(rs.getString("genrelist"));
 			}
+			if (rs.getString("countrylist")!=null) {
+				countryList.add(rs.getString("countrylist"));
+			}
 			movie.setGenreList(genreList);		
+			movie.setCountryList(countryList);		
 		}
 		if (movie==null) {
 			throw new EmptyResultDataAccessException(1);

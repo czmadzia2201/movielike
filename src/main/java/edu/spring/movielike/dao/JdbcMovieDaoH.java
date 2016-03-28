@@ -35,7 +35,7 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		criteriaValueList.add(criteriaValue);
 		String sql = String.format("SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
 				+ "LEFT JOIN movie_country mc ON m.id = mc.movie_id "
-				+ "WHERE " + searchCriteria + " = '%s' AND status = 1 GROUP BY m.id", criteriaValue);
+				+ "WHERE " + searchCriteria + " = '%s' AND m.status = 1 GROUP BY m.id", criteriaValue);
 		Session session = connectionHandler.openCurrentSession();
 		ArrayList<Movie> movieList = (ArrayList<Movie>) session.createSQLQuery(sql).addEntity(Movie.class).list();
 		connectionHandler.closeCurrentSession();		

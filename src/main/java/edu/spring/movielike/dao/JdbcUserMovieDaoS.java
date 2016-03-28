@@ -30,7 +30,8 @@ public class JdbcUserMovieDaoS extends JdbcDaoSupport implements UserMovieDao<Us
 	}
 
 	public ArrayList<Movie> getUserLinkedMovies(User user, int fav) {
-		String sql = "SELECT * FROM movie LEFT JOIN movie_genre ON id = movie_id WHERE id IN "
+		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
+				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.id IN "
 				+ "(SELECT movie_id FROM user_movie_link WHERE username = ? AND liked = ?)";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, new Object[] 
 				{user.getUsername(), fav}, new MovieListExtractor());

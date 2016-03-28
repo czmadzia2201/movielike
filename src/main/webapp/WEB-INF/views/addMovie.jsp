@@ -45,7 +45,7 @@
 | <a href="#" onclick="return hide('showCountries')">Hide list of countries</a>
 <div id="showCountries" style="display:none;">
 <form:checkboxes items="${countryList}" path="countryList" element="span class='checkboxes'" />
-<span style="float: left; width: 100%;">Other: <form:input path="country" /></span></div>
+<span style="float: left; width: 100%;">Other: <form:input path="countryOther" /></span></div>
 </td>
 </tr><tr>
 <td>Description: </td>
