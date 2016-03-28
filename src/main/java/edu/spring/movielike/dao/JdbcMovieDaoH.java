@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.EmptyResultDataAccessException;
 
@@ -49,6 +50,16 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq("status", status)).list();
 		connectionHandler.closeCurrentSession();
 		return movieList; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Movie> findLatest() {
+		connectionHandler.openCurrentSession();
+		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
+		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq("status", 1))
+				.addOrder(Order.desc("id")).setMaxResults(10).list();
+		connectionHandler.closeCurrentSession();		
+		return movieList;
 	}
 
 	@SuppressWarnings("unchecked")

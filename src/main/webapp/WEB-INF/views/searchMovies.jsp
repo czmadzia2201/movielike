@@ -74,8 +74,26 @@
 	</div>
 	
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
-	<input class="buttonForm" type="button" value="Add movie" onclick="location.href='addmovie'" />
+	<div><input class="buttonForm" type="button" value="Add movie" onclick="location.href='addmovie'" /></div>
 	</c:if>
+	
+	<h4>Latest movies</h4>
+	
+	<table  class="movielist">
+		<tr><th class="title">Title</th><th class="director">Director</th><th class="genre">Genre</th>
+		<th class="leadActors">Lead actors</th><th class="country">Country</th><th class="year">Year</th></tr>
+		  <c:forEach items="${latestMovies}" var="movie">
+		    <tr>
+		      <td>${movie.title}</td>
+		      <td>${movie.director}</td>
+		      <td>${movie.genreString}</td>
+		      <td>${movie.leadActors}</td>
+		      <td>${movie.countryString}</td>
+		      <td>${movie.year}</td>
+ 		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
+		    </tr>
+		  </c:forEach>
+	</table>
 	
 </div>
 <div id="content-inside"></div>

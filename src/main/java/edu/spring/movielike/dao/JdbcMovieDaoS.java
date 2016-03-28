@@ -77,6 +77,14 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 		return movieList;
 	}
 
+	public ArrayList<Movie> findLatest() {
+		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
+				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.id IN (SELECT * FROM "
+				+ "(SELECT id FROM movie WHERE status = 1 ORDER BY id DESC LIMIT 10) as t) ORDER BY m.id DESC";
+		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, new MovieListExtractor());
+		return movieList;
+	}
+
 	public Movie findMovieById(int id) {
 		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
 				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.id = ?";
