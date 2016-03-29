@@ -147,5 +147,13 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.getCurrentSession().delete(movie);
 		connectionHandler.closeCurrentSessionwithTransaction();
 	}
-
+	
+	public void rateMovie(Movie movie, int rating) {
+		Session session = connectionHandler.openCurrentSessionwithTransaction();
+		String sql = String.format("UPDATE TABLE movie SET voters = %s, rating_sum = %s WHERE id = %s", 
+			movie.getVoters()+1, movie.getRatingSum()+rating, movie.getId());
+		session.createSQLQuery(sql).executeUpdate();
+		connectionHandler.closeCurrentSessionwithTransaction();
+	}
+	
 }

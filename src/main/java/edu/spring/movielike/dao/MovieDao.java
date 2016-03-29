@@ -17,4 +17,5 @@ public interface MovieDao<M, MR> {
 	public void deleteMovie(M movie); 
 	public void deleteRejectedMoviesAdmin();
 	public void deleteRejectedMoviesUser(String addedBy);
+	public void rateMovie(M movie, int rating);
 }

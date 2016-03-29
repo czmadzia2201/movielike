@@ -154,5 +154,10 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 		getJdbcTemplate().update(sql2, new Object[] {movie.getId()});			
 		getJdbcTemplate().update(sql3, new Object[] {movie.getId()});			
 	}
-
+	
+	public void rateMovie(Movie movie, int rating) {
+		String sql = "UPDATE TABLE movie SET voters = ?, rating_sum = ? WHERE id = ?";
+		getJdbcTemplate().update(sql, new Object[] {movie.getVoters()+1, movie.getRatingSum()+rating, movie.getId()});			
+	}
+	
 }

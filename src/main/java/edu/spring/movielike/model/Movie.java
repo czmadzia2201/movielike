@@ -16,10 +16,11 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "movie")
 public class Movie {
-	String title, director, leadActors, description, addedBy, statusValue, genreString, genreOther, countryString, countryOther;
-	int id, year, status;
-	Set<String> genreList;
-	Set<String> countryList;
+	private String title, director, leadActors, description, addedBy, statusValue, genreString, genreOther, countryString, countryOther;
+	private int id, year, status, voters, ratingSum;
+	private double ratingAvg;
+	private Set<String> genreList;
+	private Set<String> countryList;
 	
 	@Id
 	@GeneratedValue
@@ -134,7 +135,32 @@ public class Movie {
 	public void setAddedBy(String addedBy) {
 		this.addedBy = addedBy;
 	}
+	
+	@Column(name = "voters")
+	public int getVoters() {
+		return voters;
+	}
 
+	public void setVoters(int voters) {
+		this.voters = voters;
+	}
+	
+	@Column(name = "rating_sum")
+	public int getRatingSum() {
+		return ratingSum;
+	}
+
+	public void setRatingSum(int ratingSum) {
+		this.ratingSum = ratingSum;
+	}
+	
+	@Transient
+	public double getRatingAvg() {
+		ratingAvg = 0.0;
+		if (voters!=0) ratingAvg = ratingSum / voters;
+		return ratingAvg;
+	}
+	
 	@Transient
 	public String getStatusValue() {
 		HashMap<Integer, String> statusValues = new HashMap<Integer, String>();
