@@ -77,6 +77,18 @@
 	<div><input class="buttonForm" type="button" value="Add movie" onclick="location.href='addmovie'" /></div>
 	</c:if>
 	
+	<h4>About movielike</h4>
+	
+	<p>Do you have a list of your favourite movies? Do you want to share this list with the others? 
+	Maybe you also have a list of your most disliked movies? Wouldn't it be fun to create such a list and compare it 
+	with the most disliked movie lists of other people? Very bad movies are fun after all. :)</p>
+	
+	<p>On this website you can create list of your most liked and most disliked movies. 
+	If the movie you want to add to the list is not in our database, you can add it yourself for the benefit of all the users. 
+	You can also review a movie, and simply search and read about movies that interest you.</p>
+	
+	<p>Welcome to movielike!</p>
+	
 	<h4>Latest movies</h4>
 	
 	<table  class="movielist">

@@ -7,8 +7,9 @@
 	<title>Display movie</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="resources/main.css" rel="stylesheet" />
+	<script src="resources/functions.js"></script>
 </head>
-<body>
+<body onload="disableRating(4)">
 
 <div id="wrapper">
 <div id="content">
@@ -20,7 +21,7 @@
 <h2>Movie details</h2>
 
 <div style="display: table; width: 100%;">
-<div style="display: table-cell;"> 
+<div style="display: table-cell; vertical-align: top;"> 
 <p> ${movie}</p> 
 
 <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -38,6 +39,10 @@
 </div>
 
 <div id="moviemeter-box">
+<div style="background: #b2d6ec; width:100%; text-align: center;"><span id="rating">Moviemeter box</span></div>
+<div style="padding: 3px;">
+<p>Average rating: <span id="rating">${movie.ratingAvg}</span><br />
+(${movie.voters} votes)</p>
 <c:if test="${pageContext.request.userPrincipal.name != null}">
 	<form:form method="POST">
 		<input type="hidden" name="add" />
@@ -59,9 +64,16 @@
 	</c:otherwise>
 	</c:choose>
 	</form:form>
-	<p>1 2 3 4 5 6 7 8 9 10</p>
+	<p id="rateMessage">Rate this movie:</p>
+	<form:form method="POST" id="starRating">
+		<input type="hidden" name="rating" />
+		<c:forEach items="${ratingStars}" var="rS">
+			<input type="submit" class="starButtonInactive" id="star-${rS}" value="" onclick="form.rating.value = ${rS}" 
+			onmouseover = "lightTheStar(${rS})" onmouseout = "unlightTheStar(${rS})"/>		
+		</c:forEach>
+	</form:form>
 </c:if>
-</div>
+</div></div>
 
 </div>
 

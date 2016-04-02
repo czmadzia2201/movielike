@@ -2,6 +2,7 @@ package edu.spring.movielike.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -131,8 +132,8 @@ public class MovielikeController {
 	
 	@RequestMapping(value = "/displaymovie")
 	public String displayMovie(@RequestParam(required = true) int id, @RequestParam(required = false) Integer add, 
-			@RequestParam(required = false) Integer remove, ModelMap modelMap, HttpSession session,
-			HttpServletResponse response, HttpServletRequest request) throws IOException {
+			@RequestParam(required = false) Integer remove, @RequestParam(required = false) Integer rating, 
+			ModelMap modelMap, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws IOException {
 		Movie movie = jdbcMovieObject.findMovieByIdWithStatus(id, 1);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		modelMap.addAttribute("isAdmin", request.isUserInRole("admin"));
@@ -144,12 +145,17 @@ public class MovielikeController {
 			modelMap.addAttribute("user", user);
 			modelMap.addAttribute("isMovieFaved", jdbcUserMovieLink.isUserMovieLinked(user, movie, 1));
 			modelMap.addAttribute("isMovieDisfaved", jdbcUserMovieLink.isUserMovieLinked(user, movie, -1));
+			modelMap.addAttribute("ratingStars", Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
 			if (add!=null) {
 				jdbcUserMovieLink.linkUserMovie(user, movie, add);
 				response.sendRedirect(request.getHeader("referer"));
 			}
 			if (remove!=null) {
 				jdbcUserMovieLink.unlinkUserMovie(user, movie, remove);
+				response.sendRedirect(request.getHeader("referer"));
+			}
+			if (rating!=null) {
+				jdbcMovieObject.rateMovie(movie, rating, user.getUsername());
 				response.sendRedirect(request.getHeader("referer"));
 			}
 		}

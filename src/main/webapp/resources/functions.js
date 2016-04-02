@@ -33,3 +33,22 @@ function hide(target) {
 	return false;
 }
 
+function disableRating(userVotes) {
+	if (userVotes > 5) {
+		document.getElementById("starRating").style.display = 'none';
+		document.getElementById("rateMessage").innerHTML = "You have rated this movie."
+	}
+}
+
+function lightTheStar(id) {
+	for (i = 1; i <= id; i++) {
+		document.getElementById("star-"+i).className = "starButtonActive";		
+	}
+}
+
+function unlightTheStar(id) {
+	for (i = 1; i <= id; i++) {
+		document.getElementById("star-"+i).className = "starButtonInactive";		
+	}
+}
+

@@ -8,7 +8,7 @@ p, li, td, span {
 	color: #444;
 }
 
-h1, h2, h4, th {
+h1, h2, h4, th, #rating {
 	font-family: Arial;
 	color: #a68a3d;
 	font-weight: bold;
@@ -23,7 +23,7 @@ h2 {
 	font-size: 18px;
 }
 
-h4 {
+h4, #rating {
 	font-variant: small-caps;
 	font-size: 16px;
 }
@@ -166,10 +166,16 @@ span.checkboxes {
 }
 
 #moviemeter-box {
+	text-align: right;
 	display: table-cell; 
 	vertical-align: top; 
 	float: right;
-	width: 80px;
+	width: 210px;
+	background: #ffe3da;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #a6563d;
+	padding: 3px;
 }
 
 /* ---------------- */
@@ -179,6 +185,29 @@ span.checkboxes {
     border:none;
     width:36px;
     height:24px;
+}
+
+.starButtonInactive {
+	cursor:pointer;
+    border:none;
+    width:16px;
+    height:18px;
+	background:url(ratingstar-inactive.png) no-repeat;
+}
+
+.starButtonActive {
+	cursor:pointer;
+    border:none;
+    width:16px;
+    height:18px;
+	background:url(ratingstar-active.png) no-repeat;
+}
+
+.starButtonDisabled {
+    border:none;
+    width:16px;
+    height:18px;
+	background:url(ratingstar-disabled.png) no-repeat;
 }
 
 #fav-active {

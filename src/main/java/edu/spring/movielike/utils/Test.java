@@ -1,5 +1,7 @@
 package edu.spring.movielike.utils;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -26,18 +28,8 @@ public class Test {
 	static MovieDao<Movie, MovieRejected> jdbcMovieObject = daoFactory.getMovieDao();
 	
 	public static void main(String[] args) {
-		
-//	ArrayList<String> genreList = new ArrayList<String>();
-//	genreList.add("SF");
-//	ArrayList<Movie> movie = jdbcMovieObject.findMoviesAddedBy("czmadzidda", 0);
-	Movie movie = jdbcMovieObject.findMovieById(1);
-	jdbcMovieObject.updateMovieStatus(movie, 1, "");
-//	System.out.println(movie);
-//	Set<String> genreList = movie.getGenreList();
-//	genreList.remove("Action");
-//	movie.setGenreList(genreList);
-	System.out.println(movie);
-//	jdbcMovieObject.updateMovie(movie);
+		Timestamp now = new Timestamp(Calendar.getInstance().getTime().getTime());
+		System.out.println(now);
 	}
 
 }
