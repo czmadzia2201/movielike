@@ -17,6 +17,7 @@
 		<mapping class="edu.spring.movielike.model.User" />
 		<mapping class="edu.spring.movielike.model.Review" />
 		<mapping class="edu.spring.movielike.model.MovieRejected" />
+		<mapping class="edu.spring.movielike.model.UserRating" />
 	</session-factory>
 </hibernate-configuration>
 

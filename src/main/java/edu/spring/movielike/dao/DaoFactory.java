@@ -17,6 +17,7 @@ public class DaoFactory {
 	private DaoType chooseDao = DaoType.JDBCTEMPLATE;
 	ApplicationContext context = new ClassPathXmlApplicationContext("spring-database.xml");
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MovieDao<Movie, MovieRejected> getMovieDao() {
 		MovieDao<Movie, MovieRejected> jdbcMovieObject = null;
 		if (chooseDao==DaoType.HIBERNATE) {
@@ -28,6 +29,7 @@ public class DaoFactory {
 		return jdbcMovieObject;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public UserDao<User> getUserDao() {
 		UserDao<User> jdbcUserObject = null;
 		if (chooseDao==DaoType.HIBERNATE) {
@@ -39,6 +41,7 @@ public class DaoFactory {
 		return jdbcUserObject;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public UserMovieDao<User, Movie> getUserMovieDao() {
 		UserMovieDao<User, Movie> jdbcUserMovieLink = null;
 		if (chooseDao==DaoType.HIBERNATE) {
@@ -50,6 +53,7 @@ public class DaoFactory {
 		return jdbcUserMovieLink;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ReviewDao<Review, Movie, User> getReviewDao() {
 		ReviewDao<Review, Movie, User> jdbcReviewObject = null;
 		if (chooseDao==DaoType.HIBERNATE) {
@@ -59,6 +63,18 @@ public class DaoFactory {
 			jdbcReviewObject = (ReviewDao) context.getBean("reviewDao");		
 		}
 		return jdbcReviewObject;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public UserRatingDao<Movie, User> getUserRatingDao() {
+		UserRatingDao<Movie, User> jdbcUserRatingObject = null;
+		if (chooseDao==DaoType.HIBERNATE) {
+			jdbcUserRatingObject = new JdbcUserRatingDaoH();
+		}
+		if (chooseDao==DaoType.JDBCTEMPLATE) {
+			jdbcUserRatingObject = (UserRatingDao) context.getBean("userRatingDao");
+		}
+		return jdbcUserRatingObject;
 	}
 
 }

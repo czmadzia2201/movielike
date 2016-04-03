@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,10 +32,12 @@ import edu.spring.movielike.dao.MovieDao;
 import edu.spring.movielike.dao.ReviewDao;
 import edu.spring.movielike.dao.UserDao;
 import edu.spring.movielike.dao.UserMovieDao;
+import edu.spring.movielike.dao.UserRatingDao;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 import edu.spring.movielike.model.Review;
 import edu.spring.movielike.model.User;
+import edu.spring.movielike.model.UserRating;
 import edu.spring.movielike.utils.MovieValidator;
 import edu.spring.movielike.utils.UserValidator;
 
@@ -46,6 +49,7 @@ public class MovielikeController {
 	UserDao<User> jdbcUserObject = daoFactory.getUserDao();
 	UserMovieDao<User, Movie> jdbcUserMovieLink = daoFactory.getUserMovieDao();
 	ReviewDao<Review, Movie, User> jdbcReviewObject = daoFactory.getReviewDao();
+	UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
 	MovieDataProvider movieDataProvider = new MovieDataProvider();
 	
 	@Autowired
@@ -142,10 +146,12 @@ public class MovielikeController {
 		session.setAttribute("movieId", movie.getId());
 		if (!auth.getName().equals("anonymousUser")) {
 			User user = jdbcUserObject.findUser(auth.getName());
+			UserRating userRating = jdbcUserRatingObject.getUserRating(movie, user);
 			modelMap.addAttribute("user", user);
 			modelMap.addAttribute("isMovieFaved", jdbcUserMovieLink.isUserMovieLinked(user, movie, 1));
 			modelMap.addAttribute("isMovieDisfaved", jdbcUserMovieLink.isUserMovieLinked(user, movie, -1));
 			modelMap.addAttribute("ratingStars", Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+			modelMap.addAttribute("userRating", userRating);
 			if (add!=null) {
 				jdbcUserMovieLink.linkUserMovie(user, movie, add);
 				response.sendRedirect(request.getHeader("referer"));
@@ -155,7 +161,8 @@ public class MovielikeController {
 				response.sendRedirect(request.getHeader("referer"));
 			}
 			if (rating!=null) {
-				jdbcMovieObject.rateMovie(movie, rating, user.getUsername());
+				jdbcMovieObject.rateMovie(movie, rating);
+				jdbcUserRatingObject.submitVote(movie, user, rating);
 				response.sendRedirect(request.getHeader("referer"));
 			}
 		}

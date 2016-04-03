@@ -9,7 +9,7 @@
 	<link href="resources/main.css" rel="stylesheet" />
 	<script src="resources/functions.js"></script>
 </head>
-<body onload="disableRating(4)">
+<body onload="disableRating(${userRating.votes}, ${userRating.hourDiff})">
 
 <div id="wrapper">
 <div id="content">
@@ -41,9 +41,9 @@
 <div id="moviemeter-box">
 <div style="background: #b2d6ec; width:100%; text-align: center;"><span id="rating">Moviemeter box</span></div>
 <div style="padding: 3px;">
-<p>Average rating: <span id="rating">${movie.ratingAvg}</span><br />
-(${movie.voters} votes)</p>
+<p>Average rating: <span id="rating">${movie.ratingAvg}</span><br />(${movie.voters} votes)</p>
 <c:if test="${pageContext.request.userPrincipal.name != null}">
+	<p>Your rating: <span id="rating">${userRating.ratingAvg}</span><br />(${userRating.votes} votes)</p>	
 	<form:form method="POST">
 		<input type="hidden" name="add" />
 		<input type="hidden" name="remove" />
@@ -88,18 +88,18 @@
 		      	<div class="reviewHeader"><p>by <a href="displayuser?username=${review.author}"><b>${review.author}</b></a></p></div>
 		      	<div class="reviewContent"><span>${review.content}</span>
 			  	<c:if test="${pageContext.request.userPrincipal.name == review.author || isAdmin == true}">
-		      	<div>
-		    	<c:if test="${pageContext.request.userPrincipal.name == review.author}">
-		    	<form:form method="POST" action="editreview" class="buttonForm">
-		    	<input type="hidden" name="reviewId" value="${review.id}" />
-		    	<input type="submit" value="Edit review" />
-		    	</form:form>
-		    	</c:if>
-		    	<form:form method="POST" action="submitdeletereview" class="buttonForm">
-		    	<input type="hidden" name="reviewId" value="${review.id}" />
-		    	<input type="submit" value="Delete review" onclick="return confirm('Are you sure you want to delete this review?')" />
-		    	</form:form>
-		    	</div>
+		      		<div>
+		    		<c:if test="${pageContext.request.userPrincipal.name == review.author}">
+		    			<form:form method="POST" action="editreview" class="buttonForm">
+		    			<input type="hidden" name="reviewId" value="${review.id}" />
+		    			<input type="submit" value="Edit review" />
+		    			</form:form>
+		    		</c:if>
+		    		<form:form method="POST" action="submitdeletereview" class="buttonForm">
+		    		<input type="hidden" name="reviewId" value="${review.id}" />
+		    		<input type="submit" value="Delete review" onclick="return confirm('Are you sure you want to delete this review?')" />
+		    		</form:form>
+		    		</div>
 		    	</c:if>
 				</div>	
 		  </c:forEach>

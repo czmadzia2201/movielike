@@ -33,8 +33,8 @@ function hide(target) {
 	return false;
 }
 
-function disableRating(userVotes) {
-	if (userVotes > 5) {
+function disableRating(userVotes, timeDiff) {
+	if (userVotes > 5 || timeDiff < 24) {
 		document.getElementById("starRating").style.display = 'none';
 		document.getElementById("rateMessage").innerHTML = "You have rated this movie."
 	}

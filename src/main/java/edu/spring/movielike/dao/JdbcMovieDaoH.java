@@ -148,7 +148,7 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.closeCurrentSessionwithTransaction();
 	}
 	
-	public void rateMovie(Movie movie, int rating, String username) {
+	public void rateMovie(Movie movie, int rating) {
 		Session session = connectionHandler.openCurrentSessionwithTransaction();
 		String sql = String.format("UPDATE movie SET voters = %s, rating_sum = %s WHERE id = %s", 
 			movie.getVoters()+1, movie.getRatingSum()+rating, movie.getId());

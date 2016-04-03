@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.context.ApplicationContext;
@@ -17,19 +18,30 @@ import edu.spring.movielike.dao.JdbcUserDaoH;
 import edu.spring.movielike.dao.JdbcUserMovieDaoH;
 import edu.spring.movielike.dao.MovieDao;
 import edu.spring.movielike.dao.ReviewDao;
+import edu.spring.movielike.dao.UserDao;
+import edu.spring.movielike.dao.UserRatingDao;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 import edu.spring.movielike.model.Review;
 import edu.spring.movielike.model.User;
+import edu.spring.movielike.model.UserRating;
 
 public class Test {
 
 	static DaoFactory daoFactory = new DaoFactory();
 	static MovieDao<Movie, MovieRejected> jdbcMovieObject = daoFactory.getMovieDao();
+	static UserDao<User> jdbcUserObject = daoFactory.getUserDao();
+	static UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
 	
 	public static void main(String[] args) {
-		Timestamp now = new Timestamp(Calendar.getInstance().getTime().getTime());
-		System.out.println(now);
+		User user = jdbcUserObject.findUser("czmadzia");
+		Movie movie = jdbcMovieObject.findMovieById(1);
+		UserRating userRating = jdbcUserRatingObject.getUserRating(movie, user);
+		System.out.println(userRating.getVotes());
+		System.out.println(userRating.getRatingSum());
+		System.out.println(userRating.getRatingAvg());
+		System.out.println(userRating.getLastRated());
+		System.out.println(userRating.getHourDiff());
 	}
 
 }
