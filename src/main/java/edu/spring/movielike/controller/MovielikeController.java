@@ -115,6 +115,7 @@ public class MovielikeController {
 		countryList.addAll(movieDataProvider.getCountryListOther());
 		modelMap.addAttribute("countryList", countryList);
 		modelMap.addAttribute("latestMovies", jdbcMovieObject.findLatest());
+		modelMap.addAttribute("mostPopular", jdbcMovieObject.findMostPopular());
 		if (searchCriteria!=null) {
 			modelMap.addAttribute("searchCriteria", searchCriteria);
 		}

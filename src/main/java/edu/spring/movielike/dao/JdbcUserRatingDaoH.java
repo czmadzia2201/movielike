@@ -14,7 +14,7 @@ public class JdbcUserRatingDaoH implements UserRatingDao<Movie, User> {
 
 	private ConnectionHandler connectionHandler = ConnectionHandler.getInstance();
 
-	Timestamp now = new Timestamp(Calendar.getInstance().getTime().getTime());
+	private Timestamp now = new Timestamp(Calendar.getInstance().getTime().getTime());
 
 	public void submitVote(Movie movie, User user, int rating) {
 		UserRating userRating = getUserRating(movie, user);

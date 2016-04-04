@@ -150,10 +150,23 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 	
 	public void rateMovie(Movie movie, int rating) {
 		Session session = connectionHandler.openCurrentSessionwithTransaction();
-		String sql = String.format("UPDATE movie SET voters = %s, rating_sum = %s WHERE id = %s", 
-			movie.getVoters()+1, movie.getRatingSum()+rating, movie.getId());
+		int ratingSum = movie.getRatingSum()+rating;
+		int voters = movie.getVoters()+1;
+		double ratingAvg = (double)ratingSum/voters;
+		String sql = String.format("UPDATE movie SET voters = %s, rating_sum = %s, "
+				+ "rating_avg = %s WHERE id = %s", voters, ratingSum, ratingAvg, movie.getId());
 		session.createSQLQuery(sql).executeUpdate();
 		connectionHandler.closeCurrentSessionwithTransaction();
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Movie> findMostPopular() {
+		connectionHandler.openCurrentSession();
+		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
+		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq("status", 1))
+				.add(Restrictions.gt("ratingAvgNum", 7.0)).addOrder(Order.desc("ratingSum")).setMaxResults(10).list();
+		connectionHandler.closeCurrentSession();		
+		return movieList;
 	}
 	
 }

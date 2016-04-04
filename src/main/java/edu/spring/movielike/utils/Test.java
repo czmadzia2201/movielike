@@ -34,14 +34,9 @@ public class Test {
 	static UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
 	
 	public static void main(String[] args) {
-		User user = jdbcUserObject.findUser("czmadzia");
-		Movie movie = jdbcMovieObject.findMovieById(1);
-		UserRating userRating = jdbcUserRatingObject.getUserRating(movie, user);
-		System.out.println(userRating.getVotes());
-		System.out.println(userRating.getRatingSum());
-		System.out.println(userRating.getRatingAvg());
-		System.out.println(userRating.getLastRated());
-		System.out.println(userRating.getHourDiff());
+//		Movie movie = jdbcMovieObject.findMovieById(19);
+		ArrayList<Movie> movieList = jdbcMovieObject.findMostPopular();
+		System.out.println(movieList);
 	}
 
 }

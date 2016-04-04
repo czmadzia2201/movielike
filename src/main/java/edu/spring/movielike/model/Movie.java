@@ -1,7 +1,5 @@
 package edu.spring.movielike.model;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -20,6 +18,7 @@ import javax.persistence.Transient;
 public class Movie {
 	private String title, director, leadActors, description, addedBy, genreOther, countryOther;
 	private int id, year, status, voters, ratingSum;
+	private double ratingAvgNum;
 	private Set<String> genreList;
 	private Set<String> countryList;
 	
@@ -155,13 +154,20 @@ public class Movie {
 		this.ratingSum = ratingSum;
 	}
 	
+	@Column(name = "rating_avg")
+	public double getRatingAvgNum() {
+		return ratingAvgNum;
+	}
+
+	public void setRatingAvgNum(double ratingAvgNum) {
+		this.ratingAvgNum = ratingAvgNum;
+	}
+	
 	@Transient
 	public String getRatingAvg() {
-		DecimalFormat df = new DecimalFormat("#.#");
-		df.setRoundingMode(RoundingMode.CEILING);
 		String ratingAvg = "–.–";
 		if (voters!=0) {
-			ratingAvg = df.format((double)ratingSum / voters);
+			ratingAvg = Double.toString(ratingAvgNum);
 		}
 		return ratingAvg;
 	}

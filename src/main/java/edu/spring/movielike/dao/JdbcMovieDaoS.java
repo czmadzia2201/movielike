@@ -1,8 +1,6 @@
 package edu.spring.movielike.dao;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.sql.Timestamp;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
@@ -158,8 +156,19 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	}
 	
 	public void rateMovie(Movie movie, int rating) {
-		String sql = "UPDATE movie SET voters = ?, rating_sum = ? WHERE id = ?";
-		getJdbcTemplate().update(sql, new Object[] {movie.getVoters()+1, movie.getRatingSum()+rating, movie.getId()});			
+		String sql = "UPDATE movie SET voters = ?, rating_sum = ?, rating_avg = ? WHERE id = ?";
+		int ratingSum = movie.getRatingSum()+rating;
+		int voters = movie.getVoters()+1;
+		double ratingAvg = (double)ratingSum/voters;
+		getJdbcTemplate().update(sql, new Object[] {voters, ratingSum, ratingAvg, movie.getId()});			
+	}
+
+	public ArrayList<Movie> findMostPopular() {
+		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
+				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id "
+				+ "WHERE m.status = 1 AND m.rating_avg > 7.0 ORDER BY rating_sum DESC LIMIT 10";
+		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, new MovieListExtractor());
+		return movieList;
 	}
 	
 }

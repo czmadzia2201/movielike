@@ -8,6 +8,7 @@ public interface MovieDao<M, MR> {
 	public ArrayList<M> findAllMoviesByProperty(String searchCriteria, Object criteriaValue);
 	public ArrayList<M> findAllMovies(int status);
 	public ArrayList<M> findLatest();
+	public ArrayList<M> findMostPopular();
 	public M findMovieById(int id);
 	public M findMovieByIdWithStatus(int id, int status);
 	public MR findRejectedMovieById(int id);
