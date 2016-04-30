@@ -1,4 +1,4 @@
-package edu.spring.movielike.dao;
+package edu.spring.movielike.dao.springImpl;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import edu.spring.movielike.dao.UserRatingDao;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.User;
 import edu.spring.movielike.model.UserRating;

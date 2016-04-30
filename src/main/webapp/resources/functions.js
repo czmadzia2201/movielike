@@ -52,3 +52,38 @@ function unlightTheStar(id) {
 	}
 }
 
+// Dynamically add fields of actors and directors
+
+function addFields(childElementId, parentElementId, counterStart, counter) {
+    var oClone = document.getElementById(childElementId + counterStart).cloneNode(false);
+    var clonedId = childElementId + counter + "";
+    oClone.id = clonedId;
+    document.getElementById(parentElementId).appendChild(oClone);
+    document.getElementById(clonedId).value = "";	    	
+}
+
+function addFieldsActors(counterStart) {
+	counterActors++;
+	addFields('listOfActors', 'addActors', counterStart, counterActors);
+}
+
+function addFieldsDirectors(counterStart) {
+	counterDirectors++;
+	addFields('listOfDirectors', 'addDirectors', counterStart, counterDirectors);
+}	    
+
+// jQuery autocomplete
+
+$(function() {
+		$("*[id^=listOfDirectors]").autocomplete({source: directorList});
+		$("*[id^=listOfActors]").autocomplete({source: actorList});
+    $("#addFieldsForDirectors").click(function(){
+    	addFieldsDirectors(1);
+   		$("*[id^=listOfDirectors]").autocomplete({source: directorList});
+    });
+    $("#addFieldsForActors").click(function(){
+    	addFieldsActors(3);
+   		$("*[id^=listOfActors]").autocomplete({source: actorList});
+    });
+});
+

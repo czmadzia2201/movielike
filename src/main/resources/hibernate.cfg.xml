@@ -18,6 +18,7 @@
 		<mapping class="edu.spring.movielike.model.Review" />
 		<mapping class="edu.spring.movielike.model.MovieRejected" />
 		<mapping class="edu.spring.movielike.model.UserRating" />
+		<mapping class="edu.spring.movielike.model.Celebrity" />
 	</session-factory>
 </hibernate-configuration>
 

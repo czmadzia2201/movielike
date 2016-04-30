@@ -12,14 +12,17 @@ import java.util.Set;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import edu.spring.movielike.dao.CelebrityDao;
 import edu.spring.movielike.dao.DaoFactory;
-import edu.spring.movielike.dao.JdbcMovieDaoH;
-import edu.spring.movielike.dao.JdbcUserDaoH;
-import edu.spring.movielike.dao.JdbcUserMovieDaoH;
 import edu.spring.movielike.dao.MovieDao;
 import edu.spring.movielike.dao.ReviewDao;
 import edu.spring.movielike.dao.UserDao;
 import edu.spring.movielike.dao.UserRatingDao;
+import edu.spring.movielike.dao.hibernateImpl.JdbcMovieDaoH;
+import edu.spring.movielike.dao.hibernateImpl.JdbcUserDaoH;
+import edu.spring.movielike.dao.hibernateImpl.JdbcUserMovieDaoH;
+import edu.spring.movielike.dataproviders.CelebrityRole;
+import edu.spring.movielike.model.Celebrity;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 import edu.spring.movielike.model.Review;
@@ -34,9 +37,9 @@ public class Test {
 	static UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
 	
 	public static void main(String[] args) {
-//		Movie movie = jdbcMovieObject.findMovieById(19);
-		ArrayList<Movie> movieList = jdbcMovieObject.findMostPopular();
-		System.out.println(movieList);
+		Movie movie = jdbcMovieObject.findMovieById(31);
+		System.out.println(movie);
+		System.out.println(movie.getRatingAvgNum());
 	}
 
 }

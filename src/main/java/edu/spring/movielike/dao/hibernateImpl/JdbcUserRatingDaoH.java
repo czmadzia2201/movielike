@@ -1,4 +1,4 @@
-package edu.spring.movielike.dao;
+package edu.spring.movielike.dao.hibernateImpl;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import edu.spring.movielike.dao.ConnectionHandler;
+import edu.spring.movielike.dao.UserRatingDao;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.User;
 import edu.spring.movielike.model.UserRating;

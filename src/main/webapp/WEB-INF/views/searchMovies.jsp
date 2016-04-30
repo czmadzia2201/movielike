@@ -8,11 +8,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="resources/main.css" rel="stylesheet" />
 	<script src="resources/functions.js"></script>
+	<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script type="text/javascript">
 		var emptyValue = "${emptyValue}";
-		var formatError = "${formatError}";	
-	</script>
-			
+		var formatError = "${formatError}";
+    </script>			
 </head>
 <body>
 
@@ -34,6 +36,7 @@
 		<option value="title" ${searchCriteria == "title" ? "selected":""}>Title</option>
 		<option value="genreList" ${searchCriteria == "genreList" ? "selected":""}>Genre</option>
 		<option value="director" ${searchCriteria == "director" ? "selected":""}>Director</option>
+		<option value="leadActors" ${searchCriteria == "leadActors" ? "selected":""}>Lead actors</option>
 		<option value="countryList" ${searchCriteria == "countryList" ? "selected":""}>Country</option>
 		<option value="year" ${searchCriteria == "year" ? "selected":""}>Year</option>
 	</select>
@@ -52,7 +55,7 @@
 		<c:forEach items="${genreList}" var="genre">
 		<option value="${genre}">${genre}</option>
 		</c:forEach>
-	</select>
+	</select> 
 	</c:when>
 	<c:when test="${searchCriteria == 'countryList'}">
 	<select name="criteriaValue" style="width:97%">
@@ -61,6 +64,20 @@
 		<option value="${country}">${country}</option>
 		</c:forEach>
 	</select>
+	</c:when>
+	<c:when test="${searchCriteria == 'director'}">
+         <input id="listOfDirectors" style="width:97%">
+         <script type="text/javascript">
+     		var directorList = ${directors};
+        	$("#listOfDirectors").autocomplete({source: directorList});
+         </script>
+	</c:when>
+	<c:when test="${searchCriteria == 'leadActors'}">
+         <input id="listOfActors" style="width:97%">
+         <script type="text/javascript">
+  			var actorList = ${actors};
+        	$("#listOfActors").autocomplete({source: actorList});
+         </script>
 	</c:when>
 	<c:otherwise>
 		<input type="text" name="criteriaValue" style="width:95%" />	

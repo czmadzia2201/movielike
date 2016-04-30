@@ -1,10 +1,11 @@
-package edu.spring.movielike.dao;
+package edu.spring.movielike.dao.springImpl;
 
 import java.util.ArrayList;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import edu.spring.movielike.dao.UserMovieDao;
 import edu.spring.movielike.dao.extractor.MovieListExtractor;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.User;

@@ -1,10 +1,12 @@
-package edu.spring.movielike.dao;
+package edu.spring.movielike.dao.hibernateImpl;
 
 import java.util.ArrayList;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 
+import edu.spring.movielike.dao.ConnectionHandler;
+import edu.spring.movielike.dao.UserDao;
 import edu.spring.movielike.model.User;
 
 public class JdbcUserDaoH implements UserDao<User> {

@@ -3,6 +3,14 @@ package edu.spring.movielike.dao;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import edu.spring.movielike.dao.hibernateImpl.JdbcCelebrityDaoH;
+import edu.spring.movielike.dao.hibernateImpl.JdbcMovieDaoH;
+import edu.spring.movielike.dao.hibernateImpl.JdbcReviewDaoH;
+import edu.spring.movielike.dao.hibernateImpl.JdbcUserDaoH;
+import edu.spring.movielike.dao.hibernateImpl.JdbcUserMovieDaoH;
+import edu.spring.movielike.dao.hibernateImpl.JdbcUserRatingDaoH;
+import edu.spring.movielike.dataproviders.CelebrityRole;
+import edu.spring.movielike.model.Celebrity;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 import edu.spring.movielike.model.Review;
@@ -10,7 +18,7 @@ import edu.spring.movielike.model.User;
 
 public class DaoFactory {
 	
-	public enum DaoType {
+	private enum DaoType {
 		HIBERNATE, JDBCTEMPLATE
 	}
 	
@@ -75,6 +83,18 @@ public class DaoFactory {
 			jdbcUserRatingObject = (UserRatingDao) context.getBean("userRatingDao");
 		}
 		return jdbcUserRatingObject;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public CelebrityDao<Celebrity, CelebrityRole> getCelebrityDao() {
+		CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = null;
+		if (chooseDao==DaoType.HIBERNATE) {
+			jdbcCelebrityObject = new JdbcCelebrityDaoH();
+		}
+		if (chooseDao==DaoType.JDBCTEMPLATE) {
+			jdbcCelebrityObject = (CelebrityDao) context.getBean("celebrityDao");
+		}
+		return jdbcCelebrityObject;
 	}
 
 }

@@ -1,4 +1,4 @@
-package edu.spring.movielike.controller;
+package edu.spring.movielike.dataproviders;
 
 import java.util.Arrays;
 import java.util.List;

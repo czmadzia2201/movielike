@@ -1,4 +1,4 @@
-package edu.spring.movielike.dao;
+package edu.spring.movielike.dao.hibernateImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
+import edu.spring.movielike.dao.ConnectionHandler;
+import edu.spring.movielike.dao.ReviewDao;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.Review;
 import edu.spring.movielike.model.User;

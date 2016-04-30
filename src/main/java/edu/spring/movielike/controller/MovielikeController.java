@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,12 +26,16 @@ import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import edu.spring.movielike.dao.CelebrityDao;
 import edu.spring.movielike.dao.DaoFactory;
 import edu.spring.movielike.dao.MovieDao;
 import edu.spring.movielike.dao.ReviewDao;
 import edu.spring.movielike.dao.UserDao;
 import edu.spring.movielike.dao.UserMovieDao;
 import edu.spring.movielike.dao.UserRatingDao;
+import edu.spring.movielike.dataproviders.CelebrityRole;
+import edu.spring.movielike.dataproviders.MovieDataProvider;
+import edu.spring.movielike.model.Celebrity;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 import edu.spring.movielike.model.Review;
@@ -50,6 +53,7 @@ public class MovielikeController {
 	UserMovieDao<User, Movie> jdbcUserMovieLink = daoFactory.getUserMovieDao();
 	ReviewDao<Review, Movie, User> jdbcReviewObject = daoFactory.getReviewDao();
 	UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
+	CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = daoFactory.getCelebrityDao();
 	MovieDataProvider movieDataProvider = new MovieDataProvider();
 	
 	@Autowired
@@ -114,6 +118,8 @@ public class MovielikeController {
 		List<String> countryList = new ArrayList<String>(movieDataProvider.getCountryListMain());
 		countryList.addAll(movieDataProvider.getCountryListOther());
 		modelMap.addAttribute("countryList", countryList);
+		modelMap.addAttribute("actors", CelebrityRole.getCelebrityList(CelebrityRole.ACTOR));		
+		modelMap.addAttribute("directors", CelebrityRole.getCelebrityList(CelebrityRole.DIRECTOR));
 		modelMap.addAttribute("latestMovies", jdbcMovieObject.findLatest());
 		modelMap.addAttribute("mostPopular", jdbcMovieObject.findMostPopular());
 		if (searchCriteria!=null) {
@@ -246,9 +252,7 @@ public class MovielikeController {
 	public String addMovie(ModelMap modelMap, HttpServletRequest request, HttpSession session) {
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = new Movie();
-		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
-		modelMap.addAttribute("countryListMain", movieDataProvider.getCountryListMain());		
-		modelMap.addAttribute("countryListOther", movieDataProvider.getCountryListOther());		
+		feedModelMap(modelMap);
 		modelMap.addAttribute("movie", movie);
 		return "addMovie"; 
 	}
@@ -256,9 +260,7 @@ public class MovielikeController {
 	@RequestMapping(value = "/addmovie", method = RequestMethod.POST)
 	public String submitAddMovie(@ModelAttribute("movie") Movie movie, 
 			BindingResult result, ModelMap modelMap, HttpSession session) {
-		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
-		modelMap.addAttribute("countryListMain", movieDataProvider.getCountryListMain());		
-		modelMap.addAttribute("countryListOther", movieDataProvider.getCountryListOther());		
+		feedModelMap(modelMap);
 		movieValidator.validate(movie, result);
 		if (result.hasErrors()) {
 			return "addMovie";
@@ -287,9 +289,7 @@ public class MovielikeController {
 		Integer movieId = (Integer) session.getAttribute("movieId");
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = jdbcMovieObject.findMovieById(movieId);
-		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());	
-		modelMap.addAttribute("countryListMain", movieDataProvider.getCountryListMain());		
-		modelMap.addAttribute("countryListOther", movieDataProvider.getCountryListOther());		
+		feedModelMap(modelMap);
 		modelMap.addAttribute("movie", movie);
 		return "editMovie";
 	}
@@ -297,9 +297,7 @@ public class MovielikeController {
 	@RequestMapping(value = "/editmovie", method = RequestMethod.POST)
 	public String submitEditMovie(@ModelAttribute("movie") Movie movie, 
 			BindingResult result, ModelMap modelMap, HttpSession session) {
-		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
-		modelMap.addAttribute("countryListMain", movieDataProvider.getCountryListMain());		
-		modelMap.addAttribute("countryListOther", movieDataProvider.getCountryListOther());		
+		feedModelMap(modelMap);
 		movieValidator.validate(movie, result);
 		if (result.hasErrors()) {
 			return "editMovie";
@@ -328,6 +326,14 @@ public class MovielikeController {
 		return "movieDeleted";		
 	}	
 
+	private void feedModelMap(ModelMap modelMap) {
+		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
+		modelMap.addAttribute("countryListMain", movieDataProvider.getCountryListMain());		
+		modelMap.addAttribute("countryListOther", movieDataProvider.getCountryListOther());		
+		modelMap.addAttribute("actors", CelebrityRole.getCelebrityList(CelebrityRole.ACTOR));		
+		modelMap.addAttribute("directors", CelebrityRole.getCelebrityList(CelebrityRole.DIRECTOR));				
+	}
+	
 	// ------------- USER -------------	
 	
 	@RequestMapping(value = "/userindex")

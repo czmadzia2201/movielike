@@ -154,7 +154,7 @@ public class Movie {
 		this.ratingSum = ratingSum;
 	}
 	
-	@Column(name = "rating_avg")
+	@Column(name = "rating_avg_num")
 	public double getRatingAvgNum() {
 		return ratingAvgNum;
 	}

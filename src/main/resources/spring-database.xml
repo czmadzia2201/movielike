@@ -3,23 +3,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="movieDao" class="edu.spring.movielike.dao.JdbcMovieDaoS">
+	<bean id="movieDao" class="edu.spring.movielike.dao.springImpl.JdbcMovieDaoS">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<bean id="userDao" class="edu.spring.movielike.dao.JdbcUserDaoS">
+	<bean id="userDao" class="edu.spring.movielike.dao.springImpl.JdbcUserDaoS">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<bean id="userMovieDao" class="edu.spring.movielike.dao.JdbcUserMovieDaoS">
+	<bean id="userMovieDao" class="edu.spring.movielike.dao.springImpl.JdbcUserMovieDaoS">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<bean id="reviewDao" class="edu.spring.movielike.dao.JdbcReviewDaoS">
+	<bean id="reviewDao" class="edu.spring.movielike.dao.springImpl.JdbcReviewDaoS">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<bean id="userRatingDao" class="edu.spring.movielike.dao.JdbcUserRatingDaoS">
+	<bean id="userRatingDao" class="edu.spring.movielike.dao.springImpl.JdbcUserRatingDaoS">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="celebrityDao" class="edu.spring.movielike.dao.springImpl.JdbcCelebrityDaoS">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	

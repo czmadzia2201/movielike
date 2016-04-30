@@ -1,10 +1,11 @@
-package edu.spring.movielike.dao;
+package edu.spring.movielike.dao.springImpl;
 
 import java.util.ArrayList;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import edu.spring.movielike.dao.UserDao;
 import edu.spring.movielike.model.User;
 
 public class JdbcUserDaoS extends JdbcDaoSupport implements UserDao<User> {

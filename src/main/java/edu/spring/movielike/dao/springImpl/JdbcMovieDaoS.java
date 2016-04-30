@@ -1,9 +1,10 @@
-package edu.spring.movielike.dao;
+package edu.spring.movielike.dao.springImpl;
 
 import java.util.ArrayList;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import edu.spring.movielike.dao.MovieDao;
 import edu.spring.movielike.dao.extractor.MovieExtractor;
 import edu.spring.movielike.dao.extractor.MovieListExtractor;
 import edu.spring.movielike.dao.extractor.MovieRejectedExtractor;
@@ -156,7 +157,7 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	}
 	
 	public void rateMovie(Movie movie, int rating) {
-		String sql = "UPDATE movie SET voters = ?, rating_sum = ?, rating_avg = ? WHERE id = ?";
+		String sql = "UPDATE movie SET voters = ?, rating_sum = ?, rating_avg_num = ? WHERE id = ?";
 		int ratingSum = movie.getRatingSum()+rating;
 		int voters = movie.getVoters()+1;
 		double ratingAvg = (double)ratingSum/voters;
@@ -166,7 +167,7 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	public ArrayList<Movie> findMostPopular() {
 		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
 				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id "
-				+ "WHERE m.status = 1 AND m.rating_avg > 7.0 ORDER BY rating_sum DESC LIMIT 10";
+				+ "WHERE m.status = 1 AND m.rating_avg_num > 7.0 ORDER BY rating_sum DESC LIMIT 10";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, new MovieListExtractor());
 		return movieList;
 	}

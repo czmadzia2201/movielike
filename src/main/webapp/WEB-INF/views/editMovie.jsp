@@ -7,7 +7,16 @@
 	<title>Edit movie</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="resources/main.css" rel="stylesheet" />
+	<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script src="resources/functions.js"></script>
+    <script type="text/javascript">
+	    var counterActors = 3;
+	    var counterDirectors = 1;
+		var directorList = ${directors};
+		var actorList = ${actors};
+	</script>
 </head>
 <body>
 
@@ -27,10 +36,17 @@
 <td><form:input path="title" /><form:errors path="title" class="error" /></td>
 </tr><tr>
 <td>Director: </td>
-<td><form:input path="director" /></td>
+<td><span id="addDirectors"><form:input path="director" id="listOfDirectors1" style="margin-right:4px;" /></span>
+	<input type="button" id="addFieldsForDirectors" value="More" />
+</td>
 </tr><tr>
 <td>Lead actors: </td>
-<td><form:input path="leadActors" /></td>
+<td><span id="addActors">
+	<form:input path="leadActors" id="listOfActors1" />
+	<form:input path="leadActors" id="listOfActors2" />
+	<form:input path="leadActors" id="listOfActors3" style="margin-right:4px;" /></span> 
+	<input type="button" id="addFieldsForActors" value="More" />
+</td>
 </tr><tr>
 <td>Genre: </td>
 <td><div><form:checkboxes items="${genreList}" path="genreList" element="span class='checkboxes'" />

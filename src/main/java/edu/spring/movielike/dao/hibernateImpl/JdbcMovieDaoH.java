@@ -1,4 +1,4 @@
-package edu.spring.movielike.dao;
+package edu.spring.movielike.dao.hibernateImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import edu.spring.movielike.dao.ConnectionHandler;
+import edu.spring.movielike.dao.MovieDao;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 
@@ -154,7 +156,7 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		int voters = movie.getVoters()+1;
 		double ratingAvg = (double)ratingSum/voters;
 		String sql = String.format("UPDATE movie SET voters = %s, rating_sum = %s, "
-				+ "rating_avg = %s WHERE id = %s", voters, ratingSum, ratingAvg, movie.getId());
+				+ "rating_avg_num = %s WHERE id = %s", voters, ratingSum, ratingAvg, movie.getId());
 		session.createSQLQuery(sql).executeUpdate();
 		connectionHandler.closeCurrentSessionwithTransaction();
 	}
