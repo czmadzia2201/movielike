@@ -56,9 +56,9 @@ response.setHeader("Pragma", "no-cache");
 		  <c:forEach items="${favedMovielist}" var="movie">
 		    <tr>
 		      <td>${movie.title}</td>
-		      <td>${movie.director}</td>
+		      <td>${movie.directorString}</td>
 		      <td>${movie.genreString}</td>
-		      <td>${movie.leadActors}</td>
+		      <td>${movie.leadActorsString}</td>
 		      <td>${movie.countryString}</td>
 		      <td>${movie.year}</td>
  		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
@@ -81,9 +81,9 @@ response.setHeader("Pragma", "no-cache");
 		  <c:forEach items="${disfavedMovielist}" var="movie">
 		    <tr>
 		      <td>${movie.title}</td>
-		      <td>${movie.director}</td>
+		      <td>${movie.directorString}</td>
 		      <td>${movie.genreString}</td>
-		      <td>${movie.leadActors}</td>
+		      <td>${movie.leadActorsString}</td>
 		      <td>${movie.countryString}</td>
 		      <td>${movie.year}</td>
  		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
@@ -106,9 +106,9 @@ response.setHeader("Pragma", "no-cache");
 		  <c:forEach items="${addedMovies}" var="movie">
 		    <tr>
 		      <td>${movie.title}</td>
-		      <td>${movie.director}</td>
+		      <td>${movie.directorString}</td>
 		      <td>${movie.genreString}</td>
-		      <td>${movie.leadActors}</td>
+		      <td>${movie.leadActorsString}</td>
 		      <td>${movie.countryString}</td>
 		      <td>${movie.year}</td>
  		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>

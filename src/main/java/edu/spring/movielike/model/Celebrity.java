@@ -1,12 +1,14 @@
 package edu.spring.movielike.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "celebrity")
@@ -15,6 +17,8 @@ public class Celebrity {
 	private int id; 
 	private String name;
 	private boolean isDirector, isActor, isScriptwriter;
+	private Set<Movie> moviesActed;
+	private Set<Movie> moviesDirected;
 
 	@Id
 	@GeneratedValue
@@ -63,6 +67,64 @@ public class Celebrity {
 		this.isScriptwriter = isScriptwriter;
 	}
 	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "leadActors")
+	public Set<Movie> getMoviesActed() {
+		return moviesActed;
+	}
+
+	public void setMoviesActed(Set<Movie> moviesActed) {
+		this.moviesActed = moviesActed;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "directors")
+	public Set<Movie> getMoviesDirected() {
+		return moviesDirected;
+	}
+
+	public void setMoviesDirected(Set<Movie> moviesDirected) {
+		this.moviesDirected = moviesDirected;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + (isActor ? 1231 : 1237);
+		result = prime * result + (isDirector ? 1231 : 1237);
+		result = prime * result + (isScriptwriter ? 1231 : 1237);
+		result = prime * result + ((moviesActed == null) ? 0 : moviesActed.hashCode());
+		result = prime * result + ((moviesDirected == null) ? 0 : moviesDirected.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		Celebrity other = (Celebrity) obj;
+		if (id != other.id) return false;
+		if (isActor != other.isActor) return false;
+		if (isDirector != other.isDirector) return false;
+		if (isScriptwriter != other.isScriptwriter) return false;
+		if (moviesActed == null) {
+			if (other.moviesActed != null) return false;
+		} else if (!moviesActed.equals(other.moviesActed))
+			return false;
+		if (moviesDirected == null) {
+			if (other.moviesDirected != null) return false;
+		} else if (!moviesDirected.equals(other.moviesDirected))
+			return false;
+		if (name == null) {
+			if (other.name != null) return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
 	public String toString() {
 		return name;
 	}

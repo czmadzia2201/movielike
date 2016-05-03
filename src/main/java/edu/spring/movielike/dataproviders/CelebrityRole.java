@@ -14,7 +14,7 @@ public enum CelebrityRole {
 	private static CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = daoFactory.getCelebrityDao();
 
 	public static ArrayList<String> getCelebrityList(CelebrityRole role) {
-		ArrayList<Celebrity> celebrities = jdbcCelebrityObject.findAllByRole(role);
+		ArrayList<Celebrity> celebrities = jdbcCelebrityObject.findAllCelebritiesByRole(role);
 		ArrayList<String> celebritiesNames = new ArrayList<String>();
 		for (Celebrity celebrity : celebrities) {
 			celebritiesNames.add('"' + celebrity.toString() + '"');

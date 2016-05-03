@@ -14,10 +14,17 @@ import edu.spring.movielike.model.MovieRejected;
 
 public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, MovieRejected> {
 	
+	private static final String JOIN_FOR_MOVIE = "LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
+			+ "LEFT JOIN movie_country mc ON m.id = mc.movie_id "
+			+ "LEFT JOIN movie_director md ON m.id = md.movie_id "
+			+ "LEFT JOIN movie_leadactors mla ON m.id = mla.movie_id ";
+	private static final String SELECT_MOVIE = "SELECT * FROM movie AS m " + JOIN_FOR_MOVIE;
+	private static final String SELECT_MOVIE_REJECTED = "SELECT * FROM movie_rejected AS m " + JOIN_FOR_MOVIE;
+	
 	public Integer persistMovie(Movie movie) { 
 		String sql1 = "INSERT INTO movie (title, director, lead_actors, year, description, genre_other, "
 				+ "country_other, added_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirector(), movie.getLeadActors(), 
+		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirectors(), movie.getLeadActors(), 
 			movie.getYear(), movie.getDescription(), movie.getGenreOther(), movie.getCountryOther(), movie.getAddedBy()});
 		String sql2 = "SELECT id FROM movie WHERE title = ? AND year = ? AND added_by = ?";
 		Integer movieId = getJdbcTemplate().queryForObject(sql2, new Object[] {movie.getTitle(), 
@@ -40,7 +47,7 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	public void updateMovie(Movie movie) {
 		String sql1 = "UPDATE movie SET title = ?, director = ?, lead_actors = ?, "
 				+ "year = ?, description = ?, genre_other = ?, country_other = ? WHERE id = ?";
-		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirector(), movie.getLeadActors(), 
+		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirectors(), movie.getLeadActors(), 
 				movie.getYear(), movie.getDescription(), movie.getGenreOther(), movie.getCountryOther(), movie.getId()});
 		String sql2 = "DELETE FROM movie_genre WHERE movie_id = ?";
 		getJdbcTemplate().update(sql2, new Object[] {movie.getId()});
@@ -61,64 +68,59 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	}
 
 	public ArrayList<Movie> findAllMoviesByProperty(String searchCriteria, Object criteriaValue) {
-		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country mc ON m.id = mc.movie_id WHERE m.id IN "
-				+ "(SELECT id FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country mc ON m.id = mc.movie_id WHERE " + searchCriteria + " = ? AND m.status = 1)";
+		if (searchCriteria.equals("directors")) searchCriteria = "cd.name";
+		if (searchCriteria.equals("leadActors")) searchCriteria = "cla.name";		
+		String sql = SELECT_MOVIE + "LEFT JOIN celebrity cd ON md.director_id = cd.id "
+				+ "LEFT JOIN celebrity cla ON mla.actor_id = cla.id "
+				+ "WHERE m.id IN (SELECT id FROM movie AS m " + JOIN_FOR_MOVIE 
+				+ "WHERE " + searchCriteria + " = ? AND m.status = 1)";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, 
 			new Object[] {criteriaValue}, new MovieListExtractor());
 		return movieList;
 	}
 	
 	public ArrayList<Movie> findAllMovies(int status) {
-		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.status = ?";
+		String sql = SELECT_MOVIE + "WHERE m.status = ?";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, 
 			new Object[] {status}, new MovieListExtractor());
 		return movieList;
 	}
 
 	public ArrayList<Movie> findLatest() {
-		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.id IN (SELECT * FROM "
-				+ "(SELECT id FROM movie WHERE status = 1 ORDER BY id DESC LIMIT 10) as t) ORDER BY m.id DESC";
+		String sql = SELECT_MOVIE + "WHERE m.id IN "
+				+ "(SELECT * FROM (SELECT id FROM movie WHERE status = 1 ORDER BY id DESC LIMIT 10) as t) ORDER BY m.id DESC";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, new MovieListExtractor());
 		return movieList;
 	}
 
 	public Movie findMovieById(int id) {
-		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.id = ?";
+		String sql = SELECT_MOVIE + "WHERE m.id = ?";
 		Movie movie = (Movie) getJdbcTemplate().query(sql, new Object[] {id}, new MovieExtractor());
 		return movie;
 	}
 
 	public Movie findMovieByIdWithStatus(int id, int status) {
-		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.id = ? AND m.status = ?";
+		String sql = SELECT_MOVIE + "WHERE m.id = ? AND m.status = ?";
 		Movie movie = (Movie) getJdbcTemplate().query(sql, new Object[] {id, status}, new MovieExtractor());
 		return movie;
 	}
 
 	public MovieRejected findRejectedMovieById(int id) {
-		String sql = "SELECT * FROM movie_rejected AS mr LEFT JOIN movie_genre AS mg ON mr.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON mr.id = mc.movie_id WHERE mr.id = ?";
+		String sql = SELECT_MOVIE_REJECTED + "WHERE m.id = ?";
 		MovieRejected movie = (MovieRejected) getJdbcTemplate().query(sql, new Object[] {id},
 				new MovieRejectedExtractor());
 		return movie;
 	}
  
 	public ArrayList<Movie> findMoviesAddedBy(String addedBy, int status){
-		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.added_by = ? AND m.status = ?";
+		String sql = SELECT_MOVIE + "WHERE m.added_by = ? AND m.status = ?";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, 
 			new Object[] {addedBy, status}, new MovieListExtractor());
 		return movieList;
 	}
 	
 	public ArrayList<MovieRejected> findRejectedMoviesAddedBy(String addedBy){
-		String sql = "SELECT * FROM movie_rejected AS mr LEFT JOIN movie_genre AS mg ON mr.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON mr.id = mc.movie_id WHERE mr.added_by = ?";
+		String sql = SELECT_MOVIE_REJECTED + "WHERE m.added_by = ?";
 		ArrayList<MovieRejected> movieList = (ArrayList<MovieRejected>) getJdbcTemplate().query(sql, 
 			new Object[] {addedBy}, new MovieRejectedListExtractor());
 		return movieList;
@@ -165,9 +167,7 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	}
 
 	public ArrayList<Movie> findMostPopular() {
-		String sql = "SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id "
-				+ "WHERE m.status = 1 AND m.rating_avg_num > 7.0 ORDER BY rating_sum DESC LIMIT 10";
+		String sql = SELECT_MOVIE + "WHERE m.status = 1 AND m.rating_avg_num > 7.0 ORDER BY rating_sum DESC LIMIT 10";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, new MovieListExtractor());
 		return movieList;
 	}

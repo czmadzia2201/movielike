@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,11 +36,20 @@ public class Test {
 	static MovieDao<Movie, MovieRejected> jdbcMovieObject = daoFactory.getMovieDao();
 	static UserDao<User> jdbcUserObject = daoFactory.getUserDao();
 	static UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
+	static CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = daoFactory.getCelebrityDao();
 	
 	public static void main(String[] args) {
-		Movie movie = jdbcMovieObject.findMovieById(31);
-		System.out.println(movie);
-		System.out.println(movie.getRatingAvgNum());
+		Set<Celebrity> director = new HashSet<Celebrity>();
+		director.add(jdbcCelebrityObject.findCelebrityById(1));
+		director.add(jdbcCelebrityObject.findCelebrityById(1));
+		director.add(jdbcCelebrityObject.findCelebrityById(1));
+		director.add(jdbcCelebrityObject.findCelebrityById(3));
+		director.add(jdbcCelebrityObject.findCelebrityById(5));
+		System.out.println(director);
+		HashSet hs = new HashSet();
+		hs.add("hi");
+		hs.add("hi");
+		System.out.println(hs);
 	}
 
 }

@@ -35,7 +35,7 @@
 		<option disabled selected></option>
 		<option value="title" ${searchCriteria == "title" ? "selected":""}>Title</option>
 		<option value="genreList" ${searchCriteria == "genreList" ? "selected":""}>Genre</option>
-		<option value="director" ${searchCriteria == "director" ? "selected":""}>Director</option>
+		<option value="directors" ${searchCriteria == "directors" ? "selected":""}>Director</option>
 		<option value="leadActors" ${searchCriteria == "leadActors" ? "selected":""}>Lead actors</option>
 		<option value="countryList" ${searchCriteria == "countryList" ? "selected":""}>Country</option>
 		<option value="year" ${searchCriteria == "year" ? "selected":""}>Year</option>
@@ -65,15 +65,15 @@
 		</c:forEach>
 	</select>
 	</c:when>
-	<c:when test="${searchCriteria == 'director'}">
-         <input id="listOfDirectors" style="width:97%">
+	<c:when test="${searchCriteria == 'directors'}">
+         <input name="criteriaValue" id="listOfDirectors" style="width:97%">
          <script type="text/javascript">
      		var directorList = ${directors};
         	$("#listOfDirectors").autocomplete({source: directorList});
          </script>
 	</c:when>
 	<c:when test="${searchCriteria == 'leadActors'}">
-         <input id="listOfActors" style="width:97%">
+         <input name="criteriaValue" id="listOfActors" style="width:97%">
          <script type="text/javascript">
   			var actorList = ${actors};
         	$("#listOfActors").autocomplete({source: actorList});
@@ -114,9 +114,9 @@
 		  <c:forEach items="${latestMovies}" var="movie">
 		    <tr>
 		      <td>${movie.title}</td>
-		      <td>${movie.director}</td>
+		      <td>${movie.directorString}</td>
 		      <td>${movie.genreString}</td>
-		      <td>${movie.leadActors}</td>
+		      <td>${movie.leadActorsString}</td>
 		      <td>${movie.countryString}</td>
 		      <td>${movie.year}</td>
  		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>
@@ -132,9 +132,9 @@
 		  <c:forEach items="${mostPopular}" var="movie">
 		    <tr>
 		      <td>${movie.title}</td>
-		      <td>${movie.director}</td>
+		      <td>${movie.directorString}</td>
 		      <td>${movie.genreString}</td>
-		      <td>${movie.leadActors}</td>
+		      <td>${movie.leadActorsString}</td>
 		      <td>${movie.countryString}</td>
 		      <td>${movie.year}</td>
  		      <td><a href="displaymovie?id=${movie.id}">See&nbsp;more&nbsp;&#187;</a></td>

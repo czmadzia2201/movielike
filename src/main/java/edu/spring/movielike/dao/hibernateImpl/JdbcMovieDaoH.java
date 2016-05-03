@@ -1,7 +1,9 @@
 package edu.spring.movielike.dao.hibernateImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -34,17 +36,21 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Movie> findAllMoviesByProperty(String searchCriteria, Object criteriaValue) {
 		connectionHandler.openCurrentSession();
-		List<Object> criteriaValueList = new ArrayList<Object>();
-		criteriaValueList.add(criteriaValue);
-		String sql = String.format("SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country mc ON m.id = mc.movie_id "
-				+ "WHERE " + searchCriteria + " = '%s' AND m.status = 1 GROUP BY m.id", criteriaValue);
-		Session session = connectionHandler.openCurrentSession();
-		ArrayList<Movie> movieList = (ArrayList<Movie>) session.createSQLQuery(sql).addEntity(Movie.class).list();
-		connectionHandler.closeCurrentSession();		
+		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
+		ArrayList<Movie> movieList; 
+		if (searchCriteria.equals("directors") || searchCriteria.equals("leadActors")) {
+			criteria.createAlias(searchCriteria, searchCriteria + "Alias");
+			movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq(searchCriteria + "Alias.name", criteriaValue)).list();			
+		} else if (searchCriteria.equals("genreList") || searchCriteria.equals("countryList")) {
+			criteria.createAlias(searchCriteria, searchCriteria + "Alias");
+			movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq(searchCriteria + "Alias.elements", criteriaValue)).list();						
+		} else {
+			movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq(searchCriteria, criteriaValue)).list();
+		}
+		connectionHandler.closeCurrentSession();
 		return movieList; 
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public ArrayList<Movie> findAllMovies(int status) {
 		connectionHandler.openCurrentSession();

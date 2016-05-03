@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public interface MovieDao<M, MR> {
 	public Integer persistMovie(M movie);
 	public void updateMovie(M movie);
-	public ArrayList<M> findAllMoviesByProperty(String searchCriteria, Object criteriaValue);
+	public ArrayList<M> findAllMoviesByProperty(String searchCriteria, Object criteriaValue); 
 	public ArrayList<M> findAllMovies(int status);
-	public ArrayList<M> findLatest();
+	public ArrayList<M> findLatest(); 
 	public ArrayList<M> findMostPopular();
 	public M findMovieById(int id);
 	public M findMovieByIdWithStatus(int id, int status);

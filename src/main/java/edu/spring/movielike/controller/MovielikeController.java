@@ -47,14 +47,13 @@ import edu.spring.movielike.utils.UserValidator;
 @Controller
 public class MovielikeController {
 	
-	DaoFactory daoFactory = new DaoFactory();
-	MovieDao<Movie, MovieRejected> jdbcMovieObject = daoFactory.getMovieDao();
-	UserDao<User> jdbcUserObject = daoFactory.getUserDao();
-	UserMovieDao<User, Movie> jdbcUserMovieLink = daoFactory.getUserMovieDao();
-	ReviewDao<Review, Movie, User> jdbcReviewObject = daoFactory.getReviewDao();
-	UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
-	CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = daoFactory.getCelebrityDao();
-	MovieDataProvider movieDataProvider = new MovieDataProvider();
+	private DaoFactory daoFactory = new DaoFactory();
+	private MovieDao<Movie, MovieRejected> jdbcMovieObject = daoFactory.getMovieDao();
+	private UserDao<User> jdbcUserObject = daoFactory.getUserDao();
+	private UserMovieDao<User, Movie> jdbcUserMovieLink = daoFactory.getUserMovieDao();
+	private ReviewDao<Review, Movie, User> jdbcReviewObject = daoFactory.getReviewDao();
+	private UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
+	private MovieDataProvider movieDataProvider = new MovieDataProvider();
 	
 	@Autowired
 	MessageSource messageSource;

@@ -1,23 +1,29 @@
 package edu.spring.movielike.model;
 
 import java.util.Set;
+
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name = "movie_rejected")
 public class MovieRejected {
-	private String title, director, leadActors, description, addedBy, reason, genreOther, countryOther;
+	private String title, description, addedBy, reason, genreOther, countryOther;
 	private int id, year, status, voters, ratingSum;
 	double ratingAvgNum;
 	private Set<String> genreList; 
 	private Set<String> countryList;
+	private Set<Celebrity> directors;
+	private Set<Celebrity> leadActors;
 
 	@Id
 	@Column(name = "id")
@@ -38,21 +44,25 @@ public class MovieRejected {
 		this.title = title;
 	}
 
-	@Column(name = "director")
-	public String getDirector() {
-		return director;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "movie_director", joinColumns = { @JoinColumn(name = "movie_id") }, 
+		inverseJoinColumns = { @JoinColumn(name = "director_id") })
+	public Set<Celebrity> getDirectors() {
+		return directors;
 	}
 
-	public void setDirector(String director) {
-		this.director = director;
+	public void setDirectors(Set<Celebrity> directors) {
+		this.directors = directors;
 	}
 
-	@Column(name = "lead_actors")
-	public String getLeadActors() {
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "movie_leadactors", joinColumns = { @JoinColumn(name = "movie_id") }, 
+		inverseJoinColumns = { @JoinColumn(name = "actor_id") })
+	public Set<Celebrity> getLeadActors() {
 		return leadActors;
 	}
 
-	public void setLeadActors(String leadActors) {
+	public void setLeadActors(Set<Celebrity> leadActors) {
 		this.leadActors = leadActors;
 	}
 
@@ -97,11 +107,11 @@ public class MovieRejected {
 	}
 
 	@Column(name = "country_other")
-	public String getCountry() {
+	public String getCountryOther() {
 		return countryOther;
 	}
 
-	public void setCountry(String countryOther) {
+	public void setCountryOther(String countryOther) {
 		this.countryOther = countryOther;
 	}
 
@@ -193,9 +203,21 @@ public class MovieRejected {
 		return countryString;
 	}
 	
+	@Transient
+	public String getDirectorString() {
+		String directorString = directors.toString().replace("[", "").replace("]", "");
+		return directorString;
+	}
+
+	@Transient
+	public String getLeadActorsString() {
+		String leadActorsString = leadActors.toString().replace("[", "").replace("]", "");
+		return leadActorsString;
+	}
+
 	public String toString() {
-		return "title: " + title + "<br>director: " + director + "<br>genre: " + getGenreString() + "<br>lead actors: " 
-				+ leadActors + "<br>year: " + year + "<br>countryOther: " + getCountryString() + "<br>description: " + description;
+		return "title: " + title + "<br>director: " + getDirectorString() + "<br>genre: " + getGenreString() + "<br>lead actors: " 
+				+ getLeadActorsString() + "<br>year: " + year + "<br>countryOther: " + getCountryString() + "<br>description: " + description;
 	}
 
 }

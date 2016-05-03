@@ -36,7 +36,7 @@
 <td><form:input path="title" /><form:errors path="title" class="error" /></td>
 </tr><tr>
 <td>Director: </td>
-<td><span id="addDirectors"><form:input path="director" id="listOfDirectors1" style="margin-right:4px;" /></span>
+<td><span id="addDirectors"><form:input path="directors" id="listOfDirectors1" style="margin-right:4px;" /></span>
 	<input type="button" id="addFieldsForDirectors" value="More" />
 </td>
 </tr><tr>

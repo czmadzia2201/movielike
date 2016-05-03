@@ -43,7 +43,8 @@ public class JdbcUserMovieDaoH implements UserMovieDao<User, Movie> {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Movie> getUserLinkedMovies(User user, int fav) {
 		String sql = String.format("SELECT * FROM movie AS m LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
-				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id WHERE m.id IN (SELECT movie_id FROM user_movie_link "
+				+ "LEFT JOIN movie_country AS mc ON m.id = mc.movie_id LEFT JOIN movie_director md ON m.id = md.movie_id "
+				+ "LEFT JOIN movie_leadactors mla ON m.id = mla.movie_id WHERE m.id IN (SELECT movie_id FROM user_movie_link "
 				+ "WHERE username = '%s' AND liked = %s) GROUP BY m.id", user.getUsername(), fav);
 		Session session = connectionHandler.openCurrentSession();
 		List<Movie> movieListRaw = session.createSQLQuery(sql).addEntity(Movie.class).list();
