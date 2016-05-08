@@ -7,13 +7,15 @@
 	<title>Search movies</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="resources/main.css" rel="stylesheet" />
-	<script src="resources/functions.js"></script>
 	<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<script src="resources/functions.js"></script>
 	<script type="text/javascript">
 		var emptyValue = "${emptyValue}";
 		var formatError = "${formatError}";
+		var directorList = ${directors};
+		var actorList = ${actors};
     </script>			
 </head>
 <body>
@@ -66,18 +68,10 @@
 	</select>
 	</c:when>
 	<c:when test="${searchCriteria == 'directors'}">
-         <input name="criteriaValue" id="listOfDirectors" style="width:97%">
-         <script type="text/javascript">
-     		var directorList = ${directors};
-        	$("#listOfDirectors").autocomplete({source: directorList});
-         </script>
+         <input name="criteriaValue" id="listOfDirectors" style="width:95%">
 	</c:when>
 	<c:when test="${searchCriteria == 'leadActors'}">
-         <input name="criteriaValue" id="listOfActors" style="width:97%">
-         <script type="text/javascript">
-  			var actorList = ${actors};
-        	$("#listOfActors").autocomplete({source: actorList});
-         </script>
+         <input name="criteriaValue" id="listOfActors" style="width:95%">
 	</c:when>
 	<c:otherwise>
 		<input type="text" name="criteriaValue" style="width:95%" />	

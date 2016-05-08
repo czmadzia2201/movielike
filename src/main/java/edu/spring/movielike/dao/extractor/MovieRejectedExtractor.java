@@ -35,17 +35,17 @@ public class MovieRejectedExtractor implements ResultSetExtractor<MovieRejected>
 			if (movieRejected == null) {
 				movieRejected = movieRowMapper.mapRow(rs, rs.getRow());
 			}
-			if (rs.getString("genrelist")!=null) {
-				genreList.add(rs.getString("genrelist"));
+			if (rs.getString("mg.genrelist")!=null) {
+				genreList.add(rs.getString("mg.genrelist"));
 			}
-			if (rs.getString("countrylist")!=null) {
-				countryList.add(rs.getString("countrylist"));
+			if (rs.getString("mc.countrylist")!=null) {
+				countryList.add(rs.getString("mc.countrylist"));
 			}
-			if (rs.getInt("director_id")!=0) {
-				directors.add(jdbcCelebrityObject.findCelebrityById(rs.getInt("director_id")));
+			if (rs.getInt("md.director_id")!=0) {
+				directors.add(jdbcCelebrityObject.findCelebrityById(rs.getInt("md.director_id")));
 			}
-			if (rs.getInt("actor_id")!=0) {
-				leadActors.add(jdbcCelebrityObject.findCelebrityById(rs.getInt("actor_id")));
+			if (rs.getInt("mla.actor_id")!=0) {
+				leadActors.add(jdbcCelebrityObject.findCelebrityById(rs.getInt("mla.actor_id")));
 			}
 			movieRejected.setGenreList(genreList);		
 			movieRejected.setCountryList(countryList);		

@@ -39,17 +39,14 @@ public class Test {
 	static CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = daoFactory.getCelebrityDao();
 	
 	public static void main(String[] args) {
-		Set<Celebrity> director = new HashSet<Celebrity>();
-		director.add(jdbcCelebrityObject.findCelebrityById(1));
-		director.add(jdbcCelebrityObject.findCelebrityById(1));
-		director.add(jdbcCelebrityObject.findCelebrityById(1));
-		director.add(jdbcCelebrityObject.findCelebrityById(3));
-		director.add(jdbcCelebrityObject.findCelebrityById(5));
-		System.out.println(director);
-		HashSet hs = new HashSet();
-		hs.add("hi");
-		hs.add("hi");
-		System.out.println(hs);
+//		Set<String> names = new HashSet<String>();
+//		names.add("James Cameron");
+//		names.add("Quentin Tarantino");
+//		ArrayList<Celebrity> directors = jdbcCelebrityObject.findCelebritiesByName(names);
+//		System.out.println(directors);
+		int pendingValidation = jdbcMovieObject.findAllMovies(0).size() + jdbcMovieObject.findAllMovies(-1).size();
+		System.out.println(pendingValidation);
+	
 	}
 
 }

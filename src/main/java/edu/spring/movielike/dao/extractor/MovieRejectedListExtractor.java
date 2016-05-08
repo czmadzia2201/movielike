@@ -34,19 +34,27 @@ public class MovieRejectedListExtractor implements ResultSetExtractor<List<Movie
 		MovieRejected movieRejected = null;
 		Integer movieRejectedId = null;
 		while (rs.next()) {
-			if (movieRejected == null || movieRejectedId!=rs.getInt("id")) {
+			if (movieRejected == null || movieRejectedId!=rs.getInt("m.id")) {
 				genreList = new HashSet<String>();
 				countryList = new HashSet<String>();
 				directors = new HashSet<Celebrity>();
 				leadActors = new HashSet<Celebrity>();
-				movieRejectedId = rs.getInt("id");
+				movieRejectedId = rs.getInt("m.id");
 				movieRejected = movieRowMapper.mapRow(rs, rs.getRow());
 				movieRejectedList.add(movieRejected);
 			}
-			genreList.add(rs.getString("genrelist"));
-			countryList.add(rs.getString("countrylist"));
-			directors.add(jdbcCelebrityObject.findCelebrityById(rs.getInt("director_id")));
-			leadActors.add(jdbcCelebrityObject.findCelebrityById(rs.getInt("actor_id")));
+			if (rs.getString("mg.genrelist")!=null) {
+				genreList.add(rs.getString("mg.genrelist"));
+			}
+			if (rs.getString("mc.countrylist")!=null) {
+				countryList.add(rs.getString("mc.countrylist"));
+			}
+			if (rs.getInt("md.director_id")!=0) {
+				directors.add(jdbcCelebrityObject.findCelebrityById(rs.getInt("md.director_id")));
+			}
+			if (rs.getInt("mla.actor_id")!=0) {
+				leadActors.add(jdbcCelebrityObject.findCelebrityById(rs.getInt("mla.actor_id")));
+			}
 			movieRejected.setGenreList(genreList);
 			movieRejected.setCountryList(countryList);
 			movieRejected.setDirectors(directors);

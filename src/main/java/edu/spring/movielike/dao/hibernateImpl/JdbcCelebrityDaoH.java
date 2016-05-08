@@ -1,13 +1,17 @@
 package edu.spring.movielike.dao.hibernateImpl;
 
 import java.util.ArrayList;
+import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import edu.spring.movielike.dao.CelebrityDao;
 import edu.spring.movielike.dao.ConnectionHandler;
 import edu.spring.movielike.dataproviders.CelebrityRole;
 import edu.spring.movielike.model.Celebrity;
+import edu.spring.movielike.model.Movie;
 
 public class JdbcCelebrityDaoH implements CelebrityDao<Celebrity, CelebrityRole> {
 
@@ -29,11 +33,13 @@ public class JdbcCelebrityDaoH implements CelebrityDao<Celebrity, CelebrityRole>
 		return celebrity;
 	}
 
-	public Celebrity findCelebrityByName(String name) {
+	@SuppressWarnings("unchecked")
+	public ArrayList<Celebrity> findCelebritiesByName(Set<String> names) {
 		connectionHandler.openCurrentSession();
-		Celebrity celebrity = (Celebrity) connectionHandler.getCurrentSession().get(Celebrity.class, name);
+		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Celebrity.class);
+		ArrayList<Celebrity> celebrities = (ArrayList<Celebrity>) criteria.add(Restrictions.in("name", names)).list();
 		connectionHandler.closeCurrentSession();
-		return celebrity;
+		return celebrities;
 	}
 
 }

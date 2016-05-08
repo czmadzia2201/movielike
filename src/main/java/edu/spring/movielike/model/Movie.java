@@ -24,6 +24,8 @@ public class Movie {
 	private double ratingAvgNum;
 	private Set<String> genreList;
 	private Set<String> countryList;
+	private Set<String> directorsNames;
+	private Set<String> leadActorsNames;
 	private Set<Celebrity> directors;
 	private Set<Celebrity> leadActors;
 	
@@ -190,6 +192,25 @@ public class Movie {
 		return statusValues.get(getStatus());
 	}
 	
+		
+	@Transient
+	public Set<String> getDirectorsNames() {
+		return directorsNames;
+	}
+
+	public void setDirectorsNames(Set<String> directorsNames) {
+		this.directorsNames = directorsNames;
+	}
+
+	@Transient
+	public Set<String> getLeadActorsNames() {
+		return leadActorsNames;
+	}
+
+	public void setLeadActorsNames(Set<String> leadActorsNames) {
+		this.leadActorsNames = leadActorsNames;
+	}
+
 	@Transient
 	public String getGenreString() {
 		String genreString = genreList.toString().replace("[", "").replace("]", "");

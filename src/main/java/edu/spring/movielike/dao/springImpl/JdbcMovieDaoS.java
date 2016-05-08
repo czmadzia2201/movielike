@@ -9,23 +9,23 @@ import edu.spring.movielike.dao.extractor.MovieExtractor;
 import edu.spring.movielike.dao.extractor.MovieListExtractor;
 import edu.spring.movielike.dao.extractor.MovieRejectedExtractor;
 import edu.spring.movielike.dao.extractor.MovieRejectedListExtractor;
+import edu.spring.movielike.model.Celebrity;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 
 public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, MovieRejected> {
 	
-	private static final String JOIN_FOR_MOVIE = "LEFT JOIN movie_genre AS mg ON m.id = mg.movie_id "
+	private static final String JOIN_FOR_MOVIE = "LEFT JOIN movie_genre mg ON m.id = mg.movie_id "
 			+ "LEFT JOIN movie_country mc ON m.id = mc.movie_id "
 			+ "LEFT JOIN movie_director md ON m.id = md.movie_id "
 			+ "LEFT JOIN movie_leadactors mla ON m.id = mla.movie_id ";
-	private static final String SELECT_MOVIE = "SELECT * FROM movie AS m " + JOIN_FOR_MOVIE;
-	private static final String SELECT_MOVIE_REJECTED = "SELECT * FROM movie_rejected AS m " + JOIN_FOR_MOVIE;
+	private static final String SELECT_MOVIE = "SELECT * FROM movie m " + JOIN_FOR_MOVIE;
+	private static final String SELECT_MOVIE_REJECTED = "SELECT * FROM movie_rejected m " + JOIN_FOR_MOVIE;
 	
 	public Integer persistMovie(Movie movie) { 
-		String sql1 = "INSERT INTO movie (title, director, lead_actors, year, description, genre_other, "
-				+ "country_other, added_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirectors(), movie.getLeadActors(), 
-			movie.getYear(), movie.getDescription(), movie.getGenreOther(), movie.getCountryOther(), movie.getAddedBy()});
+		String sql1 = "INSERT INTO movie (title, year, description, genre_other, country_other, added_by) VALUES (?, ?, ?, ?, ?, ?)";
+		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getYear(), movie.getDescription(), 
+				movie.getGenreOther(), movie.getCountryOther(), movie.getAddedBy()});
 		String sql2 = "SELECT id FROM movie WHERE title = ? AND year = ? AND added_by = ?";
 		Integer movieId = getJdbcTemplate().queryForObject(sql2, new Object[] {movie.getTitle(), 
 		movie.getYear(), movie.getAddedBy()}, Integer.class);
@@ -41,6 +41,18 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 				getJdbcTemplate().update(sql4, new Object[] {movieId, country});
 			}
 		}
+		if (movie.getDirectors()!=null) {
+			String sql5 = "INSERT INTO movie_director (movie_id, director_id) VALUES (?, ?)";
+			for (Celebrity director : movie.getDirectors()) {
+				getJdbcTemplate().update(sql5, new Object[] {movieId, director.getId()});
+			}
+		}		
+		if (movie.getGenreList()!=null) {
+			String sql6 = "INSERT INTO movie_leadactors (movie_id, actor_id) VALUES (?, ?)";
+			for (Celebrity actor : movie.getLeadActors()) {
+				getJdbcTemplate().update(sql6, new Object[] {movieId, actor.getId()});
+			}
+		}		
 		return movieId;
 	}
  
@@ -70,9 +82,11 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	public ArrayList<Movie> findAllMoviesByProperty(String searchCriteria, Object criteriaValue) {
 		if (searchCriteria.equals("directors")) searchCriteria = "cd.name";
 		if (searchCriteria.equals("leadActors")) searchCriteria = "cla.name";		
-		String sql = SELECT_MOVIE + "LEFT JOIN celebrity cd ON md.director_id = cd.id "
+		String sql = "SELECT m.id, m.title, m.year, m.description, m.genre_other, m.country_other, "
+				+ "m.added_by, mg.genrelist, mc.countrylist, md.director_id, mla.actor_id FROM movie m " 
+				+ JOIN_FOR_MOVIE + "LEFT JOIN celebrity cd ON md.director_id = cd.id "
 				+ "LEFT JOIN celebrity cla ON mla.actor_id = cla.id "
-				+ "WHERE m.id IN (SELECT id FROM movie AS m " + JOIN_FOR_MOVIE 
+				+ "WHERE m.id IN (SELECT id FROM movie m " + JOIN_FOR_MOVIE 
 				+ "WHERE " + searchCriteria + " = ? AND m.status = 1)";
 		ArrayList<Movie> movieList = (ArrayList<Movie>) getJdbcTemplate().query(sql, 
 			new Object[] {criteriaValue}, new MovieListExtractor());
@@ -152,10 +166,14 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	public void deleteMovie(Movie movie) {
 		String sql1 = "DELETE FROM movie_genre WHERE movie_id = ?";
 		String sql2 = "DELETE FROM movie_country WHERE movie_id = ?";
-		String sql3 = "DELETE FROM movie WHERE id = ?";
+		String sql3 = "DELETE FROM movie_director WHERE movie_id = ?";
+		String sql4 = "DELETE FROM movie_leadactors WHERE movie_id = ?";
+		String sql5 = "DELETE FROM movie WHERE id = ?";
 		getJdbcTemplate().update(sql1, new Object[] {movie.getId()});			
 		getJdbcTemplate().update(sql2, new Object[] {movie.getId()});			
 		getJdbcTemplate().update(sql3, new Object[] {movie.getId()});			
+		getJdbcTemplate().update(sql4, new Object[] {movie.getId()});			
+		getJdbcTemplate().update(sql5, new Object[] {movie.getId()});			
 	}
 	
 	public void rateMovie(Movie movie, int rating) {
