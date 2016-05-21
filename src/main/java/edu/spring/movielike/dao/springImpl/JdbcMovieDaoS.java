@@ -157,10 +157,14 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	public void deleteRejectedMoviesUser(String addedBy) {
 		String sql1 = "DELETE FROM movie_genre WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = ?)";
 		String sql2 = "DELETE FROM movie_country WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = ?)";
-		String sql3 = "DELETE FROM movie_rejected WHERE added_by = ?";
+		String sql3 = "DELETE FROM movie_director WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = ?)";
+		String sql4 = "DELETE FROM movie_leadactors WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = ?)";
+		String sql5 = "DELETE FROM movie_rejected WHERE added_by = ?";
 		getJdbcTemplate().update(sql1, new Object[] {addedBy});		
 		getJdbcTemplate().update(sql2, new Object[] {addedBy});		
 		getJdbcTemplate().update(sql3, new Object[] {addedBy});		
+		getJdbcTemplate().update(sql4, new Object[] {addedBy});		
+		getJdbcTemplate().update(sql5, new Object[] {addedBy});		
 	}
 
 	public void deleteMovie(Movie movie) {

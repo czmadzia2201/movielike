@@ -29,4 +29,12 @@ public class CelebrityProvider {
 		}
 		return celebrities;
 	}
+	
+	public Set<String> setCelebrityNames(Set<Celebrity> celebrities) {
+		Set<String> celebrityNames = new HashSet<String>();
+		for (Celebrity celebrity : celebrities) {		
+			celebrityNames.add(celebrity.getName());
+		}
+		return celebrityNames;
+	}
 }

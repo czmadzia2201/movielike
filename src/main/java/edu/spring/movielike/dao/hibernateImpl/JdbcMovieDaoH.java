@@ -117,10 +117,14 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		Session session = connectionHandler.openCurrentSessionwithTransaction();
 		String sql1 = String.format("DELETE FROM movie_genre WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = '%s')", addedBy);
 		String sql2 = String.format("DELETE FROM movie_country WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = '%s')", addedBy);
-		String sql3 = String.format("DELETE FROM movie_rejected WHERE added_by = '%s'", addedBy);
+		String sql3 = String.format("DELETE FROM movie_director WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = '%s')", addedBy);
+		String sql4 = String.format("DELETE FROM movie_leadactors WHERE movie_id in (SELECT id FROM movie_rejected WHERE added_by = '%s')", addedBy);
+		String sql5 = String.format("DELETE FROM movie_rejected WHERE added_by = '%s'", addedBy);
 		session.createSQLQuery(sql1).executeUpdate();
 		session.createSQLQuery(sql2).executeUpdate();
 		session.createSQLQuery(sql3).executeUpdate();
+		session.createSQLQuery(sql4).executeUpdate();
+		session.createSQLQuery(sql5).executeUpdate();
 		connectionHandler.closeCurrentSessionwithTransaction();
 	}
 

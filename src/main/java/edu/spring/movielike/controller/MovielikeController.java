@@ -3,9 +3,7 @@ package edu.spring.movielike.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,8 +26,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import antlr.CppCodeGenerator;
-import edu.spring.movielike.dao.CelebrityDao;
 import edu.spring.movielike.dao.DaoFactory;
 import edu.spring.movielike.dao.MovieDao;
 import edu.spring.movielike.dao.ReviewDao;
@@ -39,7 +35,6 @@ import edu.spring.movielike.dao.UserRatingDao;
 import edu.spring.movielike.dataproviders.CelebrityProvider;
 import edu.spring.movielike.dataproviders.CelebrityRole;
 import edu.spring.movielike.dataproviders.MovieDataProvider;
-import edu.spring.movielike.model.Celebrity;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 import edu.spring.movielike.model.Review;
@@ -57,6 +52,7 @@ public class MovielikeController {
 	private UserMovieDao<User, Movie> jdbcUserMovieLink = daoFactory.getUserMovieDao();
 	private ReviewDao<Review, Movie, User> jdbcReviewObject = daoFactory.getReviewDao();
 	private UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
+
 	private MovieDataProvider movieDataProvider = new MovieDataProvider();
 	private CelebrityProvider celebrityProvider = new CelebrityProvider();
 	
@@ -91,15 +87,15 @@ public class MovielikeController {
 		return "accessDenied"; 
 	}	
 	
-//	@ExceptionHandler(EmptyResultDataAccessException.class)
-//	public String entityNotFound(HttpServletRequest request) {
-//		if (request.getRequestURL().toString().contains("displayuser")) {
-//			return "userNotFound";
-//		} else {
-//			return "movieNotFound";
-//		}
-//	}
-//
+	@ExceptionHandler(EmptyResultDataAccessException.class)
+	public String entityNotFound(HttpServletRequest request) {
+		if (request.getRequestURL().toString().contains("displayuser")) {
+			return "userNotFound";
+		} else {
+			return "movieNotFound";
+		}
+	}
+
 	@ExceptionHandler(NullPointerException.class)
 	public String parameterMissing() {
 		return "nullPointerError";
@@ -295,8 +291,14 @@ public class MovielikeController {
 		Integer movieId = (Integer) session.getAttribute("movieId");
 		session.setAttribute("referrerUrl", request.getHeader("referer"));
 		Movie movie = jdbcMovieObject.findMovieById(movieId);
+		movie.setDirectorsNames(celebrityProvider.setCelebrityNames(movie.getDirectors()));
+		movie.setLeadActorsNames(celebrityProvider.setCelebrityNames(movie.getLeadActors()));
+		int numberOfDirectors = movie.getDirectors().size();
+		int numberOfActors = movie.getLeadActors().size();
 		feedModelMap(modelMap);
 		modelMap.addAttribute("movie", movie);
+		modelMap.addAttribute("numberOfDirectors", numberOfDirectors);
+		modelMap.addAttribute("numberOfActors", numberOfActors);
 		return "editMovie";
 	}
 
@@ -308,6 +310,8 @@ public class MovielikeController {
 		if (result.hasErrors()) {
 			return "editMovie";
 		} 
+		movie.setDirectors(celebrityProvider.getCelebrities(movie.getDirectorsNames()));
+		movie.setLeadActors(celebrityProvider.getCelebrities(movie.getLeadActorsNames()));
 		jdbcMovieObject.updateMovie(movie);
 		String referrerUrl = (String) session.getAttribute("referrerUrl");
 		modelMap.addAttribute("referrerUrl", referrerUrl);
