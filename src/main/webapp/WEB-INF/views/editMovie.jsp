@@ -12,10 +12,6 @@
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script src="resources/functions.js"></script>
     <script type="text/javascript">
-    	var counterStartDirectors = 1;
-    	var counterStartActors = 1;
-    	var counterDirectors = ${numberOfDirectors};
-	    var counterActors = ${numberOfActors};
 		var directorList = ${directors};
 		var actorList = ${actors};
 	</script>
@@ -41,7 +37,7 @@
 <td>
 	<span id="addDirectors">
 	<c:forEach var="director" items="${movie.directorsNames}">
-		<form:input path="directorsNames" id="listOfDirectors1" style="margin-right:4px;" value="${director}" />
+		<form:input path="directorsNames" id="listOfDirectors" style="margin-right:4px;" value="${director}" />
 	</c:forEach>
 	</span>
 	<input type="button" id="addFieldsForDirectors" value="More" />
@@ -51,7 +47,7 @@
 <td>
 	<span id="addActors">
 	<c:forEach var="actor" items="${movie.leadActorsNames}">
-    	<form:input path="leadActorsNames" id="listOfActors1" style="margin-right:4px;" value="${actor}" />
+    	<form:input path="leadActorsNames" id="listOfActors" style="margin-right:4px;" value="${actor}" />
 	</c:forEach>
 	</span> 
 	<input type="button" id="addFieldsForActors" value="More" />

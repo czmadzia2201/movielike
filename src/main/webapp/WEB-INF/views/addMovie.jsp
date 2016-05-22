@@ -12,10 +12,6 @@
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script src="resources/functions.js"></script>
     <script type="text/javascript">
-    	var counterStartActors = 3;
-    	var counterStartDirectors = 1;
-	    var counterActors = 3;
-	    var counterDirectors = 1;
 		var directorList = ${directors};
 		var actorList = ${actors};
 	</script>
@@ -40,16 +36,16 @@
 </tr><tr>
 <td>Director: </td>
 <td>
-	<span id="addDirectors"><form:input path="directorsNames" id="listOfDirectors1" style="margin-right:4px;" /></span> 
+	<span id="addDirectors"><form:input path="directorsNames" id="listOfDirectors" style="margin-right:4px;" /></span> 
 	<input type="button" id="addFieldsForDirectors" value="More" />
 </td>
 </tr><tr>
 <td>Lead actors: </td>
 <td>
 	<span id="addActors">	
-	<form:input path="leadActorsNames" id="listOfActors1" />
-	<form:input path="leadActorsNames" id="listOfActors2" />
-	<form:input path="leadActorsNames" id="listOfActors3" style="margin-right:4px;" /></span> 
+	<form:input path="leadActorsNames" id="listOfActors" />
+	<form:input path="leadActorsNames" id="listOfActors" />
+	<form:input path="leadActorsNames" id="listOfActors" style="margin-right:4px;" /></span> 
 	<input type="button" id="addFieldsForActors" value="More" />
 </td>
 </tr><tr>

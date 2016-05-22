@@ -293,12 +293,8 @@ public class MovielikeController {
 		Movie movie = jdbcMovieObject.findMovieById(movieId);
 		movie.setDirectorsNames(celebrityProvider.setCelebrityNames(movie.getDirectors()));
 		movie.setLeadActorsNames(celebrityProvider.setCelebrityNames(movie.getLeadActors()));
-		int numberOfDirectors = movie.getDirectors().size();
-		int numberOfActors = movie.getLeadActors().size();
 		feedModelMap(modelMap);
 		modelMap.addAttribute("movie", movie);
-		modelMap.addAttribute("numberOfDirectors", numberOfDirectors);
-		modelMap.addAttribute("numberOfActors", numberOfActors);
 		return "editMovie";
 	}
 

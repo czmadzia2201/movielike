@@ -54,22 +54,10 @@ function unlightTheStar(id) {
 
 // Dynamically add fields of actors and directors
 
-function addFields(childElementId, parentElementId, counterStart, counter) {
-    var oClone = document.getElementById(childElementId + counterStart).cloneNode(false);
-    var clonedId = childElementId + counter + "";
-    oClone.id = clonedId;
+function addFields(parentElementId, childElementId) {
+    var oClone = document.getElementById(childElementId).cloneNode(false);
     document.getElementById(parentElementId).appendChild(oClone);
-    document.getElementById(clonedId).value = "";	    	
-}
-
-function addFieldsActors(counterStart) {
-	counterActors++;
-	addFields('listOfActors', 'addActors', counterStart, counterActors);
-}
-
-function addFieldsDirectors(counterStart) {
-	counterDirectors++;
-	addFields('listOfDirectors', 'addDirectors', counterStart, counterDirectors);
+    document.getElementById(parentElementId).lastChild.value = "";	    	
 }
 
 // jQuery autocomplete
@@ -78,11 +66,11 @@ $(function() {
 		$("*[id^=listOfDirectors]").autocomplete({source: directorList});
 		$("*[id^=listOfActors]").autocomplete({source: actorList});
     $("#addFieldsForDirectors").click(function(){
-    	addFieldsDirectors(counterStartDirectors);
+    	addFields('addDirectors', 'listOfDirectors');
    		$("*[id^=listOfDirectors]").autocomplete({source: directorList});
     });
     $("#addFieldsForActors").click(function(){
-    	addFieldsActors(counterStartActors);
+    	addFields('addActors', 'listOfActors');
    		$("*[id^=listOfActors]").autocomplete({source: actorList});
     });
 });
