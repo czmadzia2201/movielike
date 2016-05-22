@@ -46,7 +46,10 @@
 </tr><tr>
 <td>Lead actors: </td>
 <td>
-	<span id="addActors"><form:input path="leadActorsNames" id="listOfActors1" style="margin-right:4px;" /></span> 
+	<span id="addActors">	
+	<form:input path="leadActorsNames" id="listOfActors1" />
+	<form:input path="leadActorsNames" id="listOfActors2" />
+	<form:input path="leadActorsNames" id="listOfActors3" style="margin-right:4px;" /></span> 
 	<input type="button" id="addFieldsForActors" value="More" />
 </td>
 </tr><tr>

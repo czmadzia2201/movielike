@@ -72,17 +72,9 @@ function addFieldsDirectors(counterStart) {
 	addFields('listOfDirectors', 'addDirectors', counterStart, counterDirectors);
 }
 
-function loadCelebrityFields(listOfCelebsString, addCelebsString, counterStart) {
-	for (i = 2; i < counterStart+1; i++) {
-		addFields(listOfCelebsString, addCelebsString, 1, i);		
-	}
-}
-
 // jQuery autocomplete
 
 $(function() {
-		loadCelebrityFields('listOfDirectors', 'addDirectors', counterStartDirectors);
-		loadCelebrityFields('listOfActors', 'addActors', counterStartActors);
 		$("*[id^=listOfDirectors]").autocomplete({source: directorList});
 		$("*[id^=listOfActors]").autocomplete({source: actorList});
     $("#addFieldsForDirectors").click(function(){
