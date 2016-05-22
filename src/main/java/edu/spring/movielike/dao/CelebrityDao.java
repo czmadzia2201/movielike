@@ -8,5 +8,7 @@ public interface CelebrityDao<C, R> {
 	public ArrayList<C> findAllCelebritiesByRole(R role);
 	public C findCelebrityById(int id);
 	public ArrayList<C> findCelebritiesByName(Set<String> names);
+	public void persistCelebrity(C celebrity);
+	public void deleteCelebrity(C celebrity);
 	
 }

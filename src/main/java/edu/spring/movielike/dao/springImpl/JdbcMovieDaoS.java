@@ -60,6 +60,7 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 		String sql1 = "UPDATE movie SET title = ?, year = ?, description = ?, genre_other = ?, country_other = ? WHERE id = ?";
 		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getYear(), movie.getDescription(), 
 				movie.getGenreOther(), movie.getCountryOther(), movie.getId()});
+
 		String sql2 = "DELETE FROM movie_genre WHERE movie_id = ?";
 		getJdbcTemplate().update(sql2, new Object[] {movie.getId()});
 		String sql3 = "INSERT INTO movie_genre (movie_id, genrelist) VALUES (?, ?)";

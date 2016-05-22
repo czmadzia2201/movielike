@@ -16,7 +16,7 @@ public class Celebrity {
 
 	private int id; 
 	private String name;
-	private boolean isDirector, isActor, isScriptwriter;
+	private boolean isDirector, isActor, isScriptwriter, isValidated;
 	private Set<Movie> moviesActed;
 	private Set<Movie> moviesDirected;
 
@@ -85,7 +85,16 @@ public class Celebrity {
 		this.moviesDirected = moviesDirected;
 	}
 	
-	
+		
+	@Column(name = "validated")
+	public boolean getIsValidated() {
+		return isValidated;
+	}
+
+	public void setIsValidated(boolean isValidated) {
+		this.isValidated = isValidated;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

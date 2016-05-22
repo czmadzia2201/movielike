@@ -11,7 +11,6 @@ import edu.spring.movielike.dao.CelebrityDao;
 import edu.spring.movielike.dao.ConnectionHandler;
 import edu.spring.movielike.dataproviders.CelebrityRole;
 import edu.spring.movielike.model.Celebrity;
-import edu.spring.movielike.model.Movie;
 
 public class JdbcCelebrityDaoH implements CelebrityDao<Celebrity, CelebrityRole> {
 
@@ -40,6 +39,18 @@ public class JdbcCelebrityDaoH implements CelebrityDao<Celebrity, CelebrityRole>
 		ArrayList<Celebrity> celebrities = (ArrayList<Celebrity>) criteria.add(Restrictions.in("name", names)).list();
 		connectionHandler.closeCurrentSession();
 		return celebrities;
+	}
+
+	public void persistCelebrity(Celebrity celebrity) {
+		connectionHandler.openCurrentSessionwithTransaction();
+		connectionHandler.getCurrentSession().save(celebrity);		
+		connectionHandler.closeCurrentSessionwithTransaction();		
+	}
+
+	public void deleteCelebrity(Celebrity celebrity) {
+		connectionHandler.openCurrentSessionwithTransaction();
+		connectionHandler.getCurrentSession().delete(celebrity);		
+		connectionHandler.closeCurrentSessionwithTransaction();				
 	}
 
 }

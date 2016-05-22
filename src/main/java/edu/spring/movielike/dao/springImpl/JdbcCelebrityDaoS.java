@@ -1,8 +1,6 @@
 package edu.spring.movielike.dao.springImpl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -41,6 +39,16 @@ public class JdbcCelebrityDaoS extends JdbcDaoSupport implements CelebrityDao<Ce
 		ArrayList<Celebrity> celebrities = (ArrayList<Celebrity>) namedParameterJdbcTemplate.query(sql, parameters,
 				new BeanPropertyRowMapper(Celebrity.class));
 		return celebrities;
+	}
+
+	public void persistCelebrity(Celebrity celebrity) {
+		String sql = "INSERT INTO celebrity (name, director, actor, scriptwriter) VALUES (?, ?, ?, ?)";
+		getJdbcTemplate().update(sql, new Object[] {celebrity.getName(), celebrity.getIsDirector(), celebrity.getIsActor(), celebrity.getIsScriptwriter()});				
+	}
+
+	public void deleteCelebrity(Celebrity celebrity) {
+		String sql = "DELETE FROM celebrity WHERE id = ?";
+		getJdbcTemplate().update(sql, new Object[] {celebrity.getId()});			
 	}
 
 }
