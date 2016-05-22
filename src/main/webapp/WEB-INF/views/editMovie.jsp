@@ -39,6 +39,9 @@
 	<c:forEach var="director" items="${movie.directorsNames}">
 		<form:input path="directorsNames" id="listOfDirectors" style="margin-right:4px;" value="${director}" />
 	</c:forEach>
+	<c:if test="${empty movie.directorsNames}">
+		<form:input path="directorsNames" id="listOfDirectors" style="margin-right:4px;" />	
+	</c:if>
 	</span>
 	<input type="button" id="addFieldsForDirectors" value="More" />
 </td>
@@ -49,6 +52,9 @@
 	<c:forEach var="actor" items="${movie.leadActorsNames}">
     	<form:input path="leadActorsNames" id="listOfActors" style="margin-right:4px;" value="${actor}" />
 	</c:forEach>
+	<c:if test="${empty movie.leadActorsNames}">
+    	<form:input path="leadActorsNames" id="listOfActors" style="margin-right:4px;" />		
+	</c:if>
 	</span> 
 	<input type="button" id="addFieldsForActors" value="More" />
 </td>

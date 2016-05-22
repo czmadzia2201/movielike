@@ -47,7 +47,7 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 				getJdbcTemplate().update(sql5, new Object[] {movieId, director.getId()});
 			}
 		}		
-		if (movie.getGenreList()!=null) {
+		if (movie.getLeadActors()!=null) {
 			String sql6 = "INSERT INTO movie_leadactors (movie_id, actor_id) VALUES (?, ?)";
 			for (Celebrity actor : movie.getLeadActors()) {
 				getJdbcTemplate().update(sql6, new Object[] {movieId, actor.getId()});
@@ -57,10 +57,9 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	}
  
 	public void updateMovie(Movie movie) {
-		String sql1 = "UPDATE movie SET title = ?, director = ?, lead_actors = ?, "
-				+ "year = ?, description = ?, genre_other = ?, country_other = ? WHERE id = ?";
-		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getDirectors(), movie.getLeadActors(), 
-				movie.getYear(), movie.getDescription(), movie.getGenreOther(), movie.getCountryOther(), movie.getId()});
+		String sql1 = "UPDATE movie SET title = ?, year = ?, description = ?, genre_other = ?, country_other = ? WHERE id = ?";
+		getJdbcTemplate().update(sql1, new Object[] {movie.getTitle(), movie.getYear(), movie.getDescription(), 
+				movie.getGenreOther(), movie.getCountryOther(), movie.getId()});
 		String sql2 = "DELETE FROM movie_genre WHERE movie_id = ?";
 		getJdbcTemplate().update(sql2, new Object[] {movie.getId()});
 		String sql3 = "INSERT INTO movie_genre (movie_id, genrelist) VALUES (?, ?)";
@@ -75,6 +74,22 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 		if (movie.getCountryList()!=null) {
 			for (String country : movie.getCountryList()) {
 				getJdbcTemplate().update(sql5, new Object[] {movie.getId(), country});
+			}
+		}
+		String sql6 = "DELETE FROM movie_director WHERE movie_id = ?";
+		getJdbcTemplate().update(sql6, new Object[] {movie.getId()});
+		String sql7 = "INSERT INTO movie_director (movie_id, director_id) VALUES (?, ?)";
+		if (movie.getDirectors()!=null) {
+			for (Celebrity director : movie.getDirectors()) {
+				getJdbcTemplate().update(sql7, new Object[] {movie.getId(), director.getId()});
+			}
+		}
+		String sql8 = "DELETE FROM movie_leadactors WHERE movie_id = ?";
+		getJdbcTemplate().update(sql8, new Object[] {movie.getId()});
+		String sql9 = "INSERT INTO movie_leadactors (movie_id, actor_id) VALUES (?, ?)";
+		if (movie.getLeadActors()!=null) {
+			for (Celebrity actor : movie.getLeadActors()) {
+				getJdbcTemplate().update(sql9, new Object[] {movie.getId(), actor.getId()});
 			}
 		}
 	}
