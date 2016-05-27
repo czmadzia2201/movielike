@@ -26,8 +26,12 @@ response.setHeader("Pragma", "no-cache");
 
 <h2>User ${user.username}</h2>
 
-<c:if test="${isAdmin == true && pendingValidation > 0 && pageContext.request.userPrincipal.name == user.username}">
+<c:if test="${isAdmin == true && moviesPendingValidation > 0 && pageContext.request.userPrincipal.name == user.username}">
 	<p><a href="moviestovalidate" class="error">There are movies pending validation.</a></p>
+</c:if>
+
+<c:if test="${isAdmin == true && celebsPendingValidation > 0 && pageContext.request.userPrincipal.name == user.username}">
+	<p><a href="celebritiestovalidate" class="error">There are celebrities pending validation.</a></p>
 </c:if>
 
 <c:if test="${pageContext.request.userPrincipal.name == user.username || isAdmin == true}">

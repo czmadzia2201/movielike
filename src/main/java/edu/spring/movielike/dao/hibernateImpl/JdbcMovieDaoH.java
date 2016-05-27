@@ -1,9 +1,6 @@
 package edu.spring.movielike.dao.hibernateImpl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;

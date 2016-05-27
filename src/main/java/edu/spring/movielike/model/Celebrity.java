@@ -14,9 +14,9 @@ import javax.persistence.Table;
 @Table(name = "celebrity")
 public class Celebrity {
 
-	private int id; 
+	private int id, validationStatus; 
 	private String name;
-	private boolean isDirector, isActor, isScriptwriter, isValidated;
+	private boolean isDirector, isActor, isScriptwriter;
 	private Set<Movie> moviesActed;
 	private Set<Movie> moviesDirected;
 
@@ -85,16 +85,15 @@ public class Celebrity {
 		this.moviesDirected = moviesDirected;
 	}
 	
-		
-	@Column(name = "validated")
-	public boolean getIsValidated() {
-		return isValidated;
+	@Column(name = "validationstatus")
+	public int getValidationStatus() {
+		return validationStatus;
 	}
 
-	public void setIsValidated(boolean isValidated) {
-		this.isValidated = isValidated;
+	public void setValidationStatus(int validationStatus) {
+		this.validationStatus = validationStatus;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -106,30 +105,43 @@ public class Celebrity {
 		result = prime * result + ((moviesActed == null) ? 0 : moviesActed.hashCode());
 		result = prime * result + ((moviesDirected == null) ? 0 : moviesDirected.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + validationStatus;
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Celebrity other = (Celebrity) obj;
-		if (id != other.id) return false;
-		if (isActor != other.isActor) return false;
-		if (isDirector != other.isDirector) return false;
-		if (isScriptwriter != other.isScriptwriter) return false;
+		if (id != other.id)
+			return false;
+		if (isActor != other.isActor)
+			return false;
+		if (isDirector != other.isDirector)
+			return false;
+		if (isScriptwriter != other.isScriptwriter)
+			return false;
 		if (moviesActed == null) {
-			if (other.moviesActed != null) return false;
+			if (other.moviesActed != null)
+				return false;
 		} else if (!moviesActed.equals(other.moviesActed))
 			return false;
 		if (moviesDirected == null) {
-			if (other.moviesDirected != null) return false;
+			if (other.moviesDirected != null)
+				return false;
 		} else if (!moviesDirected.equals(other.moviesDirected))
 			return false;
 		if (name == null) {
-			if (other.name != null) return false;
+			if (other.name != null)
+				return false;
 		} else if (!name.equals(other.name))
+			return false;
+		if (validationStatus != other.validationStatus)
 			return false;
 		return true;
 	}

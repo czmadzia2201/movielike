@@ -14,9 +14,9 @@ public interface MovieDao<M, MR> {
 	public MR findRejectedMovieById(int id);
 	public ArrayList<M> findMoviesAddedBy(String addedBy, int status);
 	public ArrayList<MR> findRejectedMoviesAddedBy(String addedBy);
-	public void updateMovieStatus(M movie, int status, String reason);
-	public void deleteMovie(M movie); 
+	public void updateMovieStatus(M movie, int status, String reason); //
+	public void deleteMovie(M movie); // 
 	public void deleteRejectedMoviesAdmin();
-	public void deleteRejectedMoviesUser(String addedBy);
+	public void deleteRejectedMoviesUser(String addedBy); //
 	public void rateMovie(M movie, int rating);
 }

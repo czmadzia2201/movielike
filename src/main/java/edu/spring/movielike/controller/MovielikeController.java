@@ -26,6 +26,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import edu.spring.movielike.dao.CelebrityDao;
 import edu.spring.movielike.dao.DaoFactory;
 import edu.spring.movielike.dao.MovieDao;
 import edu.spring.movielike.dao.ReviewDao;
@@ -35,6 +36,7 @@ import edu.spring.movielike.dao.UserRatingDao;
 import edu.spring.movielike.dataproviders.CelebrityProvider;
 import edu.spring.movielike.dataproviders.CelebrityRole;
 import edu.spring.movielike.dataproviders.MovieDataProvider;
+import edu.spring.movielike.model.Celebrity;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 import edu.spring.movielike.model.Review;
@@ -42,6 +44,8 @@ import edu.spring.movielike.model.User;
 import edu.spring.movielike.model.UserRating;
 import edu.spring.movielike.utils.MovieValidator;
 import edu.spring.movielike.utils.UserValidator;
+import static edu.spring.movielike.dataproviders.CelebrityRole.*;
+import static edu.spring.movielike.dataproviders.CelebrityStatus.*;
 
 @Controller
 public class MovielikeController {
@@ -52,6 +56,7 @@ public class MovielikeController {
 	private UserMovieDao<User, Movie> jdbcUserMovieLink = daoFactory.getUserMovieDao();
 	private ReviewDao<Review, Movie, User> jdbcReviewObject = daoFactory.getReviewDao();
 	private UserRatingDao<Movie, User> jdbcUserRatingObject = daoFactory.getUserRatingDao();
+	private CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = daoFactory.getCelebrityDao();
 
 	private MovieDataProvider movieDataProvider = new MovieDataProvider();
 	private CelebrityProvider celebrityProvider = new CelebrityProvider();
@@ -118,8 +123,8 @@ public class MovielikeController {
 		List<String> countryList = new ArrayList<String>(movieDataProvider.getCountryListMain());
 		countryList.addAll(movieDataProvider.getCountryListOther());
 		modelMap.addAttribute("countryList", countryList);
-		modelMap.addAttribute("actors", celebrityProvider.getCelebrityList(CelebrityRole.ACTOR));		
-		modelMap.addAttribute("directors", celebrityProvider.getCelebrityList(CelebrityRole.DIRECTOR));
+		modelMap.addAttribute("actors", celebrityProvider.getCelebrityList(ACTOR));		
+		modelMap.addAttribute("directors", celebrityProvider.getCelebrityList(DIRECTOR));
 		modelMap.addAttribute("latestMovies", jdbcMovieObject.findLatest());
 		modelMap.addAttribute("mostPopular", jdbcMovieObject.findMostPopular());
 		if (searchCriteria!=null) {
@@ -266,8 +271,8 @@ public class MovielikeController {
 			return "addMovie";
 		} 
 		try {
-			movie.setDirectors(celebrityProvider.getCelebrities(movie.getDirectorsNames()));
-			movie.setLeadActors(celebrityProvider.getCelebrities(movie.getLeadActorsNames()));
+			movie.setDirectors(celebrityProvider.getCelebrities(movie.getDirectorsNames(), DIRECTOR, ADD_ADDED));
+			movie.setLeadActors(celebrityProvider.getCelebrities(movie.getLeadActorsNames(), ACTOR, ADD_ADDED));
 			session.setAttribute("movieId", jdbcMovieObject.persistMovie(movie));
 			return "redirect:/movieadded";
 		} catch (DuplicateKeyException e) {
@@ -306,8 +311,8 @@ public class MovielikeController {
 		if (result.hasErrors()) {
 			return "editMovie";
 		} 
-		movie.setDirectors(celebrityProvider.getCelebrities(movie.getDirectorsNames()));
-		movie.setLeadActors(celebrityProvider.getCelebrities(movie.getLeadActorsNames()));
+		movie.setDirectors(celebrityProvider.getCelebrities(movie.getDirectorsNames(), DIRECTOR, EDIT_ADDED));
+		movie.setLeadActors(celebrityProvider.getCelebrities(movie.getLeadActorsNames(), ACTOR, EDIT_ADDED));
 		jdbcMovieObject.updateMovie(movie);
 		String referrerUrl = (String) session.getAttribute("referrerUrl");
 		modelMap.addAttribute("referrerUrl", referrerUrl);
@@ -336,10 +341,28 @@ public class MovielikeController {
 		modelMap.addAttribute("genreList", movieDataProvider.getGenreList());		
 		modelMap.addAttribute("countryListMain", movieDataProvider.getCountryListMain());		
 		modelMap.addAttribute("countryListOther", movieDataProvider.getCountryListOther());		
-		modelMap.addAttribute("actors", celebrityProvider.getCelebrityList(CelebrityRole.ACTOR));		
-		modelMap.addAttribute("directors", celebrityProvider.getCelebrityList(CelebrityRole.DIRECTOR));				
+		modelMap.addAttribute("actors", celebrityProvider.getCelebrityList(ACTOR));		
+		modelMap.addAttribute("directors", celebrityProvider.getCelebrityList(DIRECTOR));				
 	}
 	
+	// ------------- CELEBRITY -------------
+	
+	@RequestMapping(value = "/celebritiestovalidate")
+	public String celebritiesToValidate(ModelMap modelMap) {
+		ArrayList<Celebrity> editAddedCelebrities = jdbcCelebrityObject.findAllCelebritiesByStatus(-1);
+		modelMap.addAttribute("editAddedCelebrities", editAddedCelebrities);
+		ArrayList<Celebrity> addAddedCelebrities = jdbcCelebrityObject.findAllCelebritiesByStatus(0);
+		modelMap.addAttribute("addAddedCelebrities", addAddedCelebrities);
+		return "celebrityIndexToValidate";
+	}
+		
+	@RequestMapping(value = "/displaycelebrity")
+	public String displayCelebrity(ModelMap modelMap, @RequestParam(required = true) int id) {
+		Celebrity celebrity = jdbcCelebrityObject.findCelebrityById(id);
+		modelMap.addAttribute("celebrity", celebrity);
+		return "displayCelebrity";
+	}
+		
 	// ------------- USER -------------	
 	
 	@RequestMapping(value = "/userindex")
@@ -358,8 +381,11 @@ public class MovielikeController {
 		modelMap.addAttribute("disfavedMovielist", jdbcUserMovieLink.getUserLinkedMovies(user, -1));
 		modelMap.addAttribute("reviewList", jdbcReviewObject.getReviewsByUser(user));
 		modelMap.addAttribute("addedMovies", jdbcMovieObject.findMoviesAddedBy(user.getUsername(), 1));
-		int pendingValidation = jdbcMovieObject.findAllMovies(0).size() + jdbcMovieObject.findAllMovies(-1).size();
-		modelMap.addAttribute("pendingValidation", pendingValidation);
+		int moviesPendingValidation = jdbcMovieObject.findAllMovies(0).size() + jdbcMovieObject.findAllMovies(-1).size();
+		modelMap.addAttribute("moviesPendingValidation", moviesPendingValidation);
+		int celebsPendingValidation = jdbcCelebrityObject.findAllCelebritiesByStatus(0).size() 
+			+ jdbcCelebrityObject.findAllCelebritiesByStatus(-1).size();
+		modelMap.addAttribute("celebsPendingValidation", celebsPendingValidation);
 		int pendingAndRejected = jdbcMovieObject.findMoviesAddedBy(user.getUsername(), 0).size() 
 			+ jdbcMovieObject.findRejectedMoviesAddedBy(user.getUsername()).size();
 		modelMap.addAttribute("pendingAndRejected", pendingAndRejected);

@@ -191,8 +191,7 @@ public class Movie {
 		statusValues.put(-1, "rejected");
 		return statusValues.get(getStatus());
 	}
-	
-		
+			
 	@Transient
 	public Set<String> getDirectorsNames() {
 		return directorsNames;

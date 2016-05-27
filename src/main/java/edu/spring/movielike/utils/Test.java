@@ -23,6 +23,7 @@ import edu.spring.movielike.dao.hibernateImpl.JdbcMovieDaoH;
 import edu.spring.movielike.dao.hibernateImpl.JdbcUserDaoH;
 import edu.spring.movielike.dao.hibernateImpl.JdbcUserMovieDaoH;
 import edu.spring.movielike.dataproviders.CelebrityRole;
+import edu.spring.movielike.dataproviders.CelebrityStatus;
 import edu.spring.movielike.model.Celebrity;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
@@ -39,14 +40,10 @@ public class Test {
 	static CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = daoFactory.getCelebrityDao();
 	
 	public static void main(String[] args) {
-//		Set<String> names = new HashSet<String>();
-//		names.add("James Cameron");
-//		names.add("Quentin Tarantino");
-//		ArrayList<Celebrity> directors = jdbcCelebrityObject.findCelebritiesByName(names);
-//		System.out.println(directors);
-		int pendingValidation = jdbcMovieObject.findAllMovies(0).size() + jdbcMovieObject.findAllMovies(-1).size();
-		System.out.println(pendingValidation);
-	
+//		Movie movie = jdbcMovieObject.findMovieById(50);
+//		System.out.println(movie.getDirectors().toString());
+		Celebrity celebrity = jdbcCelebrityObject.findCelebrityById(62);
+		jdbcCelebrityObject.deleteCelebrity(celebrity);
 	}
 
 }
