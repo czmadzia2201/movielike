@@ -3,6 +3,7 @@ package edu.spring.movielike.dao.hibernateImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import edu.spring.movielike.dao.ConnectionHandler;
@@ -48,6 +49,10 @@ public class JdbcUserMovieDaoH implements UserMovieDao<User, Movie> {
 				+ "WHERE username = '%s' AND liked = %s) GROUP BY m.id", user.getUsername(), fav);
 		Session session = connectionHandler.openCurrentSession();
 		List<Movie> movieListRaw = session.createSQLQuery(sql).addEntity(Movie.class).list();
+		for (Movie movie : movieListRaw) {
+			Hibernate.initialize(movie.getDirectors());
+			Hibernate.initialize(movie.getLeadActors());			
+		}		
 		ArrayList<Movie> movieList = new ArrayList<Movie>(movieListRaw);
 		connectionHandler.closeCurrentSession();		
 		return movieList;

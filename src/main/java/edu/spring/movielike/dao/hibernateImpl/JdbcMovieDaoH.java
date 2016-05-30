@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -47,6 +48,7 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		} else {
 			movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq(searchCriteria, criteriaValue)).list();
 		}
+		initializeCelebs(movieList);
 		connectionHandler.closeCurrentSession();
 		return movieList; 
 	}
@@ -56,6 +58,7 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.openCurrentSession();
 		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
 		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq("status", status)).list();
+		initializeCelebs(movieList);
 		connectionHandler.closeCurrentSession();
 		return movieList; 
 	}
@@ -66,6 +69,7 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
 		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq("status", 1))
 				.addOrder(Order.desc("id")).setMaxResults(10).list();
+		initializeCelebs(movieList);
 		connectionHandler.closeCurrentSession();		
 		return movieList;
 	}
@@ -77,6 +81,7 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria
 			.add(Restrictions.eq("addedBy", addedBy))
 			.add(Restrictions.eq("status", status)).list();
+		initializeCelebs(movieList);
 		connectionHandler.closeCurrentSession();
 		return movieList; 
 	}
@@ -84,10 +89,13 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 	public Movie findMovieById(int id) {
 		connectionHandler.openCurrentSession();
 		Movie movie = (Movie) connectionHandler.getCurrentSession().get(Movie.class, id);
-		connectionHandler.closeCurrentSession();
 		if (movie==null) {
+			connectionHandler.closeCurrentSession();
 			throw new EmptyResultDataAccessException(1);
 		}
+		Hibernate.initialize(movie.getDirectors());
+		Hibernate.initialize(movie.getLeadActors());
+		connectionHandler.closeCurrentSession();
 		return movie; 
 	}
 
@@ -95,10 +103,13 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.openCurrentSession();
 		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
 		Movie movie = (Movie) criteria.add(Restrictions.eq("id", id)).add(Restrictions.eq("status", status)).uniqueResult();
-		connectionHandler.closeCurrentSession();
 		if (movie==null) {
+			connectionHandler.closeCurrentSession();
 			throw new EmptyResultDataAccessException(1);
 		}
+		Hibernate.initialize(movie.getDirectors());
+		Hibernate.initialize(movie.getLeadActors());
+		connectionHandler.closeCurrentSession();
 		return movie; 
 	}
 
@@ -142,6 +153,10 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.openCurrentSession();
 		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(MovieRejected.class);
 		ArrayList<MovieRejected> movieList = (ArrayList<MovieRejected>) criteria.add(Restrictions.eq("addedBy", addedBy)).list();
+		for (MovieRejected movie : movieList) {
+			Hibernate.initialize(movie.getDirectors());
+			Hibernate.initialize(movie.getLeadActors());			
+		}				
 		connectionHandler.closeCurrentSession();
 		return movieList; 
 	}
@@ -149,10 +164,13 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 	public MovieRejected findRejectedMovieById(int id) {
 		connectionHandler.openCurrentSession();
 		MovieRejected movie = (MovieRejected) connectionHandler.getCurrentSession().get(MovieRejected.class, id);
-		connectionHandler.closeCurrentSession();
 		if (movie==null) {
+			connectionHandler.closeCurrentSession();
 			throw new EmptyResultDataAccessException(1);
 		}
+		Hibernate.initialize(movie.getDirectors());
+		Hibernate.initialize(movie.getLeadActors());
+		connectionHandler.closeCurrentSession();
 		return movie; 
 	}
 
@@ -186,8 +204,16 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(Movie.class);
 		ArrayList<Movie> movieList = (ArrayList<Movie>) criteria.add(Restrictions.eq("status", 1))
 				.add(Restrictions.gt("ratingAvgNum", 7.0)).addOrder(Order.desc("ratingSum")).setMaxResults(10).list();
+		initializeCelebs(movieList);
 		connectionHandler.closeCurrentSession();		
 		return movieList;
+	}
+	
+	private void initializeCelebs(ArrayList<Movie> movieList) {
+		for (Movie movie : movieList) {
+			Hibernate.initialize(movie.getDirectors());
+			Hibernate.initialize(movie.getLeadActors());			
+		}		
 	}
 	
 }
