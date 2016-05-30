@@ -184,12 +184,11 @@ public class MovielikeController {
 	@RequestMapping(value = "/displaypendingmovie")
 	public String displayPendingMovie(@RequestParam(required = true) int id, 
 			ModelMap modelMap, HttpServletRequest request, HttpSession session) {
-		String username = (String) session.getAttribute("username");
+		Movie movie = jdbcMovieObject.findMovieByIdWithStatus(id, 0);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!auth.getName().equals(username) && !request.isUserInRole("admin")) {
+		if (!auth.getName().equals(movie.getAddedBy()) && !request.isUserInRole("admin")) {
 			return "accessDenied";
 		}
-		Movie movie = jdbcMovieObject.findMovieByIdWithStatus(id, 0);
 		modelMap.addAttribute("movie", movie);
 		session.setAttribute("movieId", movie.getId());
 		return "displayPendingMovie";
@@ -197,13 +196,12 @@ public class MovielikeController {
 	
 	@RequestMapping(value = "/displayrejectedmovie")
 	public String displayRejectedMovie(@RequestParam(required = true) int id, 
-			ModelMap modelMap, HttpServletRequest request, HttpSession session) {
-		String username = (String) session.getAttribute("username");
+			ModelMap modelMap, HttpServletRequest request) {
+		MovieRejected movie = jdbcMovieObject.findRejectedMovieById(id);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!auth.getName().equals(username) && !request.isUserInRole("admin")) {
+		if (!auth.getName().equals(movie.getAddedBy()) && !request.isUserInRole("admin")) {
 			return "accessDenied";
 		}
-		MovieRejected movie = jdbcMovieObject.findRejectedMovieById(id);
 		modelMap.addAttribute("movie", movie);
 		return "displayPendingMovie";
 	}
@@ -231,12 +229,11 @@ public class MovielikeController {
 	
 	@RequestMapping(value = "/pendingandrejected")
 	public String pendingAndRejected(User user, @RequestParam(required = false) boolean clearRejected, ModelMap modelMap,  
-			HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!auth.getName().equals(user.getUsername()) && !request.isUserInRole("admin")) {
 			return "accessDenied";
 		}
-		session.setAttribute("username", user.getUsername());
 		modelMap.addAttribute("pendingMoviesList", jdbcMovieObject.findMoviesAddedBy(user.getUsername(), 0));
 		modelMap.addAttribute("rejectedMoviesList", jdbcMovieObject.findRejectedMoviesAddedBy(user.getUsername()));
 		if (clearRejected) {

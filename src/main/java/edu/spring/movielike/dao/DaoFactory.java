@@ -22,7 +22,7 @@ public class DaoFactory {
 		HIBERNATE, JDBCTEMPLATE
 	}
 	
-	private DaoType chooseDao = DaoType.JDBCTEMPLATE;
+	private DaoType chooseDao = DaoType.HIBERNATE;
 	ApplicationContext context = new ClassPathXmlApplicationContext("spring-database.xml");
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
