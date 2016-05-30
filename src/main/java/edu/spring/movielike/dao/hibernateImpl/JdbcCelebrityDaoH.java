@@ -56,9 +56,14 @@ public class JdbcCelebrityDaoH implements CelebrityDao<Celebrity, CelebrityRole>
 		connectionHandler.closeCurrentSessionwithTransaction();		
 	}
 
-	public void deleteCelebrity(Celebrity celebrity) {
-		connectionHandler.openCurrentSessionwithTransaction();
-		connectionHandler.getCurrentSession().delete(celebrity);		
+	public void deleteCelebrity(int id) {
+		Session session = connectionHandler.openCurrentSessionwithTransaction();
+		String sql1 = String.format("DELETE FROM celebrity WHERE id = %s", id);
+		String sql2 = String.format("DELETE FROM movie_leadactors WHERE actor_id = %s", id);
+		String sql3 = String.format("DELETE FROM movie_director WHERE director_id = %s", id);
+		session.createSQLQuery(sql1).executeUpdate();
+		session.createSQLQuery(sql2).executeUpdate();
+		session.createSQLQuery(sql3).executeUpdate();
 		connectionHandler.closeCurrentSessionwithTransaction();				
 	}
 

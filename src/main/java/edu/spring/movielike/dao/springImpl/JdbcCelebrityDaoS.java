@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -61,13 +60,13 @@ public class JdbcCelebrityDaoS extends JdbcDaoSupport implements CelebrityDao<Ce
 				celebrity.getIsScriptwriter(), celebrity.getValidationStatus()});				
 	}
 
-	public void deleteCelebrity(Celebrity celebrity) {
+	public void deleteCelebrity(int id) {
 		String sql1 = "DELETE FROM celebrity WHERE id = ?";
 		String sql2 = "DELETE FROM movie_leadactors WHERE actor_id = ?";
 		String sql3 = "DELETE FROM movie_director WHERE director_id = ?";
-		getJdbcTemplate().update(sql1, new Object[] {celebrity.getId()});			
-		getJdbcTemplate().update(sql2, new Object[] {celebrity.getId()});			
-		getJdbcTemplate().update(sql3, new Object[] {celebrity.getId()});			
+		getJdbcTemplate().update(sql1, new Object[] {id});			
+		getJdbcTemplate().update(sql2, new Object[] {id});			
+		getJdbcTemplate().update(sql3, new Object[] {id});			
 	}
 
 	public void updateCelebrity(Celebrity celebrity) {

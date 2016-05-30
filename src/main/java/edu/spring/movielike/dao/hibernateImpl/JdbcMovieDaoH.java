@@ -1,6 +1,8 @@
 package edu.spring.movielike.dao.hibernateImpl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -10,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import edu.spring.movielike.dao.ConnectionHandler;
 import edu.spring.movielike.dao.MovieDao;
+import edu.spring.movielike.model.Celebrity;
 import edu.spring.movielike.model.Movie;
 import edu.spring.movielike.model.MovieRejected;
 
@@ -103,9 +106,18 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		Session session = connectionHandler.openCurrentSessionwithTransaction();
 		String sql1 = String.format("UPDATE movie SET status = %s WHERE id = %s", status, movie.getId());
 		session.createSQLQuery(sql1).executeUpdate();
+		if (status==1) {
+			Set<Celebrity> movieCelebs = new HashSet<Celebrity>();
+			movieCelebs.addAll(movie.getDirectors());
+			movieCelebs.addAll(movie.getLeadActors());
+			for (Celebrity movieCeleb : movieCelebs) {
+				String sql2 = String.format("UPDATE celebrity SET validationstatus = 1 WHERE id = %s", movieCeleb.getId());
+				session.createSQLQuery(sql2).executeUpdate();				
+			}
+		}
 		if (status==-1) {
-			String sql2 = String.format("INSERT INTO movie_rejected SELECT *, '%s' FROM movie WHERE id = %s", reason, movie.getId());
-			session.createSQLQuery(sql2).executeUpdate();
+			String sql3 = String.format("INSERT INTO movie_rejected SELECT *, '%s' FROM movie WHERE id = %s", reason, movie.getId());
+			session.createSQLQuery(sql3).executeUpdate();
 		}
 		connectionHandler.closeCurrentSessionwithTransaction();		
 	}

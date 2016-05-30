@@ -1,6 +1,8 @@
 package edu.spring.movielike.dao.springImpl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
@@ -159,6 +161,15 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 	public void updateMovieStatus(Movie movie, int status, String reason){
 		String sql1 = "UPDATE movie SET status = ? WHERE id = ?";
 		getJdbcTemplate().update(sql1, new Object[] {status, movie.getId()});	
+		if (status==1) {
+			Set<Celebrity> movieCelebs = new HashSet<Celebrity>();
+			movieCelebs.addAll(movie.getDirectors());
+			movieCelebs.addAll(movie.getLeadActors());
+			for (Celebrity movieCeleb : movieCelebs) {
+				String sql2 = "UPDATE celebrity SET validationstatus = 1 WHERE id = ?";
+				getJdbcTemplate().update(sql2, new Object[] {movieCeleb.getId()});	
+			}
+		}
 		if (status==-1) {
 			String sql2 = "INSERT INTO movie_rejected SELECT *, ? FROM movie WHERE id = ?";
 			getJdbcTemplate().update(sql2, new Object[] {reason, movie.getId()});	

@@ -19,19 +19,19 @@
 
 <h2>Celebrities to validate</h2>
 
-<h4>Added during editing existing movie:</h4>
+<h4>Added during editing existing movie</h4>
 
 <p>
 <c:forEach items="${editAddedCelebrities}" var="celebrity">
-<a href="displaycelebrity?id=${celebrity.id}">${celebrity.name}</a><br />
+<a href="displaypendingcelebrity?id=${celebrity.id}">${celebrity.name}</a><br />
 </c:forEach>
 </p>
 
-<h4>Added during adding new movie:</h4>
+<h4>Added during adding new movie</h4>
 
 <p>
 <c:forEach items="${addAddedCelebrities}" var="celebrity">
-<a href="displaycelebrity?id=${celebrity.id}">${celebrity.name}</a><br />
+<a href="displaypendingcelebrity?id=${celebrity.id}">${celebrity.name}</a><br />
 </c:forEach>
 </p>
 

@@ -13,6 +13,7 @@
 		<intercept-url pattern="/moviestovalidate**" access="hasRole('admin')" />
 		<intercept-url pattern="/displaymovietovalidate**" access="hasRole('admin')" />
 		<intercept-url pattern="/celebritiestovalidate**" access="hasRole('admin')" />
+		<intercept-url pattern="/displaypendingcelebrity**" access="hasRole('admin')" />
 		<form-login login-page="/accessdenied" username-parameter="username" always-use-default-target="false"
 			password-parameter="password" authentication-success-handler-ref="feedSuccessHandler"
 			authentication-failure-handler-ref="feedFailureHandler" />

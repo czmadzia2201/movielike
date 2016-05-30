@@ -40,10 +40,8 @@ public class Test {
 	static CelebrityDao<Celebrity, CelebrityRole> jdbcCelebrityObject = daoFactory.getCelebrityDao();
 	
 	public static void main(String[] args) {
-//		Movie movie = jdbcMovieObject.findMovieById(50);
-//		System.out.println(movie.getDirectors().toString());
-		Celebrity celebrity = jdbcCelebrityObject.findCelebrityById(62);
-		jdbcCelebrityObject.deleteCelebrity(celebrity);
+		ArrayList<Movie> movieList = jdbcMovieObject.findAllMovies(1); 
+		System.out.println(movieList);
 	}
 
 }

@@ -10,7 +10,7 @@ public interface CelebrityDao<C, R> {
 	public C findCelebrityById(int id);
 	public ArrayList<C> findCelebritiesByName(Set<String> names);
 	public void persistCelebrity(C celebrity);
-	public void deleteCelebrity(C celebrity);
+	public void deleteCelebrity(int id);
 	public void updateCelebrity(C celebrity);
 	public C findCelebrityByName(String name);
 }

@@ -348,7 +348,18 @@ public class MovielikeController {
 	// ------------- CELEBRITY -------------
 	
 	@RequestMapping(value = "/celebritiestovalidate")
-	public String celebritiesToValidate(ModelMap modelMap) {
+	public String celebritiesToValidate(ModelMap modelMap, @RequestParam(required = false) Integer celebId, 
+			@RequestParam(required = false) String isValidated) {
+		if (isValidated != null && isValidated.equals("validated") && celebId != null) {
+			Celebrity celebrity = jdbcCelebrityObject.findCelebrityById(celebId);
+			celebrity.setValidationStatus(1);
+			jdbcCelebrityObject.updateCelebrity(celebrity);
+		}
+		if (isValidated != null && isValidated.equals("deleted") && celebId != null) {
+			jdbcCelebrityObject.deleteCelebrity(celebId);
+		}
+		modelMap.addAttribute("isValidated", isValidated);
+		modelMap.addAttribute("celebId", celebId);
 		ArrayList<Celebrity> editAddedCelebrities = jdbcCelebrityObject.findAllCelebritiesByStatus(-1);
 		modelMap.addAttribute("editAddedCelebrities", editAddedCelebrities);
 		ArrayList<Celebrity> addAddedCelebrities = jdbcCelebrityObject.findAllCelebritiesByStatus(0);
@@ -356,11 +367,11 @@ public class MovielikeController {
 		return "celebrityIndexToValidate";
 	}
 		
-	@RequestMapping(value = "/displaycelebrity")
+	@RequestMapping(value = "/displaypendingcelebrity")
 	public String displayCelebrity(ModelMap modelMap, @RequestParam(required = true) int id) {
 		Celebrity celebrity = jdbcCelebrityObject.findCelebrityById(id);
 		modelMap.addAttribute("celebrity", celebrity);
-		return "displayCelebrity";
+		return "displayPendingCelebrity";
 	}
 		
 	// ------------- USER -------------	

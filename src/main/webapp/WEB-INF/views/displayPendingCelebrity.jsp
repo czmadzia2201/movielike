@@ -24,6 +24,22 @@
 <p>actor: ${celebrity.isActor}</p>
 <p>scriptwriter: ${celebrity.isScriptwriter}</p>
 
+<c:choose>
+<c:when test="${celebrity.validationStatus != 1}">
+<form:form method="POST" action="celebritiestovalidate">
+	<input type="submit" value="Validate" onclick="alert('Celebrity ${celebrity.name} has been validated.'); 
+		form.celebId.value=${celebrity.id}; form.isValidated.value='validated'" />
+	<input type="submit" value="Delete" onclick="alert('Celebrity ${celebrity.name} has been deleted.');
+		form.celebId.value=${celebrity.id}; form.isValidated.value='deleted'" />
+	<input type="hidden" name="celebId" />
+	<input type="hidden" name="isValidated" />
+</form:form>
+</c:when>
+<c:otherwise>
+<p>This celebrity is validated.</p>
+</c:otherwise>
+</c:choose>
+
 </div>
 <div id="content-inside"></div>
 
