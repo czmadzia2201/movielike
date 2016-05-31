@@ -118,10 +118,7 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		String sql1 = String.format("UPDATE movie SET status = %s WHERE id = %s", status, movie.getId());
 		session.createSQLQuery(sql1).executeUpdate();
 		if (status==1) {
-			Set<Celebrity> movieCelebs = new HashSet<Celebrity>();
-			movieCelebs.addAll(movie.getDirectors());
-			movieCelebs.addAll(movie.getLeadActors());
-			for (Celebrity movieCeleb : movieCelebs) {
+			for (Celebrity movieCeleb : movie.getAllCelebs()) {
 				String sql2 = String.format("UPDATE celebrity SET validationstatus = 1 WHERE id = %s", movieCeleb.getId());
 				session.createSQLQuery(sql2).executeUpdate();				
 			}

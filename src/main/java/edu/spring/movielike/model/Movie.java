@@ -1,6 +1,7 @@
 package edu.spring.movielike.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -192,6 +193,14 @@ public class Movie {
 		return statusValues.get(getStatus());
 	}
 			
+	@Transient
+	public Set<Celebrity> getAllCelebs() {
+		Set<Celebrity> movieCelebs = new HashSet<Celebrity>();
+		movieCelebs.addAll(directors);
+		movieCelebs.addAll(leadActors);
+		return movieCelebs;
+	}
+	
 	@Transient
 	public Set<String> getDirectorsNames() {
 		return directorsNames;

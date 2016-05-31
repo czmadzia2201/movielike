@@ -3,7 +3,9 @@ package edu.spring.movielike.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -208,11 +210,19 @@ public class MovielikeController {
 	
 	@RequestMapping(value = "/displaymovietovalidate")
 	public String displayMovieToValidate(HttpServletRequest request, @RequestParam(required = true) int id, 
-			@RequestParam(required = false) Integer status, @RequestParam(required = false) String reason, 
+			@RequestParam(required = false) Integer status, @RequestParam(required = false) Integer deleteCelebs, 
+			@RequestParam(required = false) String reason, 
 			HttpServletResponse response, ModelMap modelMap) throws IOException {
 		Movie movie = jdbcMovieObject.findMovieById(id);
 		modelMap.addAttribute("movie", movie);
+		System.out.println("deleteCelebs: " + deleteCelebs);
+		System.out.println("status: " + status);
 		if (status!=null) {
+			if (status==-1 && deleteCelebs!=null) {
+				for (Celebrity celebrity : movie.getAllCelebs()) {
+					if (celebrity.getValidationStatus()==0) jdbcCelebrityObject.deleteCelebrity(celebrity.getId());
+				}
+			}
 			jdbcMovieObject.updateMovieStatus(movie, status, reason);
 			response.sendRedirect(request.getHeader("referer"));
 		}

@@ -162,10 +162,7 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 		String sql1 = "UPDATE movie SET status = ? WHERE id = ?";
 		getJdbcTemplate().update(sql1, new Object[] {status, movie.getId()});	
 		if (status==1) {
-			Set<Celebrity> movieCelebs = new HashSet<Celebrity>();
-			movieCelebs.addAll(movie.getDirectors());
-			movieCelebs.addAll(movie.getLeadActors());
-			for (Celebrity movieCeleb : movieCelebs) {
+			for (Celebrity movieCeleb : movie.getAllCelebs()) {
 				String sql2 = "UPDATE celebrity SET validationstatus = 1 WHERE id = ?";
 				getJdbcTemplate().update(sql2, new Object[] {movieCeleb.getId()});	
 			}

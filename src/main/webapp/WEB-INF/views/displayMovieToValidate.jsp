@@ -30,6 +30,7 @@
 	<input type="hidden" name="status" />
 	<p>Reason for rejection</p>
 	<textarea name="reason"></textarea>
+	<p><input type="checkbox" name="deleteCelebs" value="1" />Reject also associated non-validated celebrities.</p>
 	<input type="submit" value="Validate" onclick="form.status.value = 1" />
 	<input type="submit" value="Reject" onclick="form.status.value = -1" />
 </form:form>
