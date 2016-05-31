@@ -6,24 +6,19 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name = "movie_rejected")
 public class MovieRejected {
-	private String title, description, addedBy, reason, genreOther, countryOther;
+	private String title, description, addedBy, reason, genreOther, countryOther, directorString, leadActorsString;
 	private int id, year, status, voters, ratingSum;
 	double ratingAvgNum;
 	private Set<String> genreList; 
 	private Set<String> countryList;
-	private Set<Celebrity> directors;
-	private Set<Celebrity> leadActors;
 
 	@Id
 	@Column(name = "id")
@@ -42,28 +37,6 @@ public class MovieRejected {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "movie_director", joinColumns = { @JoinColumn(name = "movie_id") }, 
-		inverseJoinColumns = { @JoinColumn(name = "director_id") })
-	public Set<Celebrity> getDirectors() {
-		return directors;
-	}
-
-	public void setDirectors(Set<Celebrity> directors) {
-		this.directors = directors;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "movie_leadactors", joinColumns = { @JoinColumn(name = "movie_id") }, 
-		inverseJoinColumns = { @JoinColumn(name = "actor_id") })
-	public Set<Celebrity> getLeadActors() {
-		return leadActors;
-	}
-
-	public void setLeadActors(Set<Celebrity> leadActors) {
-		this.leadActors = leadActors;
 	}
 
 	@ElementCollection
@@ -203,16 +176,22 @@ public class MovieRejected {
 		return countryString;
 	}
 	
-	@Transient
+	@Column(name = "directorstring")
 	public String getDirectorString() {
-		String directorString = directors.toString().replace("[", "").replace("]", "");
 		return directorString;
 	}
 
-	@Transient
+	public void setDirectorString(String directorString) {
+		this.directorString = directorString;
+	}
+
+	@Column(name = "leadactorsstring")
 	public String getLeadActorsString() {
-		String leadActorsString = leadActors.toString().replace("[", "").replace("]", "");
 		return leadActorsString;
+	}
+
+	public void setLeadActorsString(String leadActorsString) {
+		this.leadActorsString = leadActorsString;
 	}
 
 	public String toString() {

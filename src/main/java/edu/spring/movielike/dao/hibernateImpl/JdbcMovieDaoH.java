@@ -127,7 +127,8 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 			}
 		}
 		if (status==-1) {
-			String sql3 = String.format("INSERT INTO movie_rejected SELECT *, '%s' FROM movie WHERE id = %s", reason, movie.getId());
+			String sql3 = String.format("INSERT INTO movie_rejected SELECT *, '%s', '%s', '%s' FROM movie WHERE id = %s", 
+					reason, movie.getDirectorString(), movie.getLeadActorsString(), movie.getId());
 			session.createSQLQuery(sql3).executeUpdate();
 		}
 		connectionHandler.closeCurrentSessionwithTransaction();		
@@ -153,10 +154,6 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 		connectionHandler.openCurrentSession();
 		Criteria criteria = connectionHandler.getCurrentSession().createCriteria(MovieRejected.class);
 		ArrayList<MovieRejected> movieList = (ArrayList<MovieRejected>) criteria.add(Restrictions.eq("addedBy", addedBy)).list();
-		for (MovieRejected movie : movieList) {
-			Hibernate.initialize(movie.getDirectors());
-			Hibernate.initialize(movie.getLeadActors());			
-		}				
 		connectionHandler.closeCurrentSession();
 		return movieList; 
 	}
@@ -164,13 +161,10 @@ public class JdbcMovieDaoH implements MovieDao<Movie, MovieRejected> {
 	public MovieRejected findRejectedMovieById(int id) {
 		connectionHandler.openCurrentSession();
 		MovieRejected movie = (MovieRejected) connectionHandler.getCurrentSession().get(MovieRejected.class, id);
+		connectionHandler.closeCurrentSession();
 		if (movie==null) {
-			connectionHandler.closeCurrentSession();
 			throw new EmptyResultDataAccessException(1);
 		}
-		Hibernate.initialize(movie.getDirectors());
-		Hibernate.initialize(movie.getLeadActors());
-		connectionHandler.closeCurrentSession();
 		return movie; 
 	}
 

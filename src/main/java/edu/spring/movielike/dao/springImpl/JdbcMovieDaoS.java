@@ -171,8 +171,8 @@ public class JdbcMovieDaoS extends JdbcDaoSupport implements MovieDao<Movie, Mov
 			}
 		}
 		if (status==-1) {
-			String sql2 = "INSERT INTO movie_rejected SELECT *, ? FROM movie WHERE id = ?";
-			getJdbcTemplate().update(sql2, new Object[] {reason, movie.getId()});	
+			String sql2 = "INSERT INTO movie_rejected SELECT *, ?, ?, ? FROM movie WHERE id = ?";
+			getJdbcTemplate().update(sql2, new Object[] {reason, movie.getDirectorString(), movie.getLeadActorsString(), movie.getId()});	
 		}
 	}
 
