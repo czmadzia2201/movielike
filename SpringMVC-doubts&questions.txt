@@ -1,0 +1,40 @@
+Setup Spring Security (xml-owo):
+- dodaj spring-security.xml
+- web.xml - dodaj formu³kê
+- web.xml - dodaj contextConfigLocation spring-security
+- pom.xml - dodaj spring security dependencies, zmieñ wersjê Springa na: 4.0.5.RELEASE
+
+
+Pytania ze Spring MVC
+
+- wyœwietlanie w tym samym formularzu - jeden na post i get
+
+Typy:
+ModelMap
+ModelAndView
+HttpServletRequest
+HttpServletResponse
+
+Po co to jak czasem nie ma
+method = RequestMethod.POST
+
+RequestMapping - post get i ró¿ne typy metod
+
+Czasem tak:
+return new ModelAndView("calculator", "result", result.toString());
+a czasem tak:
+return new ModelAndView("calculator");
+i czym jest "result"
+
+--------
+
+Try out
+* http://www.mkyong.com/tutorials/spring-security-tutorials/
+* http://www.beingjavaguys.com/2013/09/spring-security-example.html
+* C:\Users\admin\Downloads\SpringMVCs\SpringMVCSecurity http://www.journaldev.com/2736/spring-mvc-security-example-using-in-memory-userdetailsservice-and-jdbc-authentication
+* http://javahash.com/spring-security-hello-world-example/ <- dzia³a index page po zmianie dependencji
+* http://www.beingjavaguys.com/2014/05/spring-security-custom-login-form.html <- fuckin works!!!!
+
+Szukaæ innych przyk³adów pod innymi has³ami
+
+Spróbowaæ jeden z tych przyk³adów z runnerem
